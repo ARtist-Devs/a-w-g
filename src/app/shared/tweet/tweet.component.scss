@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 50px;
+  z-index: 1005;
+}
+
+#twitter-logo {
+  height: 40px;
+  margin: 0 8px;
+}
+
+#twitter-logo:hover {
+  opacity: 0.8;
+}
