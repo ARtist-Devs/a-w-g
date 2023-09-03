@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSignal, signal } from '@angular/core';
 
 import { Group, Vector3 } from 'three';
 import { ArtworksService } from '../artworks.service';
@@ -14,6 +14,8 @@ import { Artwork } from 'projects/three/src/lib/artwork';
 export class GalleryComponent {
 
   private artworks: Artwork[];
+  private selectedIndex: WritableSignal<number> = signal(0);
+  private frames: Group;
 
   @ViewChild('canvas', { static: true })
   canvas!: ElementRef<HTMLCanvasElement>;
@@ -32,9 +34,9 @@ export class GalleryComponent {
   ngOnInit () {
     this.artworks = this.artworksService.getArtworks();
     this.sceneService.initScene(this.canvasEl);
-    const frames = this.framesService.createFrames(this.artworks);
+    this.frames = this.framesService.createFrames(this.artworks);
     this.sceneService.renderFunctions.push(this.framesService.update);
-    this.sceneService.addToScene(frames);
+    this.sceneService.addToScene(this.frames);
 
     // UI
     //TODO: move the group to ui
@@ -67,15 +69,30 @@ export class GalleryComponent {
   // Handle Artwork selection events
   onSelectArtwork (e: Event) {
 
+
   }
 
+
+  /**
+   * TODO: Select next artwork and show info panel?
+   * @param e 
+   */
   onNextSelection (e: Event) {
-
+    this.artworksService.changeSelected('next');
+    // TODO: Animate to the frame
+    this.framesService.rotateFrames(-72);
+    this.framesService.focusFrame();
   }
 
-  onPreviousSelection (e: Event) { }
+  onPreviousSelection (e: Event) {
+    this.artworksService.changeSelected('prev');
+    this.framesService.rotateFrames(72);
+    this.framesService.resetPosition(1);
+  }
 
-  upvoteSelection (e: Event) { }
+  upvoteSelection (e: Event) {
+    this.artworksService.upvoteSelected();
+  }
 
   onKeyDown (e: KeyboardEvent) {
     switch (e.key)

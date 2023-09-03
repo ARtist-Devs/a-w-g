@@ -10,6 +10,9 @@ import {
 } from '@angular/core';
 import { Artwork } from 'projects/three/src/lib/artwork';
 
+/**
+ * No three.js but only the database and app state.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -77,12 +80,13 @@ export class ArtworksService {
         "Fifth: Van Gogh painted this still life in the psychiatric hospital in Saint-Remy. For him, the painting was mainly a study in colour. He set out to achieve a powerful colour contrast. By placing the purple flowers against a yellow background, he made the decorative forms stand out even more strongly. The irises were originally purple. But as the red pigment has faded, they have turned blue. Van Gogh made two paintings of this bouquet. In the other still life, he contrasted purple and pink with green.",
       height: 93,
       textureUrl: "src/assets/artworks/ireses.jpg",
-
       votes: 0,
       width: 74,
       wiki: "https://wikipedia.org/wiki/Irises_(painting)",
     },
   ];
+  artworksLength = this.artworks.length;
+
   public selectedArtwork: WritableSignal<Artwork> = signal(this.artworks[0]);
 
   constructor() { }
@@ -91,13 +95,26 @@ export class ArtworksService {
     return this.artworks;
   }
 
-  changeSelected (i: number) {
+  // TODO: think about giving an index instead of string or index.
+  changeSelected (i: number | string) {
+    let ind = this.selectedArtwork().id;
+    if (i === "next")
+    {
+      i = ind < (this.artworksLength - 1) ? (ind + 1) : 0;
+    } else if (i === "prev")
+    {
+      i = (ind === 0) ? this.artworksLength - 1 : ind - 1;
+    }
+    // @ts-ignore
     this.selectedArtwork.set(this.artworks[i]);
+
   }
 
+  // TODO: firebase increment
   upvoteSelected () {
     this.selectedArtwork.mutate((artwork: Artwork) => {
       artwork.votes += 1;
     });
+    console.log(this.selectedArtwork());
   }
 }

@@ -5,10 +5,10 @@ export interface Artwork {
     defaultPosition?: any;
     defaultRotation?: any;
     description?: string;
-    height?: number;
+    height: number;
     textureUrl: string;
     title?: string;
     votes: number;
-    width?: number;
+    width: number;
     wiki?: string;
 }

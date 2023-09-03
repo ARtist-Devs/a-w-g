@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WebxrButtonComponent } from './webxr-button.component';
+import { WebXRButtonComponent } from './webxr-button.component';
 
-describe('WebxrButtonComponent', () => {
-  let component: WebxrButtonComponent;
-  let fixture: ComponentFixture<WebxrButtonComponent>;
+describe('WebXRButtonComponent', () => {
+  let component: WebXRButtonComponent;
+  let fixture: ComponentFixture<WebXRButtonComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [WebxrButtonComponent]
+      declarations: [WebXRButtonComponent]
     });
-    fixture = TestBed.createComponent(WebxrButtonComponent);
+    fixture = TestBed.createComponent(WebXRButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -5,6 +5,7 @@ import { Camera, Clock, Color, DirectionalLight, Fog, PCFSoftShadowMap, Raycaste
 import { sceneDefaults } from './scene.config';
 import { CameraService } from './camera.service';
 import { ControllerService } from './controller.service';
+import { InteractionManager } from 'three.interactive';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ export class SceneService {
   public renderFunctions: Function[] = [];
   public clock = new Clock();
   public renderer: WebGLRenderer;
+  public interactionManager: any;
 
   private width = window.innerWidth;
   private height = window.innerHeight;
@@ -61,6 +63,10 @@ export class SceneService {
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.width, this.height);
     this.rect = this.renderer.domElement.getBoundingClientRect();
+
+    // Interaction Manager
+    this.interactionManager = new InteractionManager(this.renderer, this.camera, canvas);
+
 
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
