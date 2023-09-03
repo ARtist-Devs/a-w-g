@@ -6619,6 +6619,11 @@ three-mesh-ui@^6.5.4:
   resolved "https://registry.yarnpkg.com/three-mesh-ui/-/three-mesh-ui-6.5.4.tgz#68f0a5aba4dced0ed168d2574f45d93b55f4fd03"
   integrity sha512-QA2KlHrbj7zGjKqpNXcwvini8g5gOXb44ExdupVpxCqmHln/sWNGOmN0yIa/HjnMGYJWP4M+NchTHvwUp+MWIw==
 
+three.interactive@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/three.interactive/-/three.interactive-1.7.0.tgz#1bbe484114a3b700a40fba3424ca5c88622055e2"
+  integrity sha512-WuJijcJUT8cxiU3iP7FbqjN9EtU4xuVH/YR+jmEV4dG5ijNE8KeZcQtFRuK2dlJk4AGwCFte1GPUxAR7hYyo3g==
+
 three@^0.156.0:
   version "0.156.0"
   resolved "https://registry.yarnpkg.com/three/-/three-0.156.0.tgz#1080781b8fbf191cd37b4c8e027bf74c18518bf8"

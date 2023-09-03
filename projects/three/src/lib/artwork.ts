@@ -1,4 +1,5 @@
 export interface Artwork {
+    id: number;
     audio?: string;
     date?: string;
     defaultPosition?: any;

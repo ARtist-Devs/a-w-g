@@ -18,10 +18,10 @@ export class SceneService {
   public clock = new Clock();
   public renderer: WebGLRenderer;
 
-  private width = signal(window.innerWidth);
-  private height = signal(window.innerHeight);
-  private cameraAspectRatio = computed(() => this.width() / this.height());
+  private width = window.innerWidth;
+  private height = window.innerHeight;
   private rect: DOMRect;
+  private pointer = new Vector2();
   // pos: Signal<Vector3> = computed(() =>
   //   this.frames?.[this.selectedIndex()]?.position.clone() || this.look
   // );
@@ -32,20 +32,20 @@ export class SceneService {
     private ngZone: NgZone,
   ) { }
 
-  initScene(canvas: HTMLCanvasElement, options?: any) {
+  initScene (canvas: HTMLCanvasElement, options?: any) {
     const ops = Object.assign({}, sceneDefaults, options);
 
     // Camera
-    ops.camera.width = this.width();//canvas.width;
-    ops.camera.height = this.height();//canvas.height;
-
+    ops.camera.width = this.width;
+    ops.camera.height = this.height;
     this.camera = this.cameraService.createCamera(ops.camera);
     // this.dolly = this.cameraService.addDolly()
     // this.scene.add(this.dolly);
 
     // Scene
     this.scene.background = ops.background || new Color('skyblue');
-    if (ops.fog) {
+    if (ops.fog)
+    {
       this.scene.fog = new Fog(ops.fog.color, ops.fog.near, ops.fog.far);
     }
 
@@ -56,39 +56,36 @@ export class SceneService {
 
     // Renderer
     this.renderer = new WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: true });
-    this.renderer.shadowMap.enabled = true
+    this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = PCFSoftShadowMap;
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(this.width(), this.height());
+    this.renderer.setSize(this.width, this.height);
     this.rect = this.renderer.domElement.getBoundingClientRect();
 
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
 
-
-
-    window.addEventListener("resize", this.onResize.bind(this));
-    this.renderer.render(this.scene, this.camera);
-    // this.renderer.setAnimationLoop(() => this.render());
+    // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
   }
 
-  onTouchStart(e: Event) {
+  onTouchStart (e: TouchEvent) {
 
-    // this.pointer.x = ((e.touches[0].clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
-    // this.pointer.y = - ((e.touches[0].clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
+    this.pointer.x = ((e.touches[0].clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
+    this.pointer.y = - ((e.touches[0].clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
     // this.interactions.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene, select: true });
 
   }
 
-  onPointerDown(e: Event) {
-    // this.pointer.x = ((event.clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
-    // this.pointer.y = - ((event.clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
+  onPointerDown (e: PointerEvent) {
+    // console.log('pointer down event ', e);
+    this.pointer.x = ((e.clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
+    this.pointer.y = - ((e.clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
     // this.interactions.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene });
 
   }
 
-  render() {
+  render () {
     const delta = this.clock.getDelta();
 
     // update controls
@@ -102,29 +99,34 @@ export class SceneService {
 
   }
 
-  addToScene(obj: any) {
-    if (obj instanceof Array) {
+  addToScene (obj: any) {
+    if (obj instanceof Array)
+    {
       this.scene.add(...obj);
-    } else {
+    } else
+    {
       this.scene.add(obj);
     }
   }
 
-  onResize(e?: Event, w?: any, h?: any) {
-    // console.log('Resizing ', e)
+  //TODO: check to see if you still need w,h args
+  onResize (e: UIEvent, w?: any, h?: any) {
+    console.log('Resizing ', e);
     w = w || window.innerWidth;
     h = h || window.innerHeight;
+
     // Set the camera's aspect ratio
     // @ts-ignore
     this.camera.aspect = w / h;
     // update the camera's frustum
     // @ts-ignore
     this.camera.updateProjectionMatrix();
+
     // update the size of the renderer & the canvas
     this.renderer.setSize(w, h);
     // set the pixel ratio (for mobile devices)
     this.renderer.setPixelRatio(window.devicePixelRatio);
   }
 
-  onDeviceChange(e: Event) { }
+  onDeviceChange (e: Event) { }
 }

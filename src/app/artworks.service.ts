@@ -16,6 +16,7 @@ import { Artwork } from 'projects/three/src/lib/artwork';
 export class ArtworksService {
   private artworks = [
     {
+      id: 0,
       title: "Self Portrait",
       audio: "assets/audio/1.mp3",
       date: "1887",
@@ -29,6 +30,7 @@ export class ArtworksService {
       wiki: "https://wikipedia.org/wiki/Van_Gogh_self-portrait_(1889)",
     },
     {
+      id: 1,
       title: "The Potato Eaters",
       audio: "assets/audio/2.mp3",
       date: "1887",
@@ -40,6 +42,7 @@ export class ArtworksService {
       wiki: "https://wikipedia.org/wiki/The_Potato_Eaters",
     },
     {
+      id: 2,
       title: "The Bedroom",
       audio: "assets/audio/3.mp3",
       date: "1887",
@@ -51,6 +54,7 @@ export class ArtworksService {
       wiki: "https://wikipedia.org/wiki/Bedroom_in_Arles",
     },
     {
+      id: 3,
       title: "Sunflowers",
       audio: "assets/audio/1.mp3",
       date: "1887",
@@ -65,6 +69,7 @@ export class ArtworksService {
       wiki: "https://wikipedia.org/wiki/Sunflowers_(Van_Gogh_series)",
     },
     {
+      id: 4,
       title: "Irises",
       audio: "assets/audio/1.mp3",
       date: "1890",
@@ -82,15 +87,15 @@ export class ArtworksService {
 
   constructor() { }
 
-  getArtworks(): Artwork[] {
+  getArtworks (): Artwork[] {
     return this.artworks;
   }
 
-  changeSelected(i: number) {
+  changeSelected (i: number) {
     this.selectedArtwork.set(this.artworks[i]);
   }
 
-  upvoteSelected() {
+  upvoteSelected () {
     this.selectedArtwork.mutate((artwork: Artwork) => {
       artwork.votes += 1;
     });

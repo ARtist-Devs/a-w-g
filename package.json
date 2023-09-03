@@ -21,6 +21,7 @@
     "rxjs": "~7.8.0",
     "three": "^0.156.0",
     "three-mesh-ui": "^6.5.4",
+    "three.interactive": "^1.7.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },

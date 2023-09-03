@@ -18,25 +18,26 @@ export class GalleryComponent {
   @ViewChild('canvas', { static: true })
   canvas!: ElementRef<HTMLCanvasElement>;
 
-  private get canvasEl(): HTMLCanvasElement {
+  private get canvasEl (): HTMLCanvasElement {
     return this.canvas!.nativeElement;
   }
   constructor(
+    public sceneService: SceneService,
     private framesService: ArtworkFramesService,
     private artworksService: ArtworksService,
-    private sceneService: SceneService,
     private ui: UIService,
   ) { }
 
   // Init the WebXR scene with Artworks
-  ngOnInit() {
+  ngOnInit () {
     this.artworks = this.artworksService.getArtworks();
     this.sceneService.initScene(this.canvasEl);
     const frames = this.framesService.createFrames(this.artworks);
-    this.sceneService.renderFunctions.push(this.framesService.update)
+    this.sceneService.renderFunctions.push(this.framesService.update);
     this.sceneService.addToScene(frames);
 
     // UI
+    //TODO: move the group to ui
     const UIGroup = new Group();
     // Next/Prev
     const buttonsPanel = this.ui.createInteractiveButtons({
@@ -54,7 +55,7 @@ export class GalleryComponent {
         {
           name: 'Previous Button',
           text: 'Previous',
-          onClick: (e: Event) => { this.onPreviousSelection(e) }
+          onClick: (e: Event) => { this.onPreviousSelection(e); }
         }
       ]
 
@@ -64,57 +65,54 @@ export class GalleryComponent {
   }
 
   // Handle Artwork selection events
-  onSelectArtwork(e: Event) {
+  onSelectArtwork (e: Event) {
 
   }
 
-  onNextSelection(e: Event) {
+  onNextSelection (e: Event) {
 
   }
 
-  onPreviousSelection(e: Event) { }
+  onPreviousSelection (e: Event) { }
 
-  upvoteSelection(e: Event) { }
+  upvoteSelection (e: Event) { }
 
-  onKeyDown(e: KeyboardEvent) {
-    switch (e.key) {
+  onKeyDown (e: KeyboardEvent) {
+    switch (e.key)
+    {
       case 'ArrowRight': this.onNextSelection(e); break;
       case 'ArrowLeft': this.onPreviousSelection(e); break;
       case 'ArrowUp': this.upvoteSelection(e); break;
     }
   }
 
-  onPointerDown(e: Event) { }
+  onPointerDown (e: Event) { }
 
-  onTouchStart(e: Event) { }
+  onTouchStart (e: Event) { }
 
-  onPointerMove(e: Event) {
-
-  }
-
-  onPointerUp(e: Event) {
+  onPointerMove (e: Event) {
 
   }
 
-  onCanvasClick(e: Event) {
+  onPointerUp (e: Event) {
 
   }
 
-  onObjectHover(e: Event) {
+  onCanvasClick (e: Event) {
+
+  }
+
+  onObjectHover (e: Event) {
 
   }
 
 
 
-  onDeviceChange(e: Event) {
+  onDeviceChange (e: Event) {
 
   }
 
-  onTouchEnd(e: Event) {
-
-  }
-
-  onResize(e: Event) {
+  onTouchEnd (e: Event) {
 
   }
 
