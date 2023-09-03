@@ -96,18 +96,9 @@ export class ArtworksService {
   }
 
   // TODO: think about giving an index instead of string or index.
-  changeSelected (i: number | string) {
-    let ind = this.selectedArtwork().id;
-    if (i === "next")
-    {
-      i = ind < (this.artworksLength - 1) ? (ind + 1) : 0;
-    } else if (i === "prev")
-    {
-      i = (ind === 0) ? this.artworksLength - 1 : ind - 1;
-    }
-    // @ts-ignore
+  changeSelected (i: number) {
+    let prevInd = this.selectedArtwork().id;
     this.selectedArtwork.set(this.artworks[i]);
-
   }
 
   // TODO: firebase increment

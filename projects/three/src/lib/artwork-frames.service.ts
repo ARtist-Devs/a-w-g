@@ -92,10 +92,9 @@ export class ArtworkFramesService {
   }
 
   // TODO: Get the frame[i]
-  focusFrame (f?: Group) {
-    // console.log("Default P ", this.frames[1].userData['originalPosition']);
-    const frame = this.frames[1];
-    console.log("BP", this.frames[1].position);
+  focusFrame (i: number) {
+    console.log("Default P ", this.frames[i].userData['originalPosition']);
+    const frame = this.frames[i];
     const x = frame.position.x / this.frameDistance;// 0 - 1
     const z = frame.position.z / this.frameDistance;// 0 - 0 
     frame.position.set(x, frame.position.y, z);

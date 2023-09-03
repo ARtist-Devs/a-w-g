@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSignal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSignal, effect, signal } from '@angular/core';
 
 import { Group, Vector3 } from 'three';
 import { ArtworksService } from '../artworks.service';
@@ -13,9 +13,11 @@ import { Artwork } from 'projects/three/src/lib/artwork';
 })
 export class GalleryComponent {
 
-  private artworks: Artwork[];
+  artworks: Artwork[] = [];
+  private artworksLength = 0;
   private selectedIndex: WritableSignal<number> = signal(0);
   private frames: Group;
+  selectedArtwork: WritableSignal<Artwork> = signal(this.artworks[0]);
 
   @ViewChild('canvas', { static: true })
   canvas!: ElementRef<HTMLCanvasElement>;
@@ -28,7 +30,11 @@ export class GalleryComponent {
     private framesService: ArtworkFramesService,
     private artworksService: ArtworksService,
     private ui: UIService,
-  ) { }
+  ) {
+    effect(() => {
+      if (this.selectedArtwork()) { this.framesService.focusFrame(this.selectedArtwork().id); }
+    });
+  }
 
   // Init the WebXR scene with Artworks
   ngOnInit () {
@@ -64,12 +70,19 @@ export class GalleryComponent {
     });
     buttonsPanel.position.set(0, -1, -2);
     this.sceneService.addToScene(buttonsPanel);
+    this.artworksLength = this.artworks.length;
+    this.selectedArtwork = signal(this.artworks[0], { equal: this.compareSelected });
+    this.framesService.focusFrame(this.selectedArtwork().id);
+  }
+
+  compareSelected (o: Artwork, n: Artwork) {
+    return o.id === n.id;
   }
 
   // Handle Artwork selection events
-  onSelectArtwork (e: Event) {
+  onSelectArtwork (e: Event, i: number) {
 
-
+    this.framesService.focusFrame(this.selectedArtwork().id);
   }
 
 
@@ -78,16 +91,25 @@ export class GalleryComponent {
    * @param e 
    */
   onNextSelection (e: Event) {
-    this.artworksService.changeSelected('next');
+    const ind = this.selectedIndex();
+    this.framesService.resetPosition(ind);
+    const i = this.selectedIndex() < (this.artworksLength - 1) ? (this.selectedIndex() + 1) : 0;
+    this.selectedIndex.set(i);
+    this.artworksService.changeSelected(i);
     // TODO: Animate to the frame
     this.framesService.rotateFrames(-72);
-    this.framesService.focusFrame();
+    this.framesService.focusFrame(i);
   }
 
   onPreviousSelection (e: Event) {
-    this.artworksService.changeSelected('prev');
+    const ind = this.selectedIndex();
+    this.framesService.resetPosition(ind);
+    const i = (ind === 0) ? this.artworksLength - 1 : ind - 1;
+    this.artworksService.changeSelected(i);
+    this.selectedIndex.set(i);
     this.framesService.rotateFrames(72);
-    this.framesService.resetPosition(1);
+    this.framesService.focusFrame(i);
+
   }
 
   upvoteSelection (e: Event) {
