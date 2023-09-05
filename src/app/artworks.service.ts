@@ -102,7 +102,7 @@ export class ArtworksService {
   }
 
   // TODO: firebase increment
-  upvoteSelected () {
+  upvoteSelected (i?: number) {
     this.selectedArtwork.mutate((artwork: Artwork) => {
       artwork.votes += 1;
     });

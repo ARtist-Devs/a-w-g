@@ -93,7 +93,6 @@ export class ArtworkFramesService {
   }
 
   focusFrame (i: number) {
-    console.log("Default P ", this.frames[i].userData['originalPosition']);
 
     const f = this.frames[i];
     const x = f.position.x / this.frameDistance * 1.5;// 0 - 1

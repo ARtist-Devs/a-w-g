@@ -58,7 +58,7 @@ export class GalleryComponent {
         {
           name: 'Next Button',
           text: 'Next',
-          onClick: (e: Event) => { this.onNextSelection(e); },
+          onClick: (e: Event) => { this.changeSelection(1); },
         },
         {
           name: 'Upvote Button',
@@ -68,7 +68,7 @@ export class GalleryComponent {
         {
           name: 'Previous Button',
           text: 'Previous',
-          onClick: (e: Event) => { this.onPreviousSelection(e); }
+          onClick: (e: Event) => { this.changeSelection(-1); }
         }
       ]
 
@@ -92,31 +92,26 @@ export class GalleryComponent {
     this.framesService.focusFrame(this.selectedArtwork().id);
   }
 
-
   /**
    * TODO: Select next artwork and show info panel?
    * @param e 
    */
-  onNextSelection (e: Event) {
+  changeSelection (n: number) {
     const ind = this.selectedArtwork().id;
-    console.log('Current selected ind Next ', ind);
     this.framesService.resetPosition(ind);
-    const i = (ind === 0) ? this.artworksLength - 1 : ind - 1;
+    let i = ind;
+    if (n === 1)
+    {
+      i = (ind === 0) ? this.artworksLength - 1 : ind - 1;
+      this.framesService.rotateFrames(72);
+    } else if (n === -1)
+    {
+      i = ind < (this.artworksLength - 1) ? (ind + 1) : 0;
+      this.framesService.rotateFrames(-72);
+    }
 
     this.selectedArtwork.set(this.artworks[i]);
     this.artworksService.changeSelected(i);
-    this.framesService.rotateFrames(72);
-    this.framesService.focusFrame(i);
-  }
-
-  onPreviousSelection (e: Event) {
-    const ind = this.selectedArtwork().id;
-    this.framesService.resetPosition(ind);
-    console.log('Current selected  PRev', ind);
-    const i = ind < (this.artworksLength - 1) ? (ind + 1) : 0;
-    this.selectedArtwork.set(this.artworks[i]);
-    this.artworksService.changeSelected(i);
-    this.framesService.rotateFrames(-72);
     this.framesService.focusFrame(i);
   }
 
@@ -127,8 +122,8 @@ export class GalleryComponent {
   onKeyDown (e: KeyboardEvent) {
     switch (e.key)
     {
-      case 'ArrowRight': this.onNextSelection(e); break;
-      case 'ArrowLeft': this.onPreviousSelection(e); break;
+      case 'ArrowRight': this.changeSelection(1); break;
+      case 'ArrowLeft': this.changeSelection(-1); break;
       case 'ArrowUp': this.upvoteSelection(e); break;
     }
   }
