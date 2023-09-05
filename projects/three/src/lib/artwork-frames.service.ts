@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Object3D, Group, BoxGeometry, Mesh, MathUtils, MeshLambertMaterial, MeshBasicMaterial, TextureLoader, Vector3, } from 'three';
+import gsap from 'gsap';
 // TODO: move to animation service: Quaternion, AnimationClip, QuaternionKeyframeTrack, AnimationMixer, AnimationObjectGroup, NumberKeyframeTrack, AnimationAction, LoopOnce 
 
 import { Artwork } from './artwork';
@@ -94,17 +95,27 @@ export class ArtworkFramesService {
   // TODO: Get the frame[i]
   focusFrame (i: number) {
     console.log("Default P ", this.frames[i].userData['originalPosition']);
-    const frame = this.frames[i];
-    const x = frame.position.x / this.frameDistance * 1.5;// 0 - 1
-    const z = frame.position.z / this.frameDistance * 1.5;// 0 - 0 
-    frame.position.set(x, frame.position.y, z);
+
+    const f = this.frames[i];
+    const x = f.position.x / this.frameDistance * 1.5;// 0 - 1
+    const z = f.position.z / this.frameDistance * 1.5;// 0 - 0 
+    const p = new Vector3(x, f.position.y, z);
+    this.moveFrame(f, p);
 
   }
 
   // TODO: Animate
   resetPosition (i: number) {
     const f = this.frames[i];
-    f.position.copy(f.userData['originalPosition']);
+    const p = f.userData['originalPosition'];
+    this.moveFrame(f, p);
+  }
+
+  moveFrame (f: any, p: any) {
+    gsap.to(f.position, {
+      // @ts-ignore
+      x: p.x, y: p.y, z: p.z, duration: 3.2
+    });
   }
 
   rotateFrames (angle: number = 72) {

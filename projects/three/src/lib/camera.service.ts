@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Camera, Object3D, PerspectiveCamera } from 'three';
+import gsap from 'gsap';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +29,20 @@ export class CameraService {
     return this.dolly;
   }
 
-  moveDolly () { }
+  moveDolly (x: Number, y: Number, z: Number) { }
+
+  moveCamera (x: Number, y: Number, z: Number) {
+    // @ts-ignore
+    gsap.to(this.camera.position, {
+      // @ts-ignore
+      x: x, y: y, z: z, duration: 3
+    });
+  }
+
+  rotateCamera (x: Number, y: Number, z: Number) {
+    gsap.to(this.camera.rotation, {
+      // @ts-ignore
+      x: x, y: y, z: z, duration: 3.2
+    });
+  }
 }
