@@ -23,7 +23,6 @@ export class CameraService {
 
   // TODO: Dummy camera
   addDolly () {
-    // @ts-ignore
     this.dolly.add(this.camera);
     this.camera?.add(this.dummyCamera);
     return this.dolly;

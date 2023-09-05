@@ -99,24 +99,25 @@ export class GalleryComponent {
    */
   onNextSelection (e: Event) {
     const ind = this.selectedArtwork().id;
+    console.log('Current selected ind Next ', ind);
     this.framesService.resetPosition(ind);
-    const i = ind < (this.artworksLength - 1) ? (ind + 1) : 0;
+    const i = (ind === 0) ? this.artworksLength - 1 : ind - 1;
+
     this.selectedArtwork.set(this.artworks[i]);
     this.artworksService.changeSelected(i);
-    // TODO: Animate to the frame
-    this.framesService.rotateFrames(-72);
+    this.framesService.rotateFrames(72);
     this.framesService.focusFrame(i);
   }
 
   onPreviousSelection (e: Event) {
     const ind = this.selectedArtwork().id;
     this.framesService.resetPosition(ind);
-    const i = (ind === 0) ? this.artworksLength - 1 : ind - 1;
+    console.log('Current selected  PRev', ind);
+    const i = ind < (this.artworksLength - 1) ? (ind + 1) : 0;
+    this.selectedArtwork.set(this.artworks[i]);
     this.artworksService.changeSelected(i);
-    this.selectedArtwork.set(this.artworks[ind]);
-    this.framesService.rotateFrames(72);
-    // this.framesService.focusFrame(i);
-
+    this.framesService.rotateFrames(-72);
+    this.framesService.focusFrame(i);
   }
 
   upvoteSelection (e: Event) {

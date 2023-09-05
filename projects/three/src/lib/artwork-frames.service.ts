@@ -92,7 +92,6 @@ export class ArtworkFramesService {
 
   }
 
-  // TODO: Get the frame[i]
   focusFrame (i: number) {
     console.log("Default P ", this.frames[i].userData['originalPosition']);
 
@@ -104,7 +103,6 @@ export class ArtworkFramesService {
 
   }
 
-  // TODO: Animate
   resetPosition (i: number) {
     const f = this.frames[i];
     const p = f.userData['originalPosition'];
@@ -114,12 +112,14 @@ export class ArtworkFramesService {
   moveFrame (f: any, p: any) {
     gsap.to(f.position, {
       // @ts-ignore
-      x: p.x, y: p.y, z: p.z, duration: 3.2
+      x: p.x, y: p.y, z: p.z, duration: 2.5
     });
   }
 
   rotateFrames (angle: number = 72) {
-    this.framesGroup.rotateY(MathUtils.degToRad(angle));
+    const y = MathUtils.degToRad(angle) + this.framesGroup.rotation.y;
+    gsap.to(this.framesGroup.rotation, { y: y, duration: 1 });
+    // this.framesGroup.rotateY(MathUtils.degToRad(angle));
   }
 
   update () {
