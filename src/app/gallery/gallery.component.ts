@@ -17,8 +17,7 @@ export class GalleryComponent {
   private artworksLength = 0;
   private selectedIndex: WritableSignal<number> = signal(0);
   private frames: Group;
-  selectedArtwork: WritableSignal<Artwork> = signal(this.artworks[0]);
-
+  selectedArtwork: WritableSignal<Artwork>;
   @ViewChild('canvas', { static: true })
   canvas!: ElementRef<HTMLCanvasElement>;
 
@@ -32,7 +31,13 @@ export class GalleryComponent {
     private ui: UIService,
   ) {
     effect(() => {
-      if (this.selectedArtwork()) { this.framesService.focusFrame(this.selectedArtwork().id); }
+      // const focus = this.selectedArtwork().id || 0;
+
+      //  if() {
+      //     console.log('Selection change ', this.selectedArtwork());
+      //     this.framesService.focusFrame(this.selectedArtwork().id);
+      //   }
+      // this.framesService.focusFrame(focus);
     });
   }
 
@@ -72,11 +77,13 @@ export class GalleryComponent {
     this.sceneService.addToScene(buttonsPanel);
     this.artworksLength = this.artworks.length;
     this.selectedArtwork = signal(this.artworks[0], { equal: this.compareSelected });
+
+    // console.log('this.selectedArtwork(', this.selectedArtwork());
     this.framesService.focusFrame(this.selectedArtwork().id);
   }
 
   compareSelected (o: Artwork, n: Artwork) {
-    return o.id === n.id;
+    return o ? o.id === n.id : true;
   }
 
   // Handle Artwork selection events
@@ -91,10 +98,10 @@ export class GalleryComponent {
    * @param e 
    */
   onNextSelection (e: Event) {
-    const ind = this.selectedIndex();
+    const ind = this.selectedArtwork().id;
     this.framesService.resetPosition(ind);
-    const i = this.selectedIndex() < (this.artworksLength - 1) ? (this.selectedIndex() + 1) : 0;
-    this.selectedIndex.set(i);
+    const i = ind < (this.artworksLength - 1) ? (ind + 1) : 0;
+    this.selectedArtwork.set(this.artworks[i]);
     this.artworksService.changeSelected(i);
     // TODO: Animate to the frame
     this.framesService.rotateFrames(-72);
@@ -102,13 +109,13 @@ export class GalleryComponent {
   }
 
   onPreviousSelection (e: Event) {
-    const ind = this.selectedIndex();
+    const ind = this.selectedArtwork().id;
     this.framesService.resetPosition(ind);
     const i = (ind === 0) ? this.artworksLength - 1 : ind - 1;
     this.artworksService.changeSelected(i);
-    this.selectedIndex.set(i);
+    this.selectedArtwork.set(this.artworks[ind]);
     this.framesService.rotateFrames(72);
-    this.framesService.focusFrame(i);
+    // this.framesService.focusFrame(i);
 
   }
 

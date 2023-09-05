@@ -79,7 +79,7 @@ export class ArtworksService {
       description:
         "Fifth: Van Gogh painted this still life in the psychiatric hospital in Saint-Remy. For him, the painting was mainly a study in colour. He set out to achieve a powerful colour contrast. By placing the purple flowers against a yellow background, he made the decorative forms stand out even more strongly. The irises were originally purple. But as the red pigment has faded, they have turned blue. Van Gogh made two paintings of this bouquet. In the other still life, he contrasted purple and pink with green.",
       height: 93,
-      textureUrl: "src/assets/artworks/ireses.jpg",
+      textureUrl: "assets/artworks/irises.jpg",
       votes: 0,
       width: 74,
       wiki: "https://wikipedia.org/wiki/Irises_(painting)",

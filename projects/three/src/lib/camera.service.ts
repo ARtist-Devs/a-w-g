@@ -11,7 +11,7 @@ export class CameraService {
 
   constructor() { }
 
-  createCamera(ops?: any) {
+  createCamera (ops?: any) {
     this.camera = new PerspectiveCamera(ops.fov, ops.width / ops.height, ops.near, ops.far);
     this.camera.position.set(ops.position.x, ops.position.y, ops.position.z);
     this.camera.rotation.set(0, 0, 0);
@@ -19,4 +19,14 @@ export class CameraService {
 
     return this.camera;
   }
+
+  // TODO: Dummy camera
+  addDolly () {
+    // @ts-ignore
+    this.dolly.add(this.camera);
+    this.camera?.add(this.dummyCamera);
+    return this.dolly;
+  }
+
+  moveDolly () { }
 }

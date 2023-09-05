@@ -95,16 +95,16 @@ export class ArtworkFramesService {
   focusFrame (i: number) {
     console.log("Default P ", this.frames[i].userData['originalPosition']);
     const frame = this.frames[i];
-    const x = frame.position.x / this.frameDistance;// 0 - 1
-    const z = frame.position.z / this.frameDistance;// 0 - 0 
+    const x = frame.position.x / this.frameDistance * 1.5;// 0 - 1
+    const z = frame.position.z / this.frameDistance * 1.5;// 0 - 0 
     frame.position.set(x, frame.position.y, z);
 
   }
 
   // TODO: Animate
   resetPosition (i: number) {
-    const v = this.frames[i].userData['originalPosition'].clone();
-    this.frames[i].position.set(v.x, v.y, v.z);
+    const f = this.frames[i];
+    f.position.copy(f.userData['originalPosition']);
   }
 
   rotateFrames (angle: number = 72) {

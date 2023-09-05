@@ -1,6 +1,6 @@
 import { Injectable, NgZone, computed, signal } from '@angular/core';
 
-import { Camera, Clock, Color, DirectionalLight, Fog, PCFSoftShadowMap, Raycaster, Scene, Vector2, WebGLRenderer } from 'three';
+import { Camera, Clock, Color, DirectionalLight, Fog, HemisphereLight, Object3D, PCFSoftShadowMap, Raycaster, Scene, Vector2, WebGLRenderer } from 'three';
 
 import { sceneDefaults } from './scene.config';
 import { CameraService } from './camera.service';
@@ -24,6 +24,7 @@ export class SceneService {
   private height = window.innerHeight;
   private rect: DOMRect;
   private pointer = new Vector2();
+  private dolly: Object3D;
   // pos: Signal<Vector3> = computed(() =>
   //   this.frames?.[this.selectedIndex()]?.position.clone() || this.look
   // );
@@ -41,8 +42,8 @@ export class SceneService {
     ops.camera.width = this.width;
     ops.camera.height = this.height;
     this.camera = this.cameraService.createCamera(ops.camera);
-    // this.dolly = this.cameraService.addDolly()
-    // this.scene.add(this.dolly);
+    this.dolly = this.cameraService.addDolly();
+    this.scene.add(this.dolly);
 
     // Scene
     this.scene.background = ops.background || new Color('skyblue');
@@ -63,6 +64,10 @@ export class SceneService {
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.width, this.height);
     this.rect = this.renderer.domElement.getBoundingClientRect();
+
+    // Lights
+    const ambient = new HemisphereLight(0xFFFFFF, 0xAAAAAA, 0.8);
+    this.scene.add(ambient);
 
     // Interaction Manager
     this.interactionManager = new InteractionManager(this.renderer, this.camera, canvas);
