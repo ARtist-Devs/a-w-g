@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { BoxGeometry, CylinderGeometry, EdgesGeometry, GridHelper, Group, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, MeshPhongMaterial, PlaneGeometry, RingGeometry, SphereGeometry } from 'three';
+import { BoxGeometry, CylinderGeometry, EdgesGeometry, GridHelper, Group, IcosahedronGeometry, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, MeshPhongMaterial, PlaneGeometry, RingGeometry, SphereGeometry } from 'three';
 import { InteractionManager } from 'three.interactive';
 
 import { InteractionsService } from './interactions.service';
@@ -50,6 +50,15 @@ export class ObjectsService {
     this.reticle = reticle;
     return this.reticle;
   }
+
+  createIcosahedron (ops?: any) {
+    const shape = new Mesh(
+      new IcosahedronGeometry(ops),
+      this.material
+    );
+    return shape;
+  }
+
 
   createBackground (ops?: any) {
 

@@ -4,22 +4,24 @@ import gsap from 'gsap';
 import { BoxGeometry, Group, LinearFilter, MathUtils, Mesh, MeshBasicMaterial, MeshLambertMaterial, Object3D, SRGBColorSpace, TextureLoader, UVMapping, Vector3, } from 'three';
 
 import { Artwork } from './artwork';
+import { ObjectsService } from './objects.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArtworkFramesService {
-  frameDistance = 5;
+  frameDistance = 10;
   angle = 0;
   frames: Group[] = [];
   focusPosition: any;
   locations: any[] = [];
+  focusFactor = 3;
 
   framesGroup = new Group();
   artworksWithLocation: Artwork[];
 
 
-  constructor() { }
+  constructor(private objectsService: ObjectsService) { }
 
   createFrames (artworks: Artwork[] = []): Group {
     this.framesGroup.name = 'Frames Group';
@@ -84,19 +86,26 @@ export class ArtworkFramesService {
     frameMesh.name = ` ${artwork.title} frame mesh` || 'frame';
     canvasMesh.name = ` ${artwork.title} canvas mesh` || 'frame canvas';
     frameGroup.add(frameMesh, canvasMesh);
-
+    const buttons = this.createButtons();
+    frameGroup.add(buttons[0], buttons[1]);
     return frameGroup;
   }
 
-  createNextButtons () {
-
+  createButtons () {
+    const buttonNext = this.objectsService.createIcosahedron(0.1);
+    const buttonPrev = buttonNext.clone();
+    buttonNext.name = "Next Button";
+    buttonPrev.name = "Prev Button";
+    buttonNext.position.set(0.9, 0, 0.1);
+    buttonPrev.position.set(-0.9, 0, 0.1);
+    return [buttonNext, buttonPrev];
   }
 
   focusFrame (i: number) {
 
     const f = this.frames[i];
-    const x = f.position.x / this.frameDistance * 1.5;// 0 - 1
-    const z = f.position.z / this.frameDistance * 1.5;// 0 - 0 
+    const x = f.position.x / this.frameDistance * this.focusFactor;
+    const z = f.position.z / this.frameDistance * this.focusFactor;
     const p = new Vector3(x, f.position.y, z);
     this.moveFrame(f, p);
 

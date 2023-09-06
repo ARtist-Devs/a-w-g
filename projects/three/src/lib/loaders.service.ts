@@ -16,7 +16,6 @@ export class LoadersService {
     },
       // called while loading is progressing
       (xhr) => {
-        // self.loadingBar.progress = (xhr.loaded / xhr.total) * 0.5;
         const progress = (xhr.loaded / xhr.total) * 0.5;
         console.log('Loading the model now ', xhr);
         console.log('Progress is ', progress);
