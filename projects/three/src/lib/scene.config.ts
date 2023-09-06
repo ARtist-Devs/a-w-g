@@ -56,14 +56,14 @@ export const uiDefaults = {
     moreInfoButton: {
 
     },
-}
+};
 
 export const cameraDefaults = {
     name: 'Default Camera',
     type: 'Perspective',
     near: 0.1,
-    far: 400,// TODO: lower for production
-    fov: 70,
+    far: 5000,// TODO: lower for production
+    fov: 35,
     width: window.innerWidth || 500,
     height: window.innerHeight || 700,
     position: { x: 0, y: 1.6, z: 0 },//important for xr
@@ -85,11 +85,11 @@ export const lightDefaults = {
     castShadow: true,
     useHelpers: false,
     helper: true
-}
+};
 
 export const controlDefaults = {
     type: 'orbit',
-}
+};
 
 export const sceneDefaults = {
     camera: cameraDefaults,
@@ -98,8 +98,8 @@ export const sceneDefaults = {
     lights: lightDefaults,
     xrMode: 'inline',
     controls: controlDefaults,
-    background: Colors.black,
-    fog: { color: 0xa0a0a0, near: 50, far: 100 },
+    background: Colors.background,
+    fog: { color: 0x000000, near: 1500, far: 4000 },
 };
 
 export const containerOptions = {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import gsap from 'gsap';
-import { BoxGeometry, Group, MathUtils, Mesh, MeshBasicMaterial, MeshLambertMaterial, Object3D, TextureLoader, Vector3, } from 'three';
+import { BoxGeometry, Group, LinearFilter, MathUtils, Mesh, MeshBasicMaterial, MeshLambertMaterial, Object3D, SRGBColorSpace, TextureLoader, UVMapping, Vector3, } from 'three';
 
 import { Artwork } from './artwork';
 
@@ -9,7 +9,7 @@ import { Artwork } from './artwork';
   providedIn: 'root'
 })
 export class ArtworkFramesService {
-  frameDistance = 3;
+  frameDistance = 5;
   angle = 0;
   frames: Group[] = [];
   focusPosition: any;
@@ -71,6 +71,10 @@ export class ArtworkFramesService {
 
     // Create the canvas material with the texture
     const texture = new TextureLoader().load(artwork.textureUrl);
+    texture.colorSpace = SRGBColorSpace;
+    texture.minFilter = texture.magFilter = LinearFilter;
+    texture.mapping = UVMapping;
+
     const canvasMaterial = new MeshBasicMaterial({ map: texture, color: 0xffffff });
     const frameMaterial = new MeshBasicMaterial({ color: 0xffffff });
 
