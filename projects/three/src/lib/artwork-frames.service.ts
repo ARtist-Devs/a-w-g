@@ -5,6 +5,8 @@ import { BoxGeometry, Group, LinearFilter, MathUtils, Mesh, MeshBasicMaterial, M
 
 import { Artwork } from './artwork';
 import { ObjectsService } from './objects.service';
+import { InteractionManager } from 'three.interactive';
+import { InteractionsService } from './interactions.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,13 +23,14 @@ export class ArtworkFramesService {
   artworksWithLocation: Artwork[];
 
 
-  constructor(private objectsService: ObjectsService) { }
+  constructor(private objectsService: ObjectsService, private interactionsService
+    : InteractionsService) { }
 
-  createFrames (artworks: Artwork[] = []): Group {
+  createFrames (artworks: Artwork[] = [], btns: any[] = []): Group {
     this.framesGroup.name = 'Frames Group';
     this.angle = (Math.PI * 2) / artworks.length;
     this.frames = artworks.map((artwork, i) => {
-      const f = this.placeFrame(this.createFrame(artwork), i);
+      const f = this.placeFrame(this.createFrame(artwork, btns), i);
       return f;
     });
 
@@ -61,7 +64,7 @@ export class ArtworkFramesService {
    * @param i 
    * @returns 
    */
-  createFrame (artwork: Artwork, i?: number): Group {
+  createFrame (artwork: Artwork, btns: any[] = []): Group {
     const frameGroup = new Group();
     frameGroup.name = ` ${artwork.title} frame group`;
     //Use the componenet options or take the default values
@@ -86,19 +89,36 @@ export class ArtworkFramesService {
     frameMesh.name = ` ${artwork.title} frame mesh` || 'frame';
     canvasMesh.name = ` ${artwork.title} canvas mesh` || 'frame canvas';
     frameGroup.add(frameMesh, canvasMesh);
-    const buttons = this.createButtons();
-    frameGroup.add(buttons[0], buttons[1]);
+    const buttons = this.createButtons(btns);
+    buttons.forEach((b) => {
+      b.userData['artworkId'] = artwork.id;
+      this.interactionsService
+        .addToInteractions(b);
+      frameGroup.add(b);
+    });
     return frameGroup;
   }
 
-  createButtons () {
+  createButtons (btns: any[]) {
     const buttonNext = this.objectsService.createIcosahedron(0.1);
     const buttonPrev = buttonNext.clone();
-    buttonNext.name = "Next Button";
-    buttonPrev.name = "Prev Button";
-    buttonNext.position.set(0.9, 0, 0.1);
-    buttonPrev.position.set(-0.9, 0, 0.1);
-    return [buttonNext, buttonPrev];
+    const buttonUpvote = buttonNext.clone();
+    const buttonInfo = buttonNext.clone();
+    buttonNext.name = 'Next Button';
+    buttonPrev.name = 'Prev Button';
+    buttonUpvote.name = 'Upvote Button';
+    buttonInfo.name = 'Info Button';
+
+    // @ts-ignore
+    buttonNext.addEventListener('click', btns[0].onClick);
+    buttonPrev.addEventListener('click', btns[2].onClick);
+    buttonUpvote.addEventListener('click', btns[1].onClick);
+    buttonNext.position.set(-0.9, 0, 0.1);
+    buttonPrev.position.set(0.9, 0, 0.1);
+    buttonUpvote.position.set(-0.9, 0.8, 0.1);
+    buttonInfo.position.set(-0.9, 0.6, 0.1);
+
+    return [buttonNext, buttonPrev, buttonUpvote, buttonInfo];
   }
 
   focusFrame (i: number) {

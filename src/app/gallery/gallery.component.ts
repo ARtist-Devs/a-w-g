@@ -14,10 +14,11 @@ import { ArtworksService } from '../artworks.service';
 })
 export class GalleryComponent {
 
-  artworks: Artwork[] = [];
+  private artworks: Artwork[] = [];
   private artworksLength = 0;
   private selectedIndex: WritableSignal<number> = signal(0);
   private frames: Group;
+  private buttons: Object;
   selectedArtwork: WritableSignal<Artwork>;
   @ViewChild('canvas', { static: true })
   canvas!: ElementRef<HTMLCanvasElement>;
@@ -46,33 +47,35 @@ export class GalleryComponent {
   ngOnInit () {
     this.artworks = this.artworksService.getArtworks();
     this.sceneService.initScene(this.canvasEl);
-    this.frames = this.framesService.createFrames(this.artworks);
+
+    // Frames
+    this.buttons = [
+      {
+        name: 'Next Button',
+        text: 'Next',
+        onClick: (e: Event) => { this.changeSelection(1); },
+      },
+      {
+        name: 'Upvote Button',
+        text: 'Upvote',
+        onClick: (e: Event) => { this.upvoteSelection(e); },
+      },
+      {
+        name: 'Previous Button',
+        text: 'Previous',
+        onClick: (e: Event) => { this.changeSelection(-1); }
+      }
+    ];
+    // @ts-ignore
+    this.frames = this.framesService.createFrames(this.artworks, this.buttons);
     this.sceneService.addToScene(this.frames);
 
     // UI
     //TODO: move the group to ui
     const UIGroup = new Group();
-    // Next/Prev
-    const buttonsPanel = this.ui.createInteractiveButtons({
-      buttons: [
-        {
-          name: 'Next Button',
-          text: 'Next',
-          onClick: (e: Event) => { this.changeSelection(1); },
-        },
-        {
-          name: 'Upvote Button',
-          text: 'Upvote',
-          onClick: (e: Event) => { this.upvoteSelection(e); },
-        },
-        {
-          name: 'Previous Button',
-          text: 'Previous',
-          onClick: (e: Event) => { this.changeSelection(-1); }
-        }
-      ]
 
-    });
+    // Next/Prev
+    const buttonsPanel = this.ui.createInteractiveButtons({ buttons: this.buttons });
     buttonsPanel.position.set(0, -1, -2);
     this.sceneService.addToScene(buttonsPanel);
     this.artworksLength = this.artworks.length;
@@ -96,7 +99,8 @@ export class GalleryComponent {
    * @param e 
    */
   changeSelection (n: number) {
-    const ind = this.selectedArtwork().id;
+    const ind = this.selectedArtwork().id; console.log('Changing the selection ', n, ind);
+
     this.framesService.resetPosition(ind);
     let i = ind;
     if (n === 1)
@@ -116,6 +120,7 @@ export class GalleryComponent {
   }
 
   upvoteSelection (e: Event) {
+    console.log("Upvoting ", e);
     this.artworksService.upvoteSelected();
   }
 

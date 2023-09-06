@@ -5,7 +5,7 @@ import { Camera, Clock, Color, DirectionalLight, Fog, HemisphereLight, Object3D,
 import { sceneDefaults } from './scene.config';
 import { CameraService } from './camera.service';
 import { ControllerService } from './controller.service';
-import { InteractionManager } from 'three.interactive';
+import { InteractionsService } from './interactions.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class SceneService {
   public renderFunctions: Function[] = [];
   public clock = new Clock();
   public renderer: WebGLRenderer;
-  public interactionManager: any;
+  public interactionsManager: any;
 
   private width = window.innerWidth;
   private height = window.innerHeight;
@@ -33,6 +33,7 @@ export class SceneService {
     private cameraService: CameraService,
     private controllerService: ControllerService,
     private ngZone: NgZone,
+    private interactionService: InteractionsService
   ) { }
 
   initScene (canvas: HTMLCanvasElement, options?: any) {
@@ -69,12 +70,16 @@ export class SceneService {
     const ambient = new HemisphereLight(0xFFFFFF, 0xAAAAAA, 0.8);
     this.scene.add(ambient);
 
-    // Interaction Manager
-    this.interactionManager = new InteractionManager(this.renderer, this.camera, canvas);
-
-
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
+
+    // Interaction Manager
+    // this.interactionsManager = new interactionsManager(this.renderer, this.camera, canvas);
+
+    // TODO: Interactions Service Imp
+    const interactionsUpdate = this.interactionService.initInteractionManager(this.renderer, this.camera, canvas);
+    this.renderFunctions.push(interactionsUpdate);
+
 
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
@@ -102,6 +107,7 @@ export class SceneService {
     // update controls
     this.controllerService.updateControls();
 
+    // this.interactionsManager.update();
     // run renderFunctions
     this.renderFunctions.forEach(func => func(delta));
 
