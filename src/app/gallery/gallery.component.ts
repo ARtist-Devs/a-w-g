@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSignal, effect, signal } from '@angular/core';
 
-import { Group, Vector3 } from 'three';
-import { ArtworksService } from '../artworks.service';
-import { SceneService, ArtworkFramesService, UIService } from 'projects/three/src/public-api';
+import { Group } from 'three';
+
 import { Artwork } from 'projects/three/src/lib/artwork';
+import { ArtworkFramesService, SceneService, UIService } from 'projects/three/src/public-api';
+import { ArtworksService } from '../artworks.service';
 
 @Component({
   selector: 'art-gallery',
@@ -46,7 +47,6 @@ export class GalleryComponent {
     this.artworks = this.artworksService.getArtworks();
     this.sceneService.initScene(this.canvasEl);
     this.frames = this.framesService.createFrames(this.artworks);
-    this.sceneService.renderFunctions.push(this.framesService.update);
     this.sceneService.addToScene(this.frames);
 
     // UI
@@ -88,7 +88,6 @@ export class GalleryComponent {
 
   // Handle Artwork selection events
   onSelectArtwork (e: Event, i: number) {
-
     this.framesService.focusFrame(this.selectedArtwork().id);
   }
 
@@ -110,6 +109,7 @@ export class GalleryComponent {
       this.framesService.rotateFrames(-72);
     }
 
+    // TODO: fix selected on two places
     this.selectedArtwork.set(this.artworks[i]);
     this.artworksService.changeSelected(i);
     this.framesService.focusFrame(i);

@@ -1,5 +1,6 @@
 import {
-  Injectable, EventEmitter,
+  EventEmitter,
+  Injectable,
   OnInit,
   Output,
   Signal,

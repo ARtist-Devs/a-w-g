@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Object3D, Group, BoxGeometry, Mesh, MathUtils, MeshLambertMaterial, MeshBasicMaterial, TextureLoader, Vector3, } from 'three';
 import gsap from 'gsap';
-// TODO: move to animation service: Quaternion, AnimationClip, QuaternionKeyframeTrack, AnimationMixer, AnimationObjectGroup, NumberKeyframeTrack, AnimationAction, LoopOnce 
+import { BoxGeometry, Group, MathUtils, Mesh, MeshBasicMaterial, MeshLambertMaterial, Object3D, TextureLoader, Vector3, } from 'three';
 
 import { Artwork } from './artwork';
 
@@ -33,9 +32,6 @@ export class ArtworkFramesService {
     const length = artworks.length;
     const radians = (Math.PI * 2) / length;
     this.framesGroup.add(...this.frames);
-
-    // TODO:
-    // this.sceneService.renderFunctions.push(this.update.bind(this));
     this.framesGroup.position.set(0, 1.6, 0);
     return this.framesGroup;
   }
@@ -119,9 +115,6 @@ export class ArtworkFramesService {
     const y = MathUtils.degToRad(angle) + this.framesGroup.rotation.y;
     gsap.to(this.framesGroup.rotation, { y: y, duration: 1 });
     // this.framesGroup.rotateY(MathUtils.degToRad(angle));
-  }
-
-  update () {
   }
 
 };;

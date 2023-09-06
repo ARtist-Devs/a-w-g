@@ -82,8 +82,8 @@ export class UIService {
     buttons: [{
       name: 'Next Button',
       text: 'Next',
-      onClick: (e: Event) => { console.log(`Next Button is clicked`) },
-      onHover: (e: Event) => { console.log(`Next Button is hovered`) },
+      onClick: (e: Event) => { console.log(`Next Button is clicked`); },
+      onHover: (e: Event) => { console.log(`Next Button is hovered`); },
       buttonOptions: {
         width: 0.4,
         height: 0.15,
@@ -95,8 +95,8 @@ export class UIService {
     }, {
       name: 'Prev Button',
       text: 'Previous',
-      onClick: (e: Event) => { console.log(`Previous Button is clicked`) },
-      onHover: (e: Event) => { console.log(`Previous Button is hovered`) },
+      onClick: (e: Event) => { console.log(`Previous Button is clicked`); },
+      onHover: (e: Event) => { console.log(`Previous Button is hovered`); },
       buttonOptions: {
         width: 0.4,
         height: 0.15,
@@ -107,7 +107,7 @@ export class UIService {
       }
     }]
 
-  }
+  };
 
   private idleStateAttributes = {
     state: 'idle',
@@ -120,7 +120,7 @@ export class UIService {
       fontColor: new Color(0xffffff)
     },
     onSet: (e: any) => { }
-  }
+  };
 
   private hoveredStateAttributes = {
     state: 'hovered',
@@ -135,7 +135,7 @@ export class UIService {
     onSet: (e: any) => {
       // console.log('hovered state ', e) 
     }
-  }
+  };
 
   private selectedAttributes =
     {
@@ -156,12 +156,8 @@ export class UIService {
     // private debug: DebugService,
   ) { }
 
-  init() {
-
-  }
-
   // TODO: Needs to calculate position based on the artwork or the biggest width
-  createMoreInfoPanels(ops?: any) {
+  createMoreInfoPanels (ops?: any) {
 
     // Container
     const container = new ThreeMeshUI.Block({
@@ -247,19 +243,19 @@ export class UIService {
 
   }
 
-  updateInfoPanel(ops?: any) {
+  updateInfoPanel (ops?: any) {
     this.description.children[1].set({ content: String(ops.description) });
     this.title.children[1].set({ content: String(`${ops.title}: ${ops.votes} `) });
   }
 
   //TODO: only update the vote onPanel
-  updateVote(ops?: any) {
+  updateVote (ops?: any) {
     console.log('Vote is ', ops.votes);
     //TODO: only update the vote onPanel
     this.title.children[1].set({ content: String(`${ops.title}: ${ops.votes} `) });
   }
 
-  createInteractiveButtons(options?: any) {
+  createInteractiveButtons (options?: any) {
     const ops = Object.assign({}, this.defaultOptions, options);
     const container = new ThreeMeshUI.Block(
       {
@@ -281,15 +277,15 @@ export class UIService {
     this.container = container;
 
     ops.buttons.forEach((ops: any) => {
-      const button = this.createButton(ops)
+      const button = this.createButton(ops);
       this.container.add(button);
-    })
+    });
 
-    return container
+    return container;
 
   };
 
-  createButton(ops?: any) {
+  createButton (ops?: any) {
     const btn = new ThreeMeshUI.Block(this.buttonOptions);
     btn.name = ops.name;
 
@@ -303,7 +299,7 @@ export class UIService {
       state: 'selected',
       attributes: this.selectedAttributes,
       onSet: (e: any) => {
-        console.log('button state set to selected ', ops.onClick)
+        console.log('button state set to selected ', ops.onClick);
         // ops.onClick();
         console.log(`Button onSet  ${ops.name}`, e);
       }
@@ -322,11 +318,11 @@ export class UIService {
     return btn;
   }
 
-  updateButtons() {
+  updateButtons () {
     console.log('Update buttons ');
   }
 
-  update() {
+  update () {
     ThreeMeshUI.update();
   }
 
