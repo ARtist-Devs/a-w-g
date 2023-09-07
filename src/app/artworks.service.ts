@@ -87,6 +87,7 @@ export class ArtworksService {
     },
   ]);
 
+  upvoted: number[] = [];
   artworksLength: number = this.artworks.length;
 
   constructor() { }
@@ -97,9 +98,16 @@ export class ArtworksService {
 
   // TODO: firebase increment
   upvoteArtwork (i: number) {
-    this.artworks.mutate((artworks: Artwork[]): void => {
-      artworks[i].votes += 1;
-    });
-    console.log('Mutated', i, this.artworks()[i].votes);
+    if (this.upvoted.indexOf(i) === -1)
+    {
+      this.upvoted.push(i);
+      this.artworks.mutate((artworks: Artwork[]): void => {
+        artworks[i].votes += 1;
+      });
+      console.log('Mutated', i, this.artworks()[i].votes);
+
+    }
+    console.log('Upvoted already!');
+
   }
 }

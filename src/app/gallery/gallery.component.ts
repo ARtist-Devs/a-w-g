@@ -126,6 +126,7 @@ export class GalleryComponent {
    * @param e 
    */
   changeSelection (e: any, n: number) {
+    console.log('change selection args', e, n);
     // @ts-ignore
     const ind = typeof e === "number" ? e : e.target.userData['artworkId'];
 
@@ -148,9 +149,11 @@ export class GalleryComponent {
     this.framesService.focusFrame(i);
   }
 
-  upvoteSelection (e: InteractiveEvent | Event, i?: number): void {
+  upvoteSelection (i: number): void {
+    // const ind = typeof e === "number" ? e : e.target?.userData['artworkId'];
     // @ts-ignore
-    this.artworksService.upvoteArtwork(e.target.userData['artworkId']);
+
+    this.artworksService.upvoteArtwork(i);
   };
 
   onKeyDown (e: KeyboardEvent) {
@@ -158,7 +161,8 @@ export class GalleryComponent {
     {
       case 'ArrowRight': this.changeSelection(e, 1); break;
       case 'ArrowLeft': this.changeSelection(e, -1); break;
-      case 'ArrowUp': this.upvoteSelection(e); break;
+      // TODO: What you are looking at might not be what's last selected.
+      // case 'ArrowUp': this.upvoteSelection(); break;
     }
   }
 

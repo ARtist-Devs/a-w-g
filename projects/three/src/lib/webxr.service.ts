@@ -251,10 +251,10 @@ export class WebXRService {
   };
 
   onSelectStart (e: any) {
-    // console.log('Select Start VR event ', e);
+    console.log('Select Start VR event ', e);
     this.userData.isSelecting = true;
-    this.interactions.intersectObjects({ controller: this.controllerLeft, scene: this.scene });
-    this.interactions.intersectObjects({ controller: this.controllerRight, scene: this.scene });
+    // this.interactions.intersectObjects({ controller: this.controllerLeft, scene: this.scene });
+    // this.interactions.intersectObjects({ controller: this.controllerRight, scene: this.scene });
 
   };
 
@@ -268,7 +268,8 @@ export class WebXRService {
   onSelectEnd (e: any) {
     console.log('Select End VR event ', e);
     this.userData.isSelecting = false;
-    this.interactions.intersectObjects({ controller: this.controllerLeft, scene: this.scene });
+    // TODO: Needed for hover events only
+    // this.interactions.intersectObjects({ controller: this.controllerLeft, scene: this.scene });
   }
 
   initAR () {

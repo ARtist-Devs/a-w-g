@@ -94,7 +94,7 @@ export class ArtworkFramesService {
       const button = this.createButton(b, artwork.id);
       frameGroup.add(button);
     });
-
+    console.log('InteractionManager after button creation ', this.interactionsService.interactionManager.interactiveObjects);
     return frameGroup;
   }
 
@@ -105,6 +105,7 @@ export class ArtworkFramesService {
     this.interactionsService.addToInteractions(button);
     this.interactionsService.addToColliders({ mesh: button, name: ops.name, cb: () => { ops.onClick(i); } });
     button.addEventListener('click', (e) => { ops.onClick(i); });
+
     return button;
   }
 
@@ -137,4 +138,4 @@ export class ArtworkFramesService {
     // this.framesGroup.rotateY(MathUtils.degToRad(angle));
   }
 
-};;
+};

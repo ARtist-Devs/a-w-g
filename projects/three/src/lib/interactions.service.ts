@@ -87,8 +87,6 @@ export class InteractionsService {
     {
       this.raycaster.setFromCamera(ops.pointer, ops.camera);
 
-      // intersect = this.raycast();
-
     } else
     {
       console.log('setting the ray from controller');
@@ -100,43 +98,8 @@ export class InteractionsService {
     }
 
     intersect = this.raycast();
-
-    if (intersect && intersect.object.isUI)
-    {
-      console.log('intersected UI', intersect.object.name);
-
-      if (this.ui.selectState)
-      {
-
-        // Component.setState internally call component.set with the options you defined in component.setupState
-        intersect.object.setState('selected');
-
-      } else
-      {
-        // Component.setState internally call component.set with the options you defined in component.setupState
-        intersect.object.setState('hovered');
-
-      }
-
-    }
-
-    // Update non-targeted buttons state
-    this.intersectedObjects.forEach((obj: any) => {
-      console.log('intersected obj ', obj);
-      let isIdle = (!intersect || obj !== intersect.object);// && obj.isUI;
-      let other = this.colliders[obj['uuid']] && ops.select;
-      // console.log('intersected obj, idle, other ', obj, isIdle, other);
-      if (isIdle)
-      {
-        // console.log('Setting Idle state on ', obj.name);
-        if (obj.isUI) obj.setState('idle');
-
-      } else if (this.colliders[obj['uuid']] && ops.select)
-      {
-        console.log('selected and have callback', obj, this.colliders[obj['uuid']]());
-        return this.colliders[obj['uuid']]();
-      }
-    });
+    console.log('intersect ', intersect);
+    return intersect && this.colliders[intersect.object['uuid']]();
   }
 
   removeFromColliders (name: string) {
