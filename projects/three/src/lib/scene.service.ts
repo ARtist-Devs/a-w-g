@@ -8,6 +8,7 @@ import { ControllerService } from './controller.service';
 import { InteractionsService } from './interactions.service';
 import { WebXRService } from './webxr.service';
 import { LightsService } from './lights.service';
+import { ObjectsService } from './objects.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +38,7 @@ export class SceneService {
     private ngZone: NgZone,
     private interactionService: InteractionsService,
     private lightsService: LightsService,
+    private objectsService: ObjectsService,
     private webXRService: WebXRService,
   ) { }
 
@@ -83,6 +85,14 @@ export class SceneService {
     // TODO: Interactions Service Imp
     const interactionsUpdate = this.interactionService.initInteractionManager(this.renderer, this.camera, canvas);
     this.renderFunctions.push(interactionsUpdate);
+
+    // GROUND
+    const ground = this.objectsService.createGround();
+    this.scene.add(ground);
+
+    // SKYDOME
+    const sky = this.objectsService.createSkyDom({ color: hemLight[0].color });
+    this.scene.add(sky);
 
     // WebXR
     this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });

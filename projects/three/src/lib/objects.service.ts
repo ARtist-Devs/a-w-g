@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { BoxGeometry, CylinderGeometry, EdgesGeometry, GridHelper, Group, IcosahedronGeometry, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, MeshPhongMaterial, PlaneGeometry, RingGeometry, SphereGeometry } from 'three';
-import { InteractionManager } from 'three.interactive';
+import { BackSide, BoxGeometry, Color, CylinderGeometry, EdgesGeometry, GridHelper, Group, IcosahedronGeometry, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, PlaneGeometry, RingGeometry, ShaderMaterial, SphereGeometry } from 'three';
 
 import { InteractionsService } from './interactions.service';
 import { MaterialsService } from './materials.service';
-import { SceneService } from './scene.service';
 import { DebugService } from './debug.service';
 import { Colors } from './colors';
 
@@ -34,7 +32,6 @@ export class ObjectsService {
   constructor(
     private interactions: InteractionsService,
     private materials: MaterialsService,
-    private scenes: SceneService,
     // private debug: DebugService
   ) {
     this.material = this.materials.getRandomColoredMaterial();
@@ -59,10 +56,47 @@ export class ObjectsService {
     return shape;
   }
 
+  createGround () {
+    const groundGeo = new PlaneGeometry(10000, 10000);
+    const groundMat = new MeshLambertMaterial({ color: 0xffffff });
+    groundMat.color.setHSL(0.095, 1, 0.75);
 
-  createBackground (ops?: any) {
+    const ground = new Mesh(groundGeo, groundMat);
+    ground.position.y = - 33;
+    ground.rotation.x = - Math.PI / 2;
+    ground.receiveShadow = true;
+    return ground;
 
   }
+
+  createSkyDom (ops?: any) {
+
+
+    const vertexShader = document.getElementById('vertexShader').textContent;
+    const fragmentShader = document.getElementById('fragmentShader').textContent;
+    const uniforms = {
+      'topColor': { value: new Color(0x0077ff) },
+      'bottomColor': { value: new Color(0xffffff) },
+      'offset': { value: 33 },
+      'exponent': { value: 0.6 }
+    };
+    uniforms['topColor'].value.copy(ops.color);
+
+    // scene.fog.color.copy(uniforms['bottomColor'].value);
+
+    const skyGeo = new SphereGeometry(4000, 32, 15);
+    const skyMat = new ShaderMaterial({
+      uniforms: uniforms,
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader,
+      side: BackSide
+    });
+
+    const sky = new Mesh(skyGeo, skyMat);
+    return sky;
+  }
+
+  createBackground (ops?: any) { }
 
   createSphere (options?: any) {
     const ops = Object.assign({}, this.sphereDefaultOptions, options);
@@ -87,16 +121,16 @@ export class ObjectsService {
     return object;
   }
 
-  createGround (ops?: any) {
-    // ground
-    const ground = new Mesh(new PlaneGeometry(200, 200), new MeshPhongMaterial({ color: 0x999999, depthWrite: false }));
-    ground.rotation.x = - Math.PI / 2;
-    this.scenes.addToScene(ground);
+  // createGround (ops?: any) {
+  //   // ground
+  //   const ground = new Mesh(new PlaneGeometry(200, 200), new MeshPhongMaterial({ color: 0x999999, depthWrite: false }));
+  //   ground.rotation.x = - Math.PI / 2;
+  //   this.scenes.addToScene(ground);
 
-    var grid = new GridHelper(200, 40, 0x000000, 0x000000);
-    this.scenes.addToScene(grid);
+  //   var grid = new GridHelper(200, 40, 0x000000, 0x000000);
+  //   this.scenes.addToScene(grid);
 
-  }
+  // }
 
   createNav (ops?: any) {
     const nav = new Group();
@@ -119,7 +153,7 @@ export class ObjectsService {
       }
     }
     nav.name = 'nav';
-    this.scenes.addToScene(nav);
+    // this.scenes.addToScene(nav);
     return nav;
   }
 
@@ -143,7 +177,7 @@ export class ObjectsService {
       object.scale.x = Math.random() + 0.5;
       object.scale.y = Math.random() + 0.5;
       object.scale.z = Math.random() + 0.5;
-      this.scenes.addToScene(object);
+      // this.scenes.addToScene(object);
       // this.debug.addToDebug({ obj: object,  properties: ['Position', 'Color'] });
       object.name = 'box' + i;
       // TODO: add interactions
