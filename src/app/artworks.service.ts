@@ -108,6 +108,5 @@ export class ArtworksService {
 
     }
     console.log('Upvoted already!');
-
   }
 }

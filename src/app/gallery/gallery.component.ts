@@ -101,9 +101,6 @@ export class GalleryComponent {
     this.sceneService.addToScene(buttonsPanel);
     this.artworksLength = this.artworks.length;
     this.selectedArtwork = signal(this.artworks[0], { equal: this.compareSelected });
-
-    // console.log('this.selectedArtwork(', this.selectedArtwork());
-    // this.framesService.focusFrame(0);
   }
 
   compareSelected (o: Artwork, n: Artwork) {
@@ -150,9 +147,6 @@ export class GalleryComponent {
   }
 
   upvoteSelection (i: number): void {
-    // const ind = typeof e === "number" ? e : e.target?.userData['artworkId'];
-    // @ts-ignore
-
     this.artworksService.upvoteArtwork(i);
   };
 

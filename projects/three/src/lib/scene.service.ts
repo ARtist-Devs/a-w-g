@@ -7,6 +7,7 @@ import { CameraService } from './camera.service';
 import { ControllerService } from './controller.service';
 import { InteractionsService } from './interactions.service';
 import { WebXRService } from './webxr.service';
+import { LightsService } from './lights.service';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +36,7 @@ export class SceneService {
     private controllerService: ControllerService,
     private ngZone: NgZone,
     private interactionService: InteractionsService,
+    private lightsService: LightsService,
     private webXRService: WebXRService,
   ) { }
 
@@ -56,9 +58,10 @@ export class SceneService {
     }
 
     // Lights
-    // TODO move to service
-    const directionalLight = new DirectionalLight(ops.color, ops.intensity);
-    this.scene.add(directionalLight);
+    const hemLight = this.lightsService.createHemLight();
+    const dirLights = this.lightsService.createDirLight();
+    this.scene.add(...hemLight, ...dirLights);
+
 
     // Renderer
     this.renderer = new WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: true });// TODO: Check out the performance for preserveDrawingBuffer

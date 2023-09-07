@@ -7,6 +7,7 @@ import { Artwork } from './artwork';
 import { ObjectsService } from './objects.service';
 import { InteractionManager } from 'three.interactive';
 import { InteractionsService } from './interactions.service';
+import { UIService } from './ui.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,12 @@ export class ArtworkFramesService {
   artworksWithLocation: Artwork[];
   frameButton = this.objectsService.createIcosahedron(0.1);
 
-  constructor(private objectsService: ObjectsService, private interactionsService
-    : InteractionsService) { }
+  constructor(
+    private objectsService: ObjectsService,
+    private interactionsService: InteractionsService,
+    private uiService: UIService
+
+  ) { }
 
   createFrames (artworks: Artwork[] = [], btns: any[] = []): Group {
     this.framesGroup.name = 'Frames Group';
@@ -95,6 +100,14 @@ export class ArtworkFramesService {
       frameGroup.add(button);
     });
     console.log('InteractionManager after button creation ', this.interactionsService.interactionManager.interactiveObjects);
+    const moreInfoPanel = this.uiService.createMoreInfoPanels({
+      title: artwork.title,
+      description: artwork.description,
+      votes: artwork.votes
+    });
+    moreInfoPanel.position.set(0.9, 0, 0.1);
+    frameGroup.add(moreInfoPanel);
+
     return frameGroup;
   }
 
@@ -108,6 +121,7 @@ export class ArtworkFramesService {
 
     return button;
   }
+
 
   focusFrame (i: number) {
 
