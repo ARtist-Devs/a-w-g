@@ -18,7 +18,7 @@ import { Artwork } from 'projects/three/src/lib/artwork';
   providedIn: 'root'
 })
 export class ArtworksService {
-  private artworks = [
+  private artworks = signal([
     {
       id: 0,
       title: "Self Portrait",
@@ -85,28 +85,21 @@ export class ArtworksService {
       width: 74,
       wiki: "https://wikipedia.org/wiki/Irises_(painting)",
     },
-  ];
-  artworksLength = this.artworks.length;
+  ]);
 
-  public selectedArtwork: WritableSignal<Artwork> = signal(this.artworks[0]);
+  artworksLength: number = this.artworks.length;
 
   constructor() { }
 
-  getArtworks (): Artwork[] {
-    return this.artworks;
-  }
-
-  // TODO: think about giving an index instead of string or index.
-  changeSelected (i: number) {
-    let prevInd = this.selectedArtwork().id;
-    this.selectedArtwork.set(this.artworks[i]);
+  getArtworks (): any {
+    return this.artworks();
   }
 
   // TODO: firebase increment
-  upvoteSelected (i?: number) {
-    this.selectedArtwork.mutate((artwork: Artwork) => {
-      artwork.votes += 1;
+  upvoteArtwork (i: number) {
+    this.artworks.mutate((artworks: Artwork[]): void => {
+      artworks[i].votes += 1;
     });
-    console.log(this.selectedArtwork());
+    console.log('Mutated', i, this.artworks()[i].votes);
   }
 }

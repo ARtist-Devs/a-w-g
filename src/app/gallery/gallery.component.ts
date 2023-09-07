@@ -53,7 +53,7 @@ export class GalleryComponent {
       {
         name: 'Next Button',
         text: 'Next',
-        onClick: (e: Event) => { this.changeSelection(1); },
+        onClick: (e: Event) => { this.changeSelection(e, 1); },
       },
       {
         name: 'Upvote Button',
@@ -63,7 +63,7 @@ export class GalleryComponent {
       {
         name: 'Previous Button',
         text: 'Previous',
-        onClick: (e: Event) => { this.changeSelection(-1); }
+        onClick: (e: Event) => { this.changeSelection(e, -1); }
       }
     ];
     // @ts-ignore
@@ -98,8 +98,10 @@ export class GalleryComponent {
    * TODO: Select next artwork and show info panel?
    * @param e 
    */
-  changeSelection (n: number) {
-    const ind = this.selectedArtwork().id; console.log('Changing the selection ', n, ind);
+  changeSelection (e: Event, n: number) {
+    // @ts-ignore
+    const ind = e.target.userData['artworkId'];
+    console.log('Changing the selection ', n, ind);
 
     this.framesService.resetPosition(ind);
     let i = ind;
@@ -114,21 +116,20 @@ export class GalleryComponent {
     }
 
     // TODO: fix selected on two places
-    this.selectedArtwork.set(this.artworks[i]);
-    this.artworksService.changeSelected(i);
+    // this.artworksService.changeSelected(i);
     this.framesService.focusFrame(i);
   }
 
-  upvoteSelection (e: Event) {
-    console.log("Upvoting ", e);
-    this.artworksService.upvoteSelected();
+  upvoteSelection (e: Event, i?: number): void {
+    // @ts-ignore
+    this.artworksService.upvoteArtwork(e.target.userData['artworkId']);
   }
 
   onKeyDown (e: KeyboardEvent) {
     switch (e.key)
     {
-      case 'ArrowRight': this.changeSelection(1); break;
-      case 'ArrowLeft': this.changeSelection(-1); break;
+      case 'ArrowRight': this.changeSelection(e, 1); break;
+      case 'ArrowLeft': this.changeSelection(e, -1); break;
       case 'ArrowUp': this.upvoteSelection(e); break;
     }
   }
@@ -153,15 +154,11 @@ export class GalleryComponent {
 
   }
 
-
-
   onDeviceChange (e: Event) {
 
   }
 
-  onTouchEnd (e: Event) {
-
-  }
+  onTouchEnd (e: Event) { }
 
   // Take a picture
   // Pointer events 
