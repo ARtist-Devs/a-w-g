@@ -21,7 +21,7 @@ export class ArtworkFramesService {
 
   framesGroup = new Group();
   artworksWithLocation: Artwork[];
-
+  frameButton = this.objectsService.createIcosahedron(0.1);
 
   constructor(private objectsService: ObjectsService, private interactionsService
     : InteractionsService) { }
@@ -38,6 +38,7 @@ export class ArtworkFramesService {
     const radians = (Math.PI * 2) / length;
     this.framesGroup.add(...this.frames);
     this.framesGroup.position.set(0, 1.6, 0);
+    this.focusFrame(0);
     return this.framesGroup;
   }
 
@@ -89,36 +90,22 @@ export class ArtworkFramesService {
     frameMesh.name = ` ${artwork.title} frame mesh` || 'frame';
     canvasMesh.name = ` ${artwork.title} canvas mesh` || 'frame canvas';
     frameGroup.add(frameMesh, canvasMesh);
-    const buttons = this.createButtons(btns);
-    buttons.forEach((b) => {
-      b.userData['artworkId'] = artwork.id;
-      this.interactionsService
-        .addToInteractions(b);
-      frameGroup.add(b);
+    btns.forEach((b, i) => {
+      const button = this.createButton(b, artwork.id);
+      frameGroup.add(button);
     });
+
     return frameGroup;
   }
 
-  createButtons (btns: any[]) {
-    const buttonNext = this.objectsService.createIcosahedron(0.1);
-    const buttonPrev = buttonNext.clone();
-    const buttonUpvote = buttonNext.clone();
-    const buttonInfo = buttonNext.clone();
-    buttonNext.name = 'Next Button';
-    buttonPrev.name = 'Prev Button';
-    buttonUpvote.name = 'Upvote Button';
-    buttonInfo.name = 'Info Button';
-
-    // @ts-ignore
-    buttonNext.addEventListener('click', btns[0].onClick);
-    buttonPrev.addEventListener('click', btns[2].onClick);
-    buttonUpvote.addEventListener('click', btns[1].onClick);
-    buttonNext.position.set(-0.9, 0, 0.1);
-    buttonPrev.position.set(0.9, 0, 0.1);
-    buttonUpvote.position.set(-0.9, 0.8, 0.1);
-    buttonInfo.position.set(-0.9, 0.6, 0.1);
-
-    return [buttonNext, buttonPrev, buttonUpvote, buttonInfo];
+  createButton (ops: any, i: number) {
+    const button = this.frameButton.clone();
+    button.name = `Frame ${i} ${ops.name}`;
+    button.position.set(ops.position.x, ops.position.y, ops.position.z);
+    this.interactionsService.addToInteractions(button);
+    this.interactionsService.addToColliders({ mesh: button, name: ops.name, cb: () => { ops.onClick(i); } });
+    button.addEventListener('click', (e) => { ops.onClick(i); });
+    return button;
   }
 
   focusFrame (i: number) {

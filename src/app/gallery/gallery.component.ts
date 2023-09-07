@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSignal, effect, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSignal, effect, signal, computed } from '@angular/core';
 
 import { Group } from 'three';
 
 import { Artwork } from 'projects/three/src/lib/artwork';
 import { ArtworkFramesService, SceneService, UIService } from 'projects/three/src/public-api';
 import { ArtworksService } from '../artworks.service';
+import { InteractiveEvent } from 'three.interactive';
 
 @Component({
   selector: 'art-gallery',
@@ -19,6 +20,16 @@ export class GalleryComponent {
   private selectedIndex: WritableSignal<number> = signal(0);
   private frames: Group;
   private buttons: Object;
+  // TODO: nope
+  private info = computed(() => {
+    this.artworks[this.selectedIndex()];
+  });
+  // WritableSignal<Object> = {
+  //   title: '',
+  //   description: '',
+  //   votes: 0,
+  //   audio?: '',
+  // };
   selectedArtwork: WritableSignal<Artwork>;
   @ViewChild('canvas', { static: true })
   canvas!: ElementRef<HTMLCanvasElement>;
@@ -53,18 +64,28 @@ export class GalleryComponent {
       {
         name: 'Next Button',
         text: 'Next',
-        onClick: (e: Event) => { this.changeSelection(e, 1); },
-      },
-      {
-        name: 'Upvote Button',
-        text: 'Upvote',
-        onClick: (e: Event) => { this.upvoteSelection(e); },
+        onClick: (e: any) => { this.changeSelection(e, 1); },
+        position: { x: -0.9, y: 0, z: 0.1 }
       },
       {
         name: 'Previous Button',
         text: 'Previous',
-        onClick: (e: Event) => { this.changeSelection(e, -1); }
+        onClick: (e: any) => { this.changeSelection(e, -1); },
+        position: { x: 0.9, y: 0, z: 0.1 }
+      },
+      {
+        name: 'Upvote Button',
+        text: 'Upvote',
+        onClick: (e: any) => { this.upvoteSelection(e); },
+        position: { x: -0.9, y: 0.8, z: 0.1 }
+      },
+      {
+        name: 'Info Button',
+        text: 'Info',
+        onClick: (e: any) => { },
+        position: { x: -0.9, y: 0.6, z: 0.1 }
       }
+
     ];
     // @ts-ignore
     this.frames = this.framesService.createFrames(this.artworks, this.buttons);
@@ -82,11 +103,17 @@ export class GalleryComponent {
     this.selectedArtwork = signal(this.artworks[0], { equal: this.compareSelected });
 
     // console.log('this.selectedArtwork(', this.selectedArtwork());
-    this.framesService.focusFrame(this.selectedArtwork().id);
+    // this.framesService.focusFrame(0);
   }
 
   compareSelected (o: Artwork, n: Artwork) {
     return o ? o.id === n.id : true;
+  }
+
+  showInfo (e: Event) {
+    // @ts-ignore
+    const ind = e.target.userData['artworkId'];
+
   }
 
   // Handle Artwork selection events
@@ -98,9 +125,10 @@ export class GalleryComponent {
    * TODO: Select next artwork and show info panel?
    * @param e 
    */
-  changeSelection (e: Event, n: number) {
+  changeSelection (e: any, n: number) {
     // @ts-ignore
-    const ind = e.target.userData['artworkId'];
+    const ind = typeof e === "number" ? e : e.target.userData['artworkId'];
+
     console.log('Changing the selection ', n, ind);
 
     this.framesService.resetPosition(ind);
@@ -120,10 +148,10 @@ export class GalleryComponent {
     this.framesService.focusFrame(i);
   }
 
-  upvoteSelection (e: Event, i?: number): void {
+  upvoteSelection (e: InteractiveEvent | Event, i?: number): void {
     // @ts-ignore
     this.artworksService.upvoteArtwork(e.target.userData['artworkId']);
-  }
+  };
 
   onKeyDown (e: KeyboardEvent) {
     switch (e.key)
@@ -150,13 +178,9 @@ export class GalleryComponent {
 
   }
 
-  onObjectHover (e: Event) {
+  onObjectHover (e: Event) { }
 
-  }
-
-  onDeviceChange (e: Event) {
-
-  }
+  onDeviceChange (e: Event) { }
 
   onTouchEnd (e: Event) { }
 

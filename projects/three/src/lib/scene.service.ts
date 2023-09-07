@@ -6,6 +6,7 @@ import { sceneDefaults } from './scene.config';
 import { CameraService } from './camera.service';
 import { ControllerService } from './controller.service';
 import { InteractionsService } from './interactions.service';
+import { WebXRService } from './webxr.service';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,8 @@ export class SceneService {
     private cameraService: CameraService,
     private controllerService: ControllerService,
     private ngZone: NgZone,
-    private interactionService: InteractionsService
+    private interactionService: InteractionsService,
+    private webXRService: WebXRService,
   ) { }
 
   initScene (canvas: HTMLCanvasElement, options?: any) {
@@ -73,14 +75,14 @@ export class SceneService {
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
 
-    // Interaction Manager
-    // this.interactionsManager = new interactionsManager(this.renderer, this.camera, canvas);
+    window.addEventListener("resize", this.onResize.bind(this));
 
     // TODO: Interactions Service Imp
     const interactionsUpdate = this.interactionService.initInteractionManager(this.renderer, this.camera, canvas);
     this.renderFunctions.push(interactionsUpdate);
 
-
+    // WebXR
+    this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
   }
