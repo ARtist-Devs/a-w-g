@@ -147,6 +147,7 @@ export class GalleryComponent {
   }
 
   upvoteSelection (i: number): void {
+
     this.artworksService.upvoteArtwork(i);
   };
 

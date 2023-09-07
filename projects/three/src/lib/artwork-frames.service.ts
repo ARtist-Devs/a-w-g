@@ -5,9 +5,9 @@ import { BoxGeometry, Group, LinearFilter, MathUtils, Mesh, MeshBasicMaterial, M
 
 import { Artwork } from './artwork';
 import { ObjectsService } from './objects.service';
-import { InteractionManager } from 'three.interactive';
 import { InteractionsService } from './interactions.service';
 import { UIService } from './ui.service';
+import { DebugService } from './debug.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,8 @@ export class ArtworkFramesService {
   constructor(
     private objectsService: ObjectsService,
     private interactionsService: InteractionsService,
-    private uiService: UIService
+    private uiService: UIService,
+    private debug: DebugService,
 
   ) { }
 
@@ -39,8 +40,6 @@ export class ArtworkFramesService {
       return f;
     });
 
-    const length = artworks.length;
-    const radians = (Math.PI * 2) / length;
     this.framesGroup.add(...this.frames);
     this.framesGroup.position.set(0, 1.6, 0);
     this.focusFrame(0);
@@ -55,7 +54,7 @@ export class ArtworkFramesService {
    */
   placeFrame (frame: Group, i: number = 0) {
     const position = new Vector3(0, 0, 0);
-    const alpha = Math.PI + i * this.angle;
+    const alpha = Math.PI - i * this.angle;
     const x = Math.sin(alpha) * this.frameDistance;// 0 - 1
     const z = Math.cos(alpha) * this.frameDistance;// 0 - 0 
     frame.position.set(x, 0, z);
@@ -99,14 +98,23 @@ export class ArtworkFramesService {
       const button = this.createButton(b, artwork.id);
       frameGroup.add(button);
     });
-    console.log('InteractionManager after button creation ', this.interactionsService.interactionManager.interactiveObjects);
+    // console.log('InteractionManager after button creation ', this.interactionsService.interactionManager.interactiveObjects);
+
     const moreInfoPanel = this.uiService.createMoreInfoPanels({
+      id: artwork.id,
       title: artwork.title,
       description: artwork.description,
       votes: artwork.votes
     });
-    moreInfoPanel.position.set(0.9, 0, 0.1);
+    console.log('canvasMesh.position ', canvasMesh.position);
+
+    moreInfoPanel.quaternion.copy(frameMesh.quaternion);
+    moreInfoPanel.position.x = 1.3;
+    moreInfoPanel.rotateY(-72);//TODO: look at the angle it is created
+    console.log('moreInfoPanel ', artwork.id, moreInfoPanel);
+    this.debug.addToDebug({ obj: moreInfoPanel, name: 'UI Panel', properties: { 'Position': {}, 'Rotation': {} } });
     frameGroup.add(moreInfoPanel);
+    // frameGroup.rotateY(360);
 
     return frameGroup;
   }
@@ -129,7 +137,7 @@ export class ArtworkFramesService {
     const x = f.position.x / this.frameDistance * this.focusFactor;
     const z = f.position.z / this.frameDistance * this.focusFactor;
     const p = new Vector3(x, f.position.y, z);
-    this.moveFrame(f, p);
+    // TODO: this.moveFrame(f, p);
 
   }
 
