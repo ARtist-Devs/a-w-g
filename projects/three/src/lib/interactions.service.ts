@@ -117,7 +117,7 @@ export class InteractionsService {
     const obj = Object.assign({}, this.colliderOptions, ops);
     this.colliders[ops.mesh.uuid] = ops.cb;
 
-    console.log('obj added to the colliders ', obj, this.colliders);
+    // console.log('obj added to the colliders ', obj, this.colliders);
   }
 
   update () {

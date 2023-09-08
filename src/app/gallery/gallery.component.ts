@@ -3,9 +3,11 @@ import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSign
 import { Group } from 'three';
 
 import { Artwork } from 'projects/three/src/lib/artwork';
-import { ArtworkFramesService, SceneService, UIService } from 'projects/three/src/public-api';
+import { ArtworkFramesService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
 import { ArtworksService } from '../artworks.service';
 import { InteractiveEvent } from 'three.interactive';
+import { DebugService } from '../../../projects/three/src/lib/debug.service';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 @Component({
   selector: 'art-gallery',
@@ -20,6 +22,7 @@ export class GalleryComponent {
   private selectedIndex: WritableSignal<number> = signal(0);
   private frames: Group;
   private buttons: Object;
+  private focused = 0;
   // TODO: nope
   private info = computed(() => {
     this.artworks[this.selectedIndex()];
@@ -38,9 +41,11 @@ export class GalleryComponent {
     return this.canvas!.nativeElement;
   }
   constructor(
-    public sceneService: SceneService,
-    private framesService: ArtworkFramesService,
     private artworksService: ArtworksService,
+    private debugService: DebugService,
+    private framesService: ArtworkFramesService,
+    private loadersService: LoadersService,
+    public sceneService: SceneService,
     private ui: UIService,
   ) {
     effect(() => {
@@ -91,6 +96,9 @@ export class GalleryComponent {
     this.frames = this.framesService.createFrames(this.artworks, this.buttons);
     this.sceneService.addToScene(this.frames);
 
+    // Model
+    this.loadersService.loadModel('assets/models/Unionscaledm.glb', this.sceneService.scene);
+
     // UI
     //TODO: move the group to ui
     const UIGroup = new Group();
@@ -101,6 +109,7 @@ export class GalleryComponent {
     buttonsPanel.position.set(0, -1, -2);
     this.sceneService.addToScene(buttonsPanel);
     this.artworksLength = this.artworks.length;
+
     this.selectedArtwork = signal(this.artworks[0], { equal: this.compareSelected });
   }
 
@@ -123,27 +132,22 @@ export class GalleryComponent {
    * TODO: Select next artwork and show info panel?
    * @param e 
    */
-  changeSelection (e: any, n: number) {
-    console.log('change selection args', e, n);
-    // @ts-ignore
-    const ind = typeof e === "number" ? e : e.target.userData['artworkId'];
+  changeSelection (ind: any, n: number) {
 
-    console.log('Changing the selection ', n, ind);
-
-    this.framesService.resetPosition(ind);
-    let i = ind;
-    if (n === 1)
+    this.framesService.resetPosition(this.focused);
+    let i = 0;
+    if (n === 1)// Next
+    {
+      // i = (ind === 0) ? this.artworksLength - 1 : ind - 1;
+      i = ind < (this.artworksLength - 1) ? (ind + 1) : 0;
+      this.framesService.rotateFrames(72);//Saga don
+    } else if (n === -1)// Previous
     {
       i = (ind === 0) ? this.artworksLength - 1 : ind - 1;
-      this.framesService.rotateFrames(72);
-    } else if (n === -1)
-    {
-      i = ind < (this.artworksLength - 1) ? (ind + 1) : 0;
+      // i = ind < (this.artworksLength - 1) ? (ind + 1) : 0;
       this.framesService.rotateFrames(-72);
     }
-
-    // TODO: fix selected on two places
-    // this.artworksService.changeSelected(i);
+    this.focused = i;
     this.framesService.focusFrame(i);
   }
 

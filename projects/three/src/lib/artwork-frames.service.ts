@@ -13,7 +13,7 @@ import { DebugService } from './debug.service';
   providedIn: 'root'
 })
 export class ArtworkFramesService {
-  frameDistance = 10;
+  frameDistance = 7;
   angle = 0;
   frames: Group[] = [];
   focusPosition: any;
@@ -106,15 +106,12 @@ export class ArtworkFramesService {
       description: artwork.description,
       votes: artwork.votes
     });
-    console.log('canvasMesh.position ', canvasMesh.position);
 
     moreInfoPanel.quaternion.copy(frameMesh.quaternion);
     moreInfoPanel.position.x = 1.3;
     moreInfoPanel.rotateY(-72);//TODO: look at the angle it is created
-    console.log('moreInfoPanel ', artwork.id, moreInfoPanel);
-    this.debug.addToDebug({ obj: moreInfoPanel, name: 'UI Panel', properties: { 'Position': {}, 'Rotation': {} } });
+    // this.debug.addToDebug({ obj: moreInfoPanel, name: 'UI Panel', properties: { 'Position': {}, 'Rotation': {} } });
     frameGroup.add(moreInfoPanel);
-    // frameGroup.rotateY(360);
 
     return frameGroup;
   }
@@ -137,7 +134,7 @@ export class ArtworkFramesService {
     const x = f.position.x / this.frameDistance * this.focusFactor;
     const z = f.position.z / this.frameDistance * this.focusFactor;
     const p = new Vector3(x, f.position.y, z);
-    // TODO: this.moveFrame(f, p);
+    TODO: this.moveFrame(f, p);
 
   }
 

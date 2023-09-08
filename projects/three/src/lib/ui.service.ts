@@ -233,6 +233,7 @@ export class UIService {
       height: 0.65,
       width: 0.9,
       justifyContent: "center",
+      bestFit: 'auto'
     });
 
     contentContainer.name = 'Content Container';

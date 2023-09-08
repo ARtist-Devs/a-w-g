@@ -63,7 +63,6 @@ export class DebugService {
     scale.add(ops.obj.scale, 'y', vals.min, vals.max, vals.precision);
     scale.add(ops.obj.scale, 'z', vals.min, vals.max, vals.precision);
 
-
   }
 
   addRotation (ops: any, folder: any, values?: any) {
