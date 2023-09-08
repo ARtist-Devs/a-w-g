@@ -3,6 +3,7 @@ import { Injectable, NgZone, computed, signal } from '@angular/core';
 import { ACESFilmicToneMapping, Camera, CineonToneMapping, Clock, Color, CustomToneMapping, DirectionalLight, Fog, HemisphereLight, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, Raycaster, ReinhardToneMapping, Scene, ShaderChunk, Vector2, WebGLRenderer } from 'three';
 // WebGPU
 import WebGPU from 'three/examples/jsm/capabilities/WebGPU.js';
+// @ts-ignore
 import WebGPURenderer from 'three/examples/jsm/renderers/webgpu/WebGPURenderer.js';
 import { HDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader.js';
 import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture.js';
