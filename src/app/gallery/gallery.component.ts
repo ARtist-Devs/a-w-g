@@ -97,6 +97,7 @@ export class GalleryComponent {
 
     // Next/Prev
     const buttonsPanel = this.ui.createInteractiveButtons({ buttons: this.buttons });
+    this.sceneService.renderFunctions.push(this.ui.update);
     buttonsPanel.position.set(0, -1, -2);
     this.sceneService.addToScene(buttonsPanel);
     this.artworksLength = this.artworks.length;
@@ -147,8 +148,10 @@ export class GalleryComponent {
   }
 
   upvoteSelection (i: number): void {
-
-    this.artworksService.upvoteArtwork(i);
+    const name = `${i} Text`;
+    const textMesh = this.frames.children[i].getObjectByName(name);
+    const votes = this.artworksService.upvoteArtwork(i);
+    this.ui.updateVote({ votes: votes, text: textMesh });
   };
 
   onKeyDown (e: KeyboardEvent) {

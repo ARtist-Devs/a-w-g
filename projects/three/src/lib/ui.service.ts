@@ -189,11 +189,13 @@ export class UIService {
       fontSize: 0.09,
     });
 
-    title.add(
-      new ThreeMeshUI.Text({
-        content: `${ops.title}: ${ops.votes} `,
-      })
-    );
+    const titleText = new ThreeMeshUI.Text({
+      content: `${ops.title}: ${ops.votes} `,
+    });
+
+    titleText.name = `${ops.id} Text`;
+
+    title.add(titleText);
     title.name = `Painting ${ops.id} title`;
     this.title = title;
     container.add(this.title); // - Title
@@ -250,9 +252,8 @@ export class UIService {
 
   //TODO: only update the vote onPanel
   updateVote (ops?: any) {
-    console.log('Vote is ', ops.votes);
-    //TODO: only update the vote onPanel
-    this.title.children[1].set({ content: String(`${ops.title}: ${ops.votes} `) });
+    const c = `${ops.text.content.split(':')[0]} : ${ops.votes}`;
+    ops.text.set({ content: c });
   }
 
   createInteractiveButtons (options?: any) {

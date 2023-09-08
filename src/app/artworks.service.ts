@@ -108,5 +108,6 @@ export class ArtworksService {
 
     }
     console.log('Upvoted already!');
+    return this.artworks()[i].votes;
   }
 }
