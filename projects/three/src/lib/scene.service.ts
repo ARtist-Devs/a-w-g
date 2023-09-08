@@ -1,6 +1,12 @@
 import { Injectable, NgZone, computed, signal } from '@angular/core';
 
-import { Camera, Clock, Color, DirectionalLight, Fog, HemisphereLight, Object3D, PCFSoftShadowMap, Raycaster, Scene, Vector2, WebGLRenderer } from 'three';
+import { ACESFilmicToneMapping, Camera, CineonToneMapping, Clock, Color, CustomToneMapping, DirectionalLight, Fog, HemisphereLight, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, Raycaster, ReinhardToneMapping, Scene, ShaderChunk, Vector2, WebGLRenderer } from 'three';
+// WebGPU
+import WebGPU from 'three/examples/jsm/capabilities/WebGPU.js';
+import WebGPURenderer from 'three/examples/jsm/renderers/webgpu/WebGPURenderer.js';
+import { HDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader.js';
+import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture.js';
+
 
 import { sceneDefaults } from './scene.config';
 import { CameraService } from './camera.service';
@@ -28,9 +34,21 @@ export class SceneService {
   private rect: DOMRect;
   private pointer = new Vector2();
   private dolly: Object3D;
-  // pos: Signal<Vector3> = computed(() =>
-  //   this.frames?.[this.selectedIndex()]?.position.clone() || this.look
-  // );
+
+  toneMappingOptions = {
+    None: NoToneMapping,
+    Linear: LinearToneMapping,
+    Reinhard: ReinhardToneMapping,
+    Cineon: CineonToneMapping,
+    ACESFilmic: ACESFilmicToneMapping,
+    Custom: CustomToneMapping
+  };
+  params = {
+    exposure: 1.0,
+    toneMapping: 'ACESFilmic',
+    blurriness: 0.3,
+    intensity: 1.0,
+  };
 
   constructor(
     private cameraService: CameraService,
@@ -71,6 +89,21 @@ export class SceneService {
     this.renderer.shadowMap.type = PCFSoftShadowMap;
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.width, this.height);
+    this.renderer.toneMapping = ACESFilmicToneMapping;
+    //this.toneMappingOptions[this.params.toneMapping];
+    this.renderer.toneMappingExposure = 1.0;
+
+    ShaderChunk.tonemapping_pars_fragment = ShaderChunk.tonemapping_pars_fragment.replace(
+      'vec3 CustomToneMapping( vec3 color ) { return color; }',
+      `#define Uncharted2Helper( x ) max( ( ( x * ( 0.15 * x + 0.10 * 0.50 ) + 0.20 * 0.02 ) / ( x * ( 0.15 * x + 0.50 ) + 0.20 * 0.30 ) ) - 0.02 / 0.30, vec3( 0.0 ) )
+					float toneMappingWhitePoint = 1.0;
+					vec3 CustomToneMapping( vec3 color ) {
+						color *= toneMappingExposure;
+						return saturate( Uncharted2Helper( color ) / Uncharted2Helper( vec3( toneMappingWhitePoint ) ) );
+					}`
+    );
+    this.scene.backgroundBlurriness = 0.3;
+
     this.rect = this.renderer.domElement.getBoundingClientRect();
 
     // Lights

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Vector3, BufferGeometry, BufferGeometryLoader, MeshLambertMaterial, Mesh, Scene, MeshBasicMaterial } from 'three';
+import { Vector3, BufferGeometry, BufferGeometryLoader, MeshLambertMaterial, Mesh, Scene, MeshBasicMaterial, ACESFilmicToneMapping, CineonToneMapping, CustomToneMapping, LinearToneMapping, NoToneMapping, ReinhardToneMapping } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DebugService } from './debug.service';
 
@@ -7,8 +7,9 @@ import { DebugService } from './debug.service';
   providedIn: 'root'
 })
 export class LoadersService {
-  private modelLoader = new GLTFLoader();
+  private gltfLoader = new GLTFLoader();
   private bufferLoader: BufferGeometryLoader = new BufferGeometryLoader();
+
   constructor(
     private debugService: DebugService,
   ) { }
@@ -44,19 +45,17 @@ export class LoadersService {
 
 
   loadModel (path: string, scene: any) {
-    const gltfLoader = new GLTFLoader();
 
-    let model = null;
-    gltfLoader.load(
+    this.gltfLoader.load(
       path,
       (gltf) => {
-        model = gltf.scene;
+        const model = gltf.scene;
         model.position.y = 0;
         model.scale.set(2, 2, 2);
         scene.add(model);
-        this.debugService.addToDebug({ obj: model, name: 'model', properties: { 'Scale': {} } });
+        console.log('GLTF ', gltf);
+        // this.debugService.addToDebug({ obj: model, name: 'model', properties: { 'Scale': {} } });
       }
     );
-
   }
 }
