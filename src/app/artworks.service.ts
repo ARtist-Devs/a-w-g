@@ -1,3 +1,5 @@
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs, doc, increment, getDoc, setDoc, DocumentData } from 'firebase/firestore';
 import {
   EventEmitter,
   Injectable,
@@ -18,6 +20,16 @@ import { Artwork } from 'projects/three/src/lib/artwork';
   providedIn: 'root'
 })
 export class ArtworksService {
+  private firebaseConfig = {
+    apiKey: "AIzaSyAZtsaXYC5VSw1qssHszoLzOjgtDEM_kIc",
+    authDomain: "art-3d-exhibit.firebaseapp.com",
+    projectId: "art-3d-exhibit",
+    storageBucket: "art-3d-exhibit.appspot.com",
+    messagingSenderId: "652122924025",
+    appId: "1:652122924025:web:8753742d36068d00149328"
+  };
+  app = initializeApp(this.firebaseConfig);
+  db = getFirestore(this.app);
   private artworks = signal([
     {
       id: 0,
@@ -92,21 +104,54 @@ export class ArtworksService {
 
   constructor() { }
 
-  getArtworks (): any {
+  getArtworks(): any {
+    let dbArtworks = collection(this.db, 'artworks');
+    let artList: DocumentData[] = []
+    getDocs(dbArtworks)
+      .then((artSnaps) => {
+        artList = artSnaps.docs.map(doc => doc.data());
+        let artMap = new Map<number, DocumentData>();
+        for (let artData of artList) {
+          artMap.set(artData['id'], artData)
+        }
+        this.artworks.mutate(value => {
+          for (let i = 0; i < value.length; i++) {
+            value[i].votes = artList[i]['vote_count'];
+          }
+        })
+      });
     return this.artworks();
   }
 
-  // TODO: firebase increment
-  upvoteArtwork (i: number) {
-    if (this.upvoted.indexOf(i) === -1)
-    {
+  upvoteArtwork(i: number) {
+    if (this.upvoted.indexOf(i) === -1) {
+      let docDB = doc(this.db, "artworks", i.toString())
+      getDoc(docDB)
+        .then((docSnap) => {
+          if (docSnap.exists()) {
+            console.log("Upvoting", docSnap.data())
+            this.artworks.mutate((artworks: Artwork[]): void => {
+              artworks[i].votes = docSnap.data()['vote_count'] + 1;
+            });
+            console.log('Mutated', i, this.artworks()[i].votes);
+          } else {
+            console.log('No such document!');
+          }
+        })
+        .catch((error) => {
+          console.error('Error getting document:', error);
+        });
+      setDoc(docDB, { vote_count: increment(1) }, { merge: true })
+        .then(() => {
+          console.log('Incremented vote count field by 1.');
+        })
+        .catch((error) => {
+          console.error('Error incrementing count field:', error);
+        });
       this.upvoted.push(i);
-      this.artworks.mutate((artworks: Artwork[]): void => {
-        artworks[i].votes += 1;
-      });
-      console.log('Mutated', i, this.artworks()[i].votes);
-
     }
-    console.log('Upvoted already!');
+    else {
+      console.log('Upvoted already!');
+    }
   }
 }
