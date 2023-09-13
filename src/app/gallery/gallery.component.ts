@@ -105,7 +105,7 @@ export class GalleryComponent {
     //   path: 'assets/models/VRGalleryOriginal.glb',
     //   scene: this.sceneService.scene
     // });
-    console.log('GLTF Gallery model', model);
+    // console.log('GLTF Gallery model', model);
 
 
 

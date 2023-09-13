@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Vector3, BufferGeometry, BufferGeometryLoader, MeshLambertMaterial, Mesh, Scene, MeshBasicMaterial, ACESFilmicToneMapping, CineonToneMapping, CustomToneMapping, LinearToneMapping, NoToneMapping, ReinhardToneMapping, TextureLoader, MeshPhongMaterial, SRGBColorSpace, Vector2 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DebugService } from './debug.service';
+import { vec2 } from 'gl-matrix';
 
 @Injectable({
   providedIn: 'root'
@@ -79,8 +80,11 @@ export class LoadersService {
         // const model = this.createScene(gltf.scene.children[0].geometry, 1, material);
         model.position.z = -0;
         model.scale.set(3, 3, 3);
+        // @ts-ignore
+        model.children[0]['material'].map.repeat = new Vector2(14, 14);
         ops.scene.add(model);
-        console.log('GLTF model', model, gltf);
+        // @ts-ignore
+        console.log('GLTF model', model.children[0]['material'].map.repeat);
         this.debugService.addToDebug({ obj: model, name: 'model', properties: { 'Scale': {}, Position: {} } });
       }
     );
