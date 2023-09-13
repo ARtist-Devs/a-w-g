@@ -97,7 +97,11 @@ export class GalleryComponent {
     this.sceneService.addToScene(this.frames);
 
     // Model
-    this.loadersService.loadModel('assets/models/Unionscaledm.glb', this.sceneService.scene);
+    // this.loadersService.loadModel('assets/models/Unionscaledm.glb', this.sceneService.scene);
+    this.loadersService.loadModel({
+      path: 'assets/models/Floor/Floor.glb',
+      scene: this.sceneService.scene
+    });
 
     // UI
     //TODO: move the group to ui
@@ -159,13 +163,13 @@ export class GalleryComponent {
   };
 
   onKeyDown (e: KeyboardEvent) {
-    switch (e.key)
-    {
-      case 'ArrowRight': this.changeSelection(e, 1); break;
-      case 'ArrowLeft': this.changeSelection(e, -1); break;
-      // TODO: What you are looking at might not be what's last selected.
-      // case 'ArrowUp': this.upvoteSelection(); break;
-    }
+    // switch (e.key)
+    // {
+    //   case 'ArrowRight': this.changeSelection(e, 1); break;
+    //   case 'ArrowLeft': this.changeSelection(e, -1); break;
+    //   // TODO: What you are looking at might not be what's last selected.
+    //   // case 'ArrowUp': this.upvoteSelection(); break;
+    // }
   }
 
   onPointerDown (e: Event) { }

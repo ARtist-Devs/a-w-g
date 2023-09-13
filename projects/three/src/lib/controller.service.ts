@@ -22,7 +22,7 @@ export class ControllerService {
   constructor() { }
 
   /**
-   * TODO: Add hand controls and controllers
+   * TODO: Add hand controls and controllers. Push the update function to render functions
    * @param ops 
    * @returns 
    */
@@ -37,21 +37,26 @@ export class ControllerService {
     {
       this.createControllers();
     }
+
   }
 
+  // TODO: Disable the orbit controllers on device change
   createOrbitControls (ops: any) {
-    // Controls
     this.controls = new OrbitControls(ops.camera, ops.canvas);
     this.controls.target.set(0, 1.6, 0);
     this.controls.enableDamping = true;
-    this.controls.update();
+    this.controls.minDistance = ops.minDistance || 0.1;
+    this.controls.maxDistance = ops.maxDistance || 300;
+    // Enable arrow keys
+    this.controls.listenToKeyEvents(window);
     return this.controls;
   }
 
   createControllers () {
+    // disposes the orbit controls in VR. 
+    this.controls.dispose();
 
   }
-
 
   // TODO: fix the function arguments
   handleControllers (controller?: any, dt?: any) {
@@ -60,9 +65,11 @@ export class ControllerService {
       console.log('Select Pressed ');
     }
   }
+
   updateControls () {
-    if (this.renderer.xr.isPresenting) this.handleControllers();
-    return this.controls.update.bind(this);
+    // console.log("updating controls ", this.controls);
+    // if (this.renderer.xr.isPresenting) this.handleControllers();
+    return this.controls.update();//.bind(this);
   }
 
   /**

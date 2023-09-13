@@ -2,7 +2,8 @@ import { Injectable, NgZone, computed, signal } from '@angular/core';
 
 import { ACESFilmicToneMapping, Camera, CineonToneMapping, Clock, Color, CustomToneMapping, DirectionalLight, Fog, HemisphereLight, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, Raycaster, ReinhardToneMapping, Scene, ShaderChunk, Vector2, WebGLRenderer } from 'three';
 // WebGPU
-import WebGPU from 'three/examples/jsm/capabilities/WebGPU.js';
+// @ts-ignore
+// import WebGPU from 'three/examples/jsm/capabilities/WebGPU.js';
 // @ts-ignore
 import WebGPURenderer from 'three/examples/jsm/renderers/webgpu/WebGPURenderer.js';
 import { HDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader.js';
@@ -85,7 +86,9 @@ export class SceneService {
 
 
     // Renderer
-    this.renderer = new WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: true });// TODO: Check out the performance for preserveDrawingBuffer
+    // TODO: Check out the performance for preserveDrawingBuffer
+    this.renderer = new WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: true });
+    // TODO: this.renderer = new WebGPURenderer();
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = PCFSoftShadowMap;
     this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -113,6 +116,8 @@ export class SceneService {
 
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
+    // this.controllerService.updateControls;
+    // this.renderFunctions.push(this.controllerService.updateControls);
 
     window.addEventListener("resize", this.onResize.bind(this));
 

@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 
 import gsap from 'gsap';
-import { BoxGeometry, Group, LinearFilter, MathUtils, Mesh, MeshBasicMaterial, MeshLambertMaterial, Object3D, SRGBColorSpace, TextureLoader, UVMapping, Vector3, } from 'three';
+import { BoxGeometry, Group, LinearFilter, MathUtils, Mesh, MeshBasicMaterial, SRGBColorSpace, UVMapping, Vector3, } from 'three';
 
 import { Artwork } from './artwork';
 import { ObjectsService } from './objects.service';
 import { InteractionsService } from './interactions.service';
 import { UIService } from './ui.service';
 import { DebugService } from './debug.service';
+import { LoadersService } from './loaders.service';
+import { MaterialsService } from './materials.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +29,8 @@ export class ArtworkFramesService {
   constructor(
     private objectsService: ObjectsService,
     private interactionsService: InteractionsService,
+    private loadersService: LoadersService,
+    private materialsService: MaterialsService,
     private uiService: UIService,
     private debug: DebugService,
 
@@ -53,7 +57,6 @@ export class ArtworkFramesService {
    * @returns frame with location
    */
   placeFrame (frame: Group, i: number = 0) {
-    const position = new Vector3(0, 0, 0);
     const alpha = Math.PI - i * this.angle;
     const x = Math.sin(alpha) * this.frameDistance;// 0 - 1
     const z = Math.cos(alpha) * this.frameDistance;// 0 - 0 
@@ -80,7 +83,7 @@ export class ArtworkFramesService {
     const canvasGeometry = new BoxGeometry(artwork?.width / 100, artwork?.height / 100, 0.3);
 
     // Create the canvas material with the texture
-    const texture = new TextureLoader().load(artwork.textureUrl);
+    const texture = this.loadersService.loadTexture(artwork.textureUrl);
     texture.colorSpace = SRGBColorSpace;
     texture.minFilter = texture.magFilter = LinearFilter;
     texture.mapping = UVMapping;
@@ -134,7 +137,7 @@ export class ArtworkFramesService {
     const x = f.position.x / this.frameDistance * this.focusFactor;
     const z = f.position.z / this.frameDistance * this.focusFactor;
     const p = new Vector3(x, f.position.y, z);
-    TODO: this.moveFrame(f, p);
+    this.moveFrame(f, p);
 
   }
 
@@ -144,6 +147,7 @@ export class ArtworkFramesService {
     this.moveFrame(f, p);
   }
 
+  // TODO: use Three animation system?
   moveFrame (f: any, p: any) {
     gsap.to(f.position, {
       // @ts-ignore

@@ -10,7 +10,7 @@ export class MaterialsService {
   private meshBasicMaterial = new MeshBasicMaterial();
   private normalMaterial = new MeshNormalMaterial();
   private meshLambert = new MeshLambertMaterial();
-  private basicMaterial = new MeshStandardMaterial({
+  private standardMaterial = new MeshStandardMaterial({
     roughness: 0.05,
     metalness: 1,
   });
@@ -28,6 +28,10 @@ export class MaterialsService {
   };
 
   constructor() { }
+
+  getStandardMaterial () {
+    return this.standardMaterial.clone();
+  }
 
   getBasicMaterial () {
     return this.meshBasicMaterial;

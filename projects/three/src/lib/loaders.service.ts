@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Vector3, BufferGeometry, BufferGeometryLoader, MeshLambertMaterial, Mesh, Scene, MeshBasicMaterial, ACESFilmicToneMapping, CineonToneMapping, CustomToneMapping, LinearToneMapping, NoToneMapping, ReinhardToneMapping } from 'three';
+import { Vector3, BufferGeometry, BufferGeometryLoader, MeshLambertMaterial, Mesh, Scene, MeshBasicMaterial, ACESFilmicToneMapping, CineonToneMapping, CustomToneMapping, LinearToneMapping, NoToneMapping, ReinhardToneMapping, TextureLoader, MeshPhongMaterial, SRGBColorSpace, Vector2 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DebugService } from './debug.service';
 
@@ -9,7 +9,7 @@ import { DebugService } from './debug.service';
 export class LoadersService {
   private gltfLoader = new GLTFLoader();
   private bufferLoader: BufferGeometryLoader = new BufferGeometryLoader();
-
+  private textureLoader: TextureLoader = new TextureLoader();
   constructor(
     private debugService: DebugService,
   ) { }
@@ -43,19 +43,63 @@ export class LoadersService {
     );
   }
 
+  loadModel (ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any; }) {
 
-  loadModel (path: string, scene: any) {
+    const normalMap = this.textureLoader.load('assets/models/Floor/Floor_Bake1_PBR_Normal.png');
+    const bumpMap = this.textureLoader.load('assets/models/Floor/Floor_Bake1_PBR_Bump.png');
+    const diffuseMap = this.textureLoader.load('assets/models/Floor/Floor_Bake1_PBR_Diffuse.png');
+    diffuseMap.anisotropy = 4;
+    diffuseMap.colorSpace = SRGBColorSpace;
+    const ambientMap = this.textureLoader.load('assets/models/Floor/Floor_Bake1_PBR_Diffuse.png');
+    const specularMap = this.textureLoader.load('assets/models/Floor/Floor_Bake1_PBR_Glossiness.png');
+    specularMap.colorSpace = SRGBColorSpace;
+    const emissiveMap = this.textureLoader.load('assets/models/Floor/Floor_Bake1_PBR_Emission.png');
+
+
+    const material = new MeshPhongMaterial({
+      aoMap: ambientMap,
+      normalMap: normalMap,
+      map: diffuseMap,
+      color: 0x9c6e49,
+      specular: 0x666666,
+      shininess: 25,
+      bumpMap: bumpMap,
+      bumpScale: 0.01,
+      specularMap: specularMap,
+      emissiveMap: emissiveMap,
+      normalScale: new Vector2(0.8, 0.8)
+    });
 
     this.gltfLoader.load(
-      path,
+      ops.path,
       (gltf) => {
-        const model = gltf.scene;
+        // const model = gltf.scene;
+        // @ts-ignore
+        const model = this.createScene(gltf.scene.children[0].geometry, 1, material);
         model.position.y = 0;
         model.scale.set(2, 2, 2);
-        scene.add(model);
-        console.log('GLTF ', gltf);
+        ops.scene.add(model);
+        console.log('GLTF model', model, gltf);
         // this.debugService.addToDebug({ obj: model, name: 'model', properties: { 'Scale': {} } });
       }
     );
+  }
+
+  createScene (geometry: any, scale: number, material: any) {
+
+    const mesh = new Mesh(geometry, material);
+
+    mesh.position.y = - 0.5;
+    mesh.scale.set(scale, scale, scale);
+
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    return mesh;
+    // scene.add(mesh);
+
+  }
+
+  loadTexture (path: string) {
+    return this.textureLoader.load(path);
   }
 }

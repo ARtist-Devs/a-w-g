@@ -35,7 +35,16 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              {
+                "input": "capabilities/WebGPU.js",
+                "bundleName": "three-webgpu"
+              }
+              {
+                "input": "capabilities/WebGPU.js",
+                "bundleName": "three-capabilities"
+              }
+            ]
           },
           "configurations": {
             "production": {
