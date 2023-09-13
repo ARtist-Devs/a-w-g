@@ -97,11 +97,17 @@ export class GalleryComponent {
     this.sceneService.addToScene(this.frames);
 
     // Model
-    // this.loadersService.loadModel('assets/models/Unionscaledm.glb', this.sceneService.scene);
-    this.loadersService.loadModel({
-      path: 'assets/models/Floor/Floor.glb',
+    const model = this.loadersService.loadModel({
+      path: 'assets/models/VRGallery1303.glb',
       scene: this.sceneService.scene
     });
+    // const model = this.loadersService.loadModel({
+    //   path: 'assets/models/VRGalleryOriginal.glb',
+    //   scene: this.sceneService.scene
+    // });
+    console.log('GLTF Gallery model', model);
+
+
 
     // UI
     //TODO: move the group to ui

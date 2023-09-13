@@ -56,31 +56,32 @@ export class LoadersService {
     const emissiveMap = this.textureLoader.load('assets/models/Floor/Floor_Bake1_PBR_Emission.png');
 
 
-    const material = new MeshPhongMaterial({
-      aoMap: ambientMap,
-      normalMap: normalMap,
-      map: diffuseMap,
-      color: 0x9c6e49,
-      specular: 0x666666,
-      shininess: 25,
-      bumpMap: bumpMap,
-      bumpScale: 0.01,
-      specularMap: specularMap,
-      emissiveMap: emissiveMap,
-      normalScale: new Vector2(0.8, 0.8)
-    });
+    const material = new MeshBasicMaterial();
+    //new MeshPhongMaterial({
+    //   aoMap: ambientMap,
+    //   normalMap: normalMap,
+    //   map: diffuseMap,
+    //   color: 0x9c6e49,
+    //   specular: 0x666666,
+    //   shininess: 25,
+    //   bumpMap: bumpMap,
+    //   bumpScale: 0.01,
+    //   specularMap: specularMap,
+    //   emissiveMap: emissiveMap,
+    //   normalScale: new Vector2(0.8, 0.8)
+    // });
 
     this.gltfLoader.load(
       ops.path,
       (gltf) => {
-        // const model = gltf.scene;
+        const model = gltf.scene;
         // @ts-ignore
-        const model = this.createScene(gltf.scene.children[0].geometry, 1, material);
-        model.position.y = 0;
-        model.scale.set(2, 2, 2);
+        // const model = this.createScene(gltf.scene.children[0].geometry, 1, material);
+        model.position.z = -0;
+        model.scale.set(3, 3, 3);
         ops.scene.add(model);
         console.log('GLTF model', model, gltf);
-        // this.debugService.addToDebug({ obj: model, name: 'model', properties: { 'Scale': {} } });
+        this.debugService.addToDebug({ obj: model, name: 'model', properties: { 'Scale': {}, Position: {} } });
       }
     );
   }
