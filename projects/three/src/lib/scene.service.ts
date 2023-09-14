@@ -17,6 +17,7 @@ import { InteractionsService } from './interactions.service';
 import { WebXRService } from './webxr.service';
 import { LightsService } from './lights.service';
 import { ObjectsService } from './objects.service';
+import { DebugService } from './debug.service';
 
 @Injectable({
   providedIn: 'root',
@@ -60,6 +61,8 @@ export class SceneService {
     private lightsService: LightsService,
     private objectsService: ObjectsService,
     private webXRService: WebXRService,
+    private debug: DebugService,
+
   ) { }
 
   initScene (canvas: HTMLCanvasElement, options?: any) {
@@ -83,7 +86,8 @@ export class SceneService {
     const hemLight = this.lightsService.createHemLight();
     const dirLights = this.lightsService.createDirLight();
     this.scene.add(...hemLight, ...dirLights);
-
+    this.debug.addToDebug({ obj: hemLight[0], name: 'Hem Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {} } });
+    this.debug.addToDebug({ obj: dirLights[0], name: 'Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {} } });
 
     // Renderer
     // TODO: Check out the performance for preserveDrawingBuffer

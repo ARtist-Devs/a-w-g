@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import gsap from 'gsap';
-import { BoxGeometry, Group, LinearFilter, MathUtils, Mesh, MeshBasicMaterial, SRGBColorSpace, UVMapping, Vector3, } from 'three';
+import { BoxGeometry, Group, LinearFilter, MathUtils, Mesh, MeshBasicMaterial, MeshPhongMaterial, MeshStandardMaterial, SRGBColorSpace, UVMapping, Vector3, } from 'three';
 
 import { Artwork } from './artwork';
 import { ObjectsService } from './objects.service';
@@ -20,7 +20,7 @@ export class ArtworkFramesService {
   frames: Group[] = [];
   focusPosition: any;
   locations: any[] = [];
-  focusFactor = 3;
+  focusFactor = 5;
 
   framesGroup = new Group();
   artworksWithLocation: Artwork[];
@@ -63,6 +63,7 @@ export class ArtworkFramesService {
     frame.position.set(x, 0, z);
     frame.rotation.y = alpha;
     frame.userData['originalPosition'] = frame.position.clone();
+    console.log("frame.userData['originalPosition'] ", frame.userData['originalPosition']);
     return frame;
   }
 
@@ -85,11 +86,12 @@ export class ArtworkFramesService {
     // Create the canvas material with the texture
     const texture = this.loadersService.loadTexture(artwork.textureUrl);
     texture.colorSpace = SRGBColorSpace;
+    console.log('texture.colorSpace  ', texture.colorSpace);
     texture.minFilter = texture.magFilter = LinearFilter;
     texture.mapping = UVMapping;
 
-    const canvasMaterial = new MeshBasicMaterial({ map: texture, color: 0xffffff });
-    const frameMaterial = new MeshBasicMaterial({ color: 0xffffff });
+    const canvasMaterial = new MeshPhongMaterial({ map: texture, color: 0xffffff });
+    const frameMaterial = new MeshStandardMaterial({ color: 0xffffff });
 
     // Create the frame & canvas mesh
     const frameMesh = new Mesh(frameGeometry, frameMaterial);

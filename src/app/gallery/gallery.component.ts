@@ -101,13 +101,8 @@ export class GalleryComponent {
       path: 'assets/models/VRGallery1303.glb',
       scene: this.sceneService.scene
     });
-    // const model = this.loadersService.loadModel({
-    //   path: 'assets/models/VRGalleryOriginal.glb',
-    //   scene: this.sceneService.scene
-    // });
+
     // console.log('GLTF Gallery model', model);
-
-
 
     // UI
     //TODO: move the group to ui

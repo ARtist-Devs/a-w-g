@@ -13,8 +13,8 @@ export class DebugService {
 
   intensityOptions = {
     min: 0,
-    max: 1000,
-    precision: 10,
+    max: 10,
+    precision: 1,
   };
 
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MeshBasicMaterial, MeshLambertMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshStandardMaterial } from 'three';
+import { Material, MeshBasicMaterial, MeshLambertMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshStandardMaterial } from 'three';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +25,7 @@ export class MaterialsService {
     'colors': new MeshPhongMaterial({ color: 0xffffff, specular: 0xffffff, shininess: 2, vertexColors: true }),
     'multiColors': new MeshPhongMaterial({ shininess: 2, vertexColors: true }),
     'plastic': new MeshPhongMaterial({ specular: 0xc1c1c1, shininess: 250 }),
+
   };
 
   constructor() { }
@@ -33,9 +34,14 @@ export class MaterialsService {
     return this.standardMaterial.clone();
   }
 
+  getMaterialByName (name: string): Material {
+    // @ts-ignore
+    return this.materials[name];
+  }
+
   getBasicMaterial () {
     return this.meshBasicMaterial;
-  }
+  };
 
   getRandomColoredMaterial () {
     return new MeshBasicMaterial({ color: Math.random() * 0xffffff });

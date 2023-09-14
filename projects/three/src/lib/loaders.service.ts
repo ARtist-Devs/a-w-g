@@ -71,7 +71,7 @@ export class LoadersService {
     //   emissiveMap: emissiveMap,
     //   normalScale: new Vector2(0.8, 0.8)
     // });
-
+    const floorMapRepeat = new Vector2(15, 15);
     this.gltfLoader.load(
       ops.path,
       (gltf) => {
@@ -80,12 +80,25 @@ export class LoadersService {
         // const model = this.createScene(gltf.scene.children[0].geometry, 1, material);
         model.position.z = -0;
         model.scale.set(3, 3, 3);
+        const floor = model.children[0];
+        floor.receiveShadow = true;
         // @ts-ignore
-        model.children[0]['material'].map.repeat = new Vector2(14, 14);
+        const floorMaterial = floor.material;
+        // floorMaterial.
+        floorMaterial.map.repeat = floorMapRepeat;
+        floorMaterial.normalMap.repeat = floorMapRepeat;
         ops.scene.add(model);
+        const windowsSettings = {
+          castShadow: true,
+          receiveShadow: true,
+        };
+
+        const windowsGroup = model.children[1];
+        windowsGroup.castShadow = true;
+        windowsGroup.receiveShadow = true;
         // @ts-ignore
-        console.log('GLTF model', model.children[0]['material'].map.repeat);
-        this.debugService.addToDebug({ obj: model, name: 'model', properties: { 'Scale': {}, Position: {} } });
+        console.log('GLTF model children windows ', windowsGroup);
+        // this.debugService.addToDebug({ obj: model, name: 'model', properties: { 'Scale': {}, Position: {} } });
       }
     );
   }
