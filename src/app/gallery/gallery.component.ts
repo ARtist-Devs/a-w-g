@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSign
 import { Group } from 'three';
 
 import { Artwork } from 'projects/three/src/lib/artwork';
-import { ArtworkFramesService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
+import { ArtworkFramesService, LightsService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
 import { ArtworksService } from '../artworks.service';
 import { InteractiveEvent } from 'three.interactive';
 import { DebugService } from '../../../projects/three/src/lib/debug.service';
@@ -20,7 +20,7 @@ export class GalleryComponent {
   private artworks: Artwork[] = [];
   private artworksLength = 0;
   private selectedIndex: WritableSignal<number> = signal(0);
-  private frames: Group;
+  public frames: Group;
   private buttons: Object;
   private focused = 0;
   // TODO: nope
@@ -44,6 +44,7 @@ export class GalleryComponent {
     private artworksService: ArtworksService,
     private debugService: DebugService,
     private framesService: ArtworkFramesService,
+    private lightsService: LightsService,
     private loadersService: LoadersService,
     public sceneService: SceneService,
     private ui: UIService,
@@ -62,7 +63,7 @@ export class GalleryComponent {
   // Init the WebXR scene with Artworks
   ngOnInit () {
     this.artworks = this.artworksService.getArtworks();
-    this.sceneService.initScene(this.canvasEl);
+    const afterSceneInitCB = this.sceneService.initScene(this.canvasEl);
 
     // Frames
     this.buttons = [
@@ -93,14 +94,20 @@ export class GalleryComponent {
 
     ];
     // @ts-ignore
-    this.frames = this.framesService.createFrames(this.artworks, this.buttons);
+    this.frames = this.framesService.createFrames(this.artworks, this.buttons, afterSceneInitCB);
     this.sceneService.addToScene(this.frames);
 
+    this.sceneService.spotlight.target = this.frames.children[0];
     // Model
     const model = this.loadersService.loadModel({
       path: 'assets/models/VRGallery1303.glb',
       scene: this.sceneService.scene
     });
+
+    // @ts-ignore
+    // this.sceneService.spotlight.target = this.frames[0];
+    // @ts-ignore
+
 
     // console.log('GLTF Gallery model', model);
 
@@ -117,6 +124,8 @@ export class GalleryComponent {
 
     this.selectedArtwork = signal(this.artworks[0], { equal: this.compareSelected });
   }
+
+
 
   compareSelected (o: Artwork, n: Artwork) {
     return o ? o.id === n.id : true;

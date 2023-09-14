@@ -92,14 +92,14 @@ export class DebugService {
    */
   addColor (ops: any, folder: any, values?: any) {
     const color = folder.addFolder('Color');
-    // console.log('Debug addColor ops', ops.obj.name, ops.obj.backgroundMaterial)
-    // folder.addColor(ops.obj, ops.obj.backgroundMaterial.color)
-    // color.addColor(ops.obj.material, 'color')
-    // .onChange((e: any) => {
-    //   ops.obj.material.color.set(e);
-    //   console.log('Debug changed color ', e);
-    // });
-    // color.open();
+    // console.log('Debug addColor ops', ops.obj.name, ops.obj.backgroundMaterial);
+    // folder.addColor(ops.obj, ops.obj.backgroundMaterial.color);
+    color.addColor(ops.obj, 'color')
+      .onChange((e: any) => {
+        ops.obj.color.set(e);
+        console.log('Debug changed color ', e);
+      });
+    color.open();
   };
 
   addPosition (ops: any, folder: any, values?: any) {

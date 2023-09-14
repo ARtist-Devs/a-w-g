@@ -10,6 +10,7 @@ import { UIService } from './ui.service';
 import { DebugService } from './debug.service';
 import { LoadersService } from './loaders.service';
 import { MaterialsService } from './materials.service';
+import { LightsService } from './lights.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,14 +30,16 @@ export class ArtworkFramesService {
   constructor(
     private objectsService: ObjectsService,
     private interactionsService: InteractionsService,
+    private lightsService: LightsService,
     private loadersService: LoadersService,
+
     private materialsService: MaterialsService,
     private uiService: UIService,
     private debug: DebugService,
 
   ) { }
 
-  createFrames (artworks: Artwork[] = [], btns: any[] = []): Group {
+  createFrames (artworks: Artwork[] = [], btns: any[] = [], cb?: Function): Group {
     this.framesGroup.name = 'Frames Group';
     this.angle = (Math.PI * 2) / artworks.length;
     this.frames = artworks.map((artwork, i) => {
@@ -45,8 +48,10 @@ export class ArtworkFramesService {
     });
 
     this.framesGroup.add(...this.frames);
+
     this.framesGroup.position.set(0, 1.6, 0);
     this.focusFrame(0);
+    if (cb) cb();
     return this.framesGroup;
   }
 
@@ -64,6 +69,20 @@ export class ArtworkFramesService {
     frame.rotation.y = alpha;
     frame.userData['originalPosition'] = frame.position.clone();
     console.log("frame.userData['originalPosition'] ", frame.userData['originalPosition']);
+    const light = this.lightsService.createDirLight({ intensity: 0.8, helper: true })[0]; //, helper: false
+
+    // @ts-ignore
+    light.position.set(Math.sin(alpha), 2, Math.cos(alpha));
+    // @ts-ignore
+    light.name = `${frame.name} dir light`;
+    // @ts-ignore
+    light.target.position.set(x, 1, z);
+    // @ts-ignore
+    light.target.updateWorldMatrix();
+
+    this.debug.addToDebug({ obj: light, name: 'Frame Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    // @ts-ignore
+    frame.add(light);
     return frame;
   }
 

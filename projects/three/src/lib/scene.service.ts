@@ -1,6 +1,6 @@
 import { Injectable, NgZone, computed, signal } from '@angular/core';
 
-import { ACESFilmicToneMapping, Camera, CineonToneMapping, Clock, Color, CustomToneMapping, DirectionalLight, Fog, HemisphereLight, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, Raycaster, ReinhardToneMapping, Scene, ShaderChunk, Vector2, WebGLRenderer } from 'three';
+import { ACESFilmicToneMapping, Camera, CineonToneMapping, Clock, Color, CustomToneMapping, DirectionalLight, Fog, HemisphereLight, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, Raycaster, ReinhardToneMapping, Scene, ShaderChunk, Vector2, WebGLRenderer, SpotLight } from 'three';
 // WebGPU
 // @ts-ignore
 // import WebGPU from 'three/examples/jsm/capabilities/WebGPU.js';
@@ -38,6 +38,8 @@ export class SceneService {
   private pointer = new Vector2();
   private dolly: Object3D;
 
+  private spotLights: any[];
+  spotlight: SpotLight;
   toneMappingOptions = {
     None: NoToneMapping,
     Linear: LinearToneMapping,
@@ -82,24 +84,17 @@ export class SceneService {
       this.scene.fog = new Fog(ops.fog.color, ops.fog.near, ops.fog.far);
     }
 
-    // Lights
-    const hemLight = this.lightsService.createHemLight();
-    const dirLights = this.lightsService.createDirLight();
-    this.scene.add(...hemLight, ...dirLights);
-    this.debug.addToDebug({ obj: hemLight[0], name: 'Hem Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {} } });
-    this.debug.addToDebug({ obj: dirLights[0], name: 'Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {} } });
 
     // Renderer
     // TODO: Check out the performance for preserveDrawingBuffer
     this.renderer = new WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: true });
     // TODO: this.renderer = new WebGPURenderer();
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = PCFSoftShadowMap;
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.width, this.height);
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = PCFSoftShadowMap;
     this.renderer.toneMapping = ACESFilmicToneMapping;
-    //this.toneMappingOptions[this.params.toneMapping];
-    this.renderer.toneMappingExposure = 1.0;
+    this.renderer.toneMappingExposure = 1.5;
 
     ShaderChunk.tonemapping_pars_fragment = ShaderChunk.tonemapping_pars_fragment.replace(
       'vec3 CustomToneMapping( vec3 color ) { return color; }',
@@ -114,9 +109,29 @@ export class SceneService {
 
     this.rect = this.renderer.domElement.getBoundingClientRect();
 
+
     // Lights
-    const ambient = new HemisphereLight(0xFFFFFF, 0xAAAAAA, 0.8);
-    this.scene.add(ambient);
+    const hemLight = this.lightsService.createHemLight({ intensity: 0.5 });
+    const dirLights = this.lightsService.createDirLight();
+
+    this.spotLights = this.lightsService.createSpotLight();
+    this.spotlight = this.spotLights[0];
+    this.spotlight.position.set(0, 2, -4);
+    this.spotlight = this.spotLights[0];
+
+    this.scene.add(...hemLight);//ambient, ...this.spotLights, ...hemLight, ...dirLights);//, ...hemLight, ...dirLights);
+    this.debug.addToDebug({ obj: hemLight[0], name: 'Hem Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    this.debug.addToDebug({ obj: dirLights[0], name: 'Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    this.debug.addToDebug({ obj: this.spotLights[0], name: 'Spot Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    // - Lights
+
+    // GROUND
+    const ground = this.objectsService.createGround();
+    this.scene.add(ground);
+
+    // SKYDOME
+    const sky = this.objectsService.createSkyDom({ color: hemLight[0].color });
+    this.scene.add(sky);
 
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
@@ -129,19 +144,17 @@ export class SceneService {
     const interactionsUpdate = this.interactionService.initInteractionManager(this.renderer, this.camera, canvas);
     this.renderFunctions.push(interactionsUpdate);
 
-    // GROUND
-    const ground = this.objectsService.createGround();
-    this.scene.add(ground);
-
-    // SKYDOME
-    const sky = this.objectsService.createSkyDom({ color: hemLight[0].color });
-    this.scene.add(sky);
-
     // WebXR
     this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
+
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
+    return this.afterSceneInit();
   }
+
+  afterSceneInit (ops?: any) {
+  }
+
 
   onTouchStart (e: TouchEvent) {
 
@@ -164,6 +177,13 @@ export class SceneService {
 
     // update controls
     this.controllerService.updateControls();
+
+    // Lights
+    // this.spotLight.position.set(
+    //   this.camera.position.x + 10,
+    //   this.camera.position.y + 10,
+    //   this.camera.position.z + 10
+    // );
 
     // this.interactionsManager.update();
     // run renderFunctions
