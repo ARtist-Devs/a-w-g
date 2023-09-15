@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { BackSide, BoxGeometry, Color, CylinderGeometry, EdgesGeometry, GridHelper, Group, IcosahedronGeometry, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, PlaneGeometry, RingGeometry, ShaderMaterial, SphereGeometry } from 'three';
+import { BackSide, BoxGeometry, Color, CylinderGeometry, DoubleSide, EdgesGeometry, ExtrudeGeometry, GridHelper, Group, IcosahedronGeometry, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, PlaneGeometry, RingGeometry, ShaderMaterial, Shape, ShapeGeometry, SphereGeometry } from 'three';
 
 import { InteractionsService } from './interactions.service';
 import { MaterialsService } from './materials.service';
@@ -32,7 +32,7 @@ export class ObjectsService {
   constructor(
     private interactions: InteractionsService,
     private materials: MaterialsService,
-    // private debug: DebugService
+    private debug: DebugService
   ) {
     this.material = this.materials.getRandomColoredMaterial();
   }
@@ -53,6 +53,7 @@ export class ObjectsService {
       new IcosahedronGeometry(ops),
       this.material
     );
+    shape.scale.x = 1.3;
     return shape;
   }
 
@@ -109,6 +110,55 @@ export class ObjectsService {
     }
 
     return sphere;
+  }
+
+  createHeart () {
+    const extrudeSettings = { depth: 8, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+    const x = 0, y = 0;
+
+    const heartShape = new Shape()
+      .moveTo(x + 25, y + 25)
+      .bezierCurveTo(x + 25, y + 25, x + 20, y, x, y)
+      .bezierCurveTo(x - 30, y, x - 30, y + 35, x - 30, y + 35)
+      .bezierCurveTo(x - 30, y + 55, x - 10, y + 77, x + 25, y + 95)
+      .bezierCurveTo(x + 60, y + 77, x + 80, y + 55, x + 80, y + 35)
+      .bezierCurveTo(x + 80, y + 35, x + 80, y, x + 50, y)
+      .bezierCurveTo(x + 35, y, x + 25, y + 25, x + 25, y + 25);
+    const heartMesh = this.addShape(heartShape, extrudeSettings, 0xf00000, 60, 100, 0, 0, 0, Math.PI, 0.003);
+    return heartMesh;
+
+  }
+
+  createRoundedRect (ops: { x: number, y: number, width: number, height: number, radius: number, }) {
+    const extrudeSettings = { depth: 1, bevelEnabled: true, bevelSegments: 3, steps: 3, bevelSize: 2, bevelThickness: 0.5 };
+    const roundedRectShape = new Shape();
+    roundedRectShape.moveTo(ops.x, ops.y + ops.radius);
+    roundedRectShape.lineTo(ops.x, ops.y + ops.height - ops.radius);
+    roundedRectShape.quadraticCurveTo(ops.x, ops.y + ops.height, ops.x + ops.radius, ops.y + ops.height);
+    roundedRectShape.lineTo(ops.x + ops.width - ops.radius, ops.y + ops.height);
+    roundedRectShape.quadraticCurveTo(ops.x + ops.width, ops.y + ops.height, ops.x + ops.width, ops.y + ops.height - ops.radius);
+    roundedRectShape.lineTo(ops.x + ops.width, ops.y + ops.radius);
+    roundedRectShape.quadraticCurveTo(ops.x + ops.width, ops.y, ops.x + ops.width - ops.radius, ops.y);
+    roundedRectShape.lineTo(ops.x + ops.radius, ops.y);
+    roundedRectShape.quadraticCurveTo(ops.x, ops.y, ops.x, ops.y + ops.radius);
+    const rectMesh = this.addShape(roundedRectShape, extrudeSettings, 0xffffff, ops.width / 2, 0, 0, 0, 0, 0, 1);
+
+
+    return rectMesh;
+
+  }
+
+  // @ts-ignore
+  addShape (shape, extrudeSettings, color, x, y, z, rx, ry, rz, s) {
+
+    let geometry = new ExtrudeGeometry(shape, extrudeSettings);
+
+    let mesh = new Mesh(geometry, new MeshPhongMaterial({ color: color }));
+    mesh.position.set(x, y, z);
+    mesh.rotation.set(rx, ry, rz);
+    mesh.scale.set(s, s, s);
+    return mesh;
+
   }
 
   createBox (options?: any) {

@@ -79,6 +79,7 @@ export class LoadersService {
         // @ts-ignore
         // const model = this.createScene(gltf.scene.children[0].geometry, 1, material);
         model.position.z = -0;
+        console.log('OBJ ', model);
         model.scale.set(3, 3, 3);
         model.traverse((obj) => {
           // @ts-ignore

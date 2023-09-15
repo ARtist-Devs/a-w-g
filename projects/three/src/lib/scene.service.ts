@@ -119,10 +119,10 @@ export class SceneService {
     this.spotlight.position.set(0, 2, -4);
     this.spotlight = this.spotLights[0];
 
-    this.scene.add(...hemLight);//ambient, ...this.spotLights, ...hemLight, ...dirLights);//, ...hemLight, ...dirLights);
-    this.debug.addToDebug({ obj: hemLight[0], name: 'Hem Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    this.debug.addToDebug({ obj: dirLights[0], name: 'Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    this.debug.addToDebug({ obj: this.spotLights[0], name: 'Spot Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    // this.scene.add(...hemLight);//ambient, ...this.spotLights, ...hemLight, ...dirLights);//, ...hemLight, ...dirLights);
+    // this.debug.addToDebug({ obj: hemLight[0], name: 'Hem Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    // this.debug.addToDebug({ obj: dirLights[0], name: 'Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    // this.debug.addToDebug({ obj: this.spotLights[0], name: 'Spot Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
     // - Lights
 
     // GROUND

@@ -70,27 +70,33 @@ export class GalleryComponent {
       {
         name: 'Next Button',
         text: 'Next',
+        shape: 'triangle',
         onClick: (e: any) => { this.changeSelection(e, 1); },
-        position: { x: -0.9, y: 0, z: 0.1 }
+        position: { x: -0.75, y: 0, z: -0.0 },
+        rotation: {}
       },
       {
         name: 'Previous Button',
         text: 'Previous',
+        shape: 'triangle',
         onClick: (e: any) => { this.changeSelection(e, -1); },
-        position: { x: 0.9, y: 0, z: 0.1 }
+        position: { x: 0.75, y: 0, z: -0. },
+        rotation: {}
       },
       {
         name: 'Upvote Button',
         text: 'Upvote',
+        shape: 'heart',
         onClick: (e: any) => { this.upvoteSelection(e); },
-        position: { x: -0.9, y: 0.8, z: 0.1 }
+        position: { x: -0.8, y: 0.8, z: -0.1 },
+        rotation: {}
       },
-      {
-        name: 'Info Button',
-        text: 'Info',
-        onClick: (e: any) => { },
-        position: { x: -0.9, y: 0.6, z: 0.1 }
-      }
+      // {
+      //   name: 'Info Button',
+      //   text: 'Info',
+      //   onClick: (e: any) => { },
+      //   position: { x: -0.9, y: 0.6, z: 0.1 }
+      // }
 
     ];
     // @ts-ignore
@@ -100,7 +106,7 @@ export class GalleryComponent {
     this.sceneService.spotlight.target = this.frames.children[0];
     // Model
     const model = this.loadersService.loadModel({
-      path: 'assets/models/VRGallery1303.glb',
+      path: 'assets/models/VRGalleryOriginal150901.glb',
       scene: this.sceneService.scene
     });
 

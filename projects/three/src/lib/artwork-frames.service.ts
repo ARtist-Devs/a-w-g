@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import gsap from 'gsap';
-import { BoxGeometry, Group, LinearFilter, MathUtils, Mesh, MeshBasicMaterial, MeshPhongMaterial, MeshStandardMaterial, SRGBColorSpace, UVMapping, Vector3, } from 'three';
+import { BoxGeometry, Group, LinearFilter, MathUtils, Mesh, MeshBasicMaterial, MeshPhongMaterial, MeshStandardMaterial, Object3D, SRGBColorSpace, UVMapping, Vector3, } from 'three';
 
 import { Artwork } from './artwork';
 import { ObjectsService } from './objects.service';
@@ -21,11 +21,12 @@ export class ArtworkFramesService {
   frames: Group[] = [];
   focusPosition: any;
   locations: any[] = [];
-  focusFactor = 5;
+  focusFactor = 4;
 
   framesGroup = new Group();
   artworksWithLocation: Artwork[];
-  frameButton = this.objectsService.createIcosahedron(0.1);
+  frameButton = this.objectsService.createIcosahedron(0.12);
+  likeButton = this.objectsService.createHeart();
 
   constructor(
     private objectsService: ObjectsService,
@@ -66,11 +67,12 @@ export class ArtworkFramesService {
     const x = Math.sin(alpha) * this.frameDistance;// 0 - 1
     const z = Math.cos(alpha) * this.frameDistance;// 0 - 0 
     frame.position.set(x, 0, z);
+    frame.scale.set(1.3, 1.3, 1.3);
     frame.rotation.y = alpha;
     frame.userData['originalPosition'] = frame.position.clone();
     console.log("frame.userData['originalPosition'] ", frame.userData['originalPosition']);
     const light = this.lightsService.createDirLight({ intensity: 0.8, helper: true })[0]; //, helper: false
-
+    light.castShadow = true;
     // @ts-ignore
     light.position.set(Math.sin(alpha), 2, Math.cos(alpha));
     // @ts-ignore
@@ -98,7 +100,7 @@ export class ArtworkFramesService {
     //Use the componenet options or take the default values
 
     // Create the frame geometry & canvas geometry
-    const frameGeometry = new BoxGeometry(1.5, 2, 0.2);
+    const frameGeometry: any = new BoxGeometry(1.5, 2, 0.2);
     // @ts-ignore
     const canvasGeometry = new BoxGeometry(artwork?.width / 100, artwork?.height / 100, 0.3);
 
@@ -113,7 +115,9 @@ export class ArtworkFramesService {
     const frameMaterial = new MeshStandardMaterial({ color: 0xffffff });
 
     // Create the frame & canvas mesh
+
     const frameMesh = new Mesh(frameGeometry, frameMaterial);
+
     const canvasMesh = new Mesh(canvasGeometry, canvasMaterial);
     frameMesh.name = ` ${artwork.title} frame mesh` || 'frame';
     canvasMesh.name = ` ${artwork.title} canvas mesh` || 'frame canvas';
@@ -140,12 +144,23 @@ export class ArtworkFramesService {
     return frameGroup;
   }
 
+
   createButton (ops: any, i: number) {
-    const button = this.frameButton.clone();
+    let button;
+    if (ops.shape === 'heart')
+    {
+      button = this.likeButton.clone();
+      button.rotateZ(Math.PI / 4);
+    } else
+    {
+      button = this.frameButton.clone();
+    }
+
     button.name = `Frame ${i} ${ops.name}`;
     button.position.set(ops.position.x, ops.position.y, ops.position.z);
     this.interactionsService.addToInteractions(button);
     this.interactionsService.addToColliders({ mesh: button, name: ops.name, cb: () => { ops.onClick(i); } });
+    // @ts-ignore
     button.addEventListener('click', (e) => { ops.onClick(i); });
 
     return button;
