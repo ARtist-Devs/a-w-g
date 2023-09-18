@@ -55,6 +55,9 @@ export class SceneService {
     intensity: 1.0,
   };
   icoLight: any;
+  icoLight1: any;
+  pointLight: any;
+  icoLight2: any;
   constructor(
     private cameraService: CameraService,
     private controllerService: ControllerService,
@@ -134,28 +137,23 @@ export class SceneService {
     const icoLight = this.objectsService.createIcosahedron({ radius: 0.3, detail: 0, material: 'MeshPhysicalMaterial' });
     icoLight.position.set(0, 1, -10);
     icoLight.material.opacity = 0.6;
-    const pointLight = this.lightsService.createPointLight();
-    pointLight.position.y = 2.2;
+    this.pointLight = this.lightsService.createPointLight();
+    this.pointLight.position.y = 2.2;
 
-    icoLight.add(pointLight);
+    icoLight.add(this.pointLight);
     this.icoLight = icoLight;
 
 
     this.scene.add(this.icoLight);
 
-    this.debug.addToDebug({ obj: pointLight, name: 'pointLight', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    this.debug.addToDebug({ obj: icoLight, name: 'icoLight', properties: { 'Position': {}, 'Rotation': {} } });
-    this.debug.addToDebug({ obj: cameraLight[0], name: 'Camera Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    this.debug.addToDebug({ obj: hemLight[0], name: 'Hem Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    this.debug.addToDebug({ obj: dirLights[0], name: 'Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    this.debug.addToDebug({ obj: this.spotLights[0], name: 'Spot Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    // this.debug.addToDebug({ obj: pointLight, name: 'pointLight', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    // this.debug.addToDebug({ obj: icoLight, name: 'icoLight', properties: { 'Position': {}, 'Rotation': {} } });
+    // this.debug.addToDebug({ obj: cameraLight[0], name: 'Camera Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    // this.debug.addToDebug({ obj: hemLight[0], name: 'Hem Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    // this.debug.addToDebug({ obj: dirLights[0], name: 'Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    // this.debug.addToDebug({ obj: this.spotLights[0], name: 'Spot Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
     // - Lights
 
-
-
-    // SKYDOME
-    // const sky = this.objectsService.createSkyDom({ color: hemLight[0].color });
-    // this.scene.add(sky);
 
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
@@ -174,11 +172,26 @@ export class SceneService {
 
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
-    this.cameraService.moveCamera(0, 1.6, 0.001, 7);
+
     return this.afterSceneInit();
   }
 
+  createCornerLights () {
+    this.icoLight1 = this.icoLight.clone();
+    const spotlight = this.lightsService.createPointLight();
+    this.icoLight1.add(spotlight);
+    this.icoLight1.position.set(-10, 1, 7.6);
+
+    this.icoLight2 = this.icoLight.clone();
+    this.icoLight2.add(spotlight.copy);
+    this.icoLight2.position.set(10, 1, 7.6);
+
+    this.scene.add(this.icoLight1, this.icoLight2);
+  }
+
   afterSceneInit (ops?: any) {
+    this.cameraService.moveCamera(0, 1.6, 0.001, 7);
+    this.createCornerLights();
   }
 
 
