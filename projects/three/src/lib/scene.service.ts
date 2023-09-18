@@ -1,11 +1,6 @@
 import { Injectable, NgZone, computed, signal } from '@angular/core';
 
 import { ACESFilmicToneMapping, Camera, CineonToneMapping, Clock, Color, CustomToneMapping, DirectionalLight, Fog, HemisphereLight, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, Raycaster, ReinhardToneMapping, Scene, ShaderChunk, Vector2, WebGLRenderer, SpotLight } from 'three';
-// WebGPU
-// @ts-ignore
-// import WebGPU from 'three/examples/jsm/capabilities/WebGPU.js';
-// @ts-ignore
-import WebGPURenderer from 'three/examples/jsm/renderers/webgpu/WebGPURenderer.js';
 import { HDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader.js';
 import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture.js';
 
@@ -70,7 +65,7 @@ export class SceneService {
 
   ) { }
 
-  initScene (canvas: HTMLCanvasElement, options?: any) {
+  initScene(canvas: HTMLCanvasElement, options?: any) {
     const ops = Object.assign({}, sceneDefaults, options);
 
     // Camera
@@ -83,8 +78,7 @@ export class SceneService {
 
     // Scene
     this.scene.background = ops.background || new Color('skyblue');
-    if (ops.fog)
-    {
+    if (ops.fog) {
       this.scene.fog = new Fog(ops.fog.color, ops.fog.near, ops.fog.far);
     }
 
@@ -100,22 +94,9 @@ export class SceneService {
     this.renderer.toneMapping = ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.5;
 
-    ShaderChunk.tonemapping_pars_fragment = ShaderChunk.tonemapping_pars_fragment.replace(
-      'vec3 CustomToneMapping( vec3 color ) { return color; }',
-      `#define Uncharted2Helper( x ) max( ( ( x * ( 0.15 * x + 0.10 * 0.50 ) + 0.20 * 0.02 ) / ( x * ( 0.15 * x + 0.50 ) + 0.20 * 0.30 ) ) - 0.02 / 0.30, vec3( 0.0 ) )
-					float toneMappingWhitePoint = 1.0;
-					vec3 CustomToneMapping( vec3 color ) {
-						color *= toneMappingExposure;
-						return saturate( Uncharted2Helper( color ) / Uncharted2Helper( vec3( toneMappingWhitePoint ) ) );
-					}`
-    );
     this.scene.backgroundBlurriness = 0.3;
 
     this.rect = this.renderer.domElement.getBoundingClientRect();
-
-    // GROUND
-    // const ground = this.objectsService.createGround();
-    // this.scene.add(ground);
 
     // Lights
     const hemLight = this.lightsService.createHemLight({ intensity: 0.5 });
@@ -151,15 +132,11 @@ export class SceneService {
     // this.controllerService.updateControls;
     // this.renderFunctions.push(this.controllerService.updateControls);
 
-    this.debug.addToDebug({ obj: this.camera, name: 'Camera', properties: { 'Position': {} } });
     window.addEventListener("resize", this.onResize.bind(this));
 
     // TODO: Interactions Service Imp
     const interactionsUpdate = this.interactionService.initInteractionManager(this.renderer, this.camera, canvas);
     this.renderFunctions.push(interactionsUpdate);
-
-    // WebXR
-    this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
 
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
@@ -193,7 +170,7 @@ export class SceneService {
   }
 
 
-  onTouchStart (e: TouchEvent) {
+  onTouchStart(e: TouchEvent) {
 
     this.pointer.x = ((e.touches[0].clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
     this.pointer.y = - ((e.touches[0].clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
@@ -201,7 +178,7 @@ export class SceneService {
 
   }
 
-  onPointerDown (e: PointerEvent) {
+  onPointerDown(e: PointerEvent) {
     // console.log('pointer down event ', e);
     this.pointer.x = ((e.clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
     this.pointer.y = - ((e.clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
@@ -209,7 +186,7 @@ export class SceneService {
 
   }
 
-  render () {
+  render() {
     const delta = this.clock.getDelta();
     console.log(delta);
 
@@ -227,27 +204,22 @@ export class SceneService {
 
   }
 
-  addToScene (obj: any) {
-    if (obj instanceof Array)
-    {
+  addToScene(obj: any) {
+    if (obj instanceof Array) {
       this.scene.add(...obj);
-    } else
-    {
+    } else {
       this.scene.add(obj);
     }
   }
 
   //TODO: check to see if you still need w,h args
-  onResize (e: UIEvent, w?: any, h?: any) {
+  onResize(e: UIEvent, w?: any, h?: any) {
     console.log('Resizing ', e);
     w = w || window.innerWidth;
     h = h || window.innerHeight;
 
     // Set the camera's aspect ratio
-    // @ts-ignore
-    this.camera.aspect = w / h;
     // update the camera's frustum
-    // @ts-ignore
     this.camera.updateProjectionMatrix();
 
     // update the size of the renderer & the canvas
@@ -256,5 +228,5 @@ export class SceneService {
     this.renderer.setPixelRatio(window.devicePixelRatio);
   }
 
-  onDeviceChange (e: Event) { }
+  onDeviceChange(e: Event) { }
 }

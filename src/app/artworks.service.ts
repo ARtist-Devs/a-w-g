@@ -25,7 +25,7 @@ export class ArtworksService {
       audio: "assets/audio/1.mp3",
       date: "1887",
       description:
-        "This self-portrait was one of about 32 produced over a 10-year period, and these were an important part of his work as a painter",
+        "This self-portrait was one of about 32 produced over a 10-year period, and these were an important part of his work as a painter; he painted himself because he often lacked the money to pay for models. Art historians are divided as to whether this painting is Van Gogh's final self-portrait or not. It is considered that it was painted in Arles following Van Gogh's admission to hospital after mutilating his ear. Van Gogh sent the picture to his younger brother, the art dealer Theo; an accompanying letter read: 'I hope you will notice that my facial expressions have become much calmer, although my eyes have the same insecure look as before, or so it appears to me.'",
       height: 65,
       textureUrl:
         "assets/artworks/Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project.jpg",
@@ -35,22 +35,22 @@ export class ArtworksService {
     },
     {
       id: 1,
-      title: "The Potato Eaters",
+      title: "Almond Blossom",
       audio: "assets/audio/2.mp3",
-      date: "1887",
-      description: "This is the second artwork",
-      height: 82,
-      textureUrl: "assets/artworks/potato-eaters.jpg",
+      date: "1890",
+      description: "In mid-March 1888 van Gogh writes that the almond trees are coming into full flower, weather there is changeable, often windy with turbulent skies. Later on Theo wrote to his brother Vincent on January 31, 1890, to announce the birth of his son, Vincent Willem van Gogh. He was very close to his brother and he sought to symbolize new life in the flowers of the almond tree for the birth of baby Vincent.",
+      height: 73.5,
+      textureUrl: "assets/artworks/almond_blossom.jpg",
       votes: 0,
-      width: 114,
-      wiki: "https://wikipedia.org/wiki/The_Potato_Eaters",
+      width: 92,
+      wiki: "https://en.wikipedia.org/wiki/Almond_Blossoms",
     },
     {
       id: 2,
       title: "The Bedroom",
       audio: "assets/audio/3.mp3",
       date: "1887",
-      description: "This is the third artwork",
+      description: "The painting depicts van Gogh's bedroom at 2, Place Lamartine in Arles, Bouches-du-Rhone, France, known as the Yellow House. The door to the right opened on to the upper floor and the staircase; the door to the left was that of the guest room he held prepared for Gauguin; the window in the front wall looked on to Place Lamartine and its public gardens. This room was not rectangular but trapezoid with an obtuse angle in the left hand corner of the front wall and an acute angle at the right.",
       height: 72.4,
       textureUrl: "assets/artworks/bedroom.jpg",
       votes: 0,
@@ -76,14 +76,14 @@ export class ArtworksService {
       id: 4,
       title: "Irises",
       audio: "assets/audio/1.mp3",
-      date: "1890",
+      date: "1889",
       description:
-        "Fifth: Van Gogh painted this still life in the psychiatric hospital in Saint-Remy. For him, the painting was mainly a study in colour. He set out to achieve a powerful colour contrast. By placing the purple flowers against a yellow background, he made the decorative forms stand out even more strongly. The irises were originally purple. But as the red pigment has faded, they have turned blue. Van Gogh made two paintings of this bouquet. In the other still life, he contrasted purple and pink with green.",
+        "Van Gogh painted this still life in the psychiatric hospital in Saint-Remy. For him, the painting was mainly a study in color. He set out to achieve a powerful color contrast. By placing the purple flowers against a yellow background, he made the decorative forms stand out even more strongly. The irises were originally purple. But as the red pigment has faded, they have turned blue. Van Gogh made two paintings of this bouquet. In the other still life, he contrasted purple and pink with green.",
       height: 93,
       textureUrl: "assets/artworks/irises.jpg",
       votes: 0,
       width: 74,
-      wiki: "https://wikipedia.org/wiki/Irises_(painting)",
+      wiki: "https://en.wikipedia.org/wiki/Vase_with_Irises_Against_a_Yellow_Background",
     },
   ]);
 
@@ -92,14 +92,13 @@ export class ArtworksService {
 
   constructor() { }
 
-  getArtworks (): any {
+  getArtworks(): any {
     return this.artworks();
   }
 
   // TODO: firebase increment
-  upvoteArtwork (i: number) {
-    if (this.upvoted.indexOf(i) === -1)
-    {
+  upvoteArtwork(i: number) {
+    if (this.upvoted.indexOf(i) === -1) {
       this.upvoted.push(i);
       this.artworks.mutate((artworks: Artwork[]): void => {
         artworks[i].votes += 1;
