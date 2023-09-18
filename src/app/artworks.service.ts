@@ -92,13 +92,14 @@ export class ArtworksService {
 
   constructor() { }
 
-  getArtworks(): any {
+  getArtworks (): any {
     return this.artworks();
   }
 
   // TODO: firebase increment
-  upvoteArtwork(i: number) {
-    if (this.upvoted.indexOf(i) === -1) {
+  upvoteArtwork (i: number) {
+    if (this.upvoted.indexOf(i) === -1)
+    {
       this.upvoted.push(i);
       this.artworks.mutate((artworks: Artwork[]): void => {
         artworks[i].votes += 1;

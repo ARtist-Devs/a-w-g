@@ -90,8 +90,7 @@ export class SceneService {
     }
 
 
-    // Renderer
-    // TODO: Check out the performance for preserveDrawingBuffer
+    // Renderer powerPreference: "high-performance", preserveDrawingBuffer: true 
     this.renderer = new WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: true });
     // TODO: this.renderer = new WebGPURenderer();
     this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -179,7 +178,7 @@ export class SceneService {
   }
 
   afterSceneInit (ops?: any) {
-    this.cameraService.moveCamera(0, 1.6, 0.001, 7);
+    this.cameraService.moveCamera(0, 1.6, 0.001, 8);
     this.createCornerLights();
     this.interactionsManager = this.interactionService.initInteractionManager(this.renderer, this.camera, this.canvas);
   }
@@ -203,7 +202,7 @@ export class SceneService {
 
   render () {
     const delta = this.clock.getDelta();
-
+    // console.log(delta);
     // update controls
     this.controllerService.updateControls();
 

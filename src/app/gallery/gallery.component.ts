@@ -110,7 +110,7 @@ export class GalleryComponent {
     this.sceneService.addToScene(this.frames);
 
     // this.sceneService.spotlight.target = this.frames.children[1];
-    console.log('this.frames.children[0] ', this.frames.children[0]);
+    // console.log('this.frames.children[0] ', this.frames.children[0]);
 
     // @ts-ignore
     // this.sceneService.spotlight.target = this.frames[0];
@@ -124,16 +124,14 @@ export class GalleryComponent {
     const UIGroup = new Group();
 
     // Next/Prev
-    const buttonsPanel = this.ui.createInteractiveButtons({ buttons: this.buttons });
+    // const buttonsPanel = this.ui.createInteractiveButtons({ buttons: this.buttons });
     this.sceneService.renderFunctions.push(this.ui.update);
-    buttonsPanel.position.set(0, -1, -2);
-    this.sceneService.addToScene(buttonsPanel);
+    // buttonsPanel.position.set(0, -0, -4);
+    // this.sceneService.addToScene(buttonsPanel);
     this.artworksLength = this.artworks.length;
 
     this.selectedArtwork = signal(this.artworks[0], { equal: this.compareSelected });
   }
-
-
 
   compareSelected (o: Artwork, n: Artwork) {
     return o ? o.id === n.id : true;

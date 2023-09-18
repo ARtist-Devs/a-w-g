@@ -172,7 +172,7 @@ export class UIService {
     });
 
     // Rotate container to towards the painting
-    container.rotation.y = -0.5;
+    // container.rotation.y = -0.5;
     container.name = `More Info Panel ${ops.id}`;
     // this.debug.addToDebug({
     //   obj: container, name: 'More info Panel', properties: {
@@ -274,8 +274,8 @@ export class UIService {
     );
 
     container.name = ops.name;
-    container.position.set(0, 0.6, -1.2);
-    container.rotation.x = -0.55;
+    container.position.set(0, 0, 0);
+    // container.rotation.x = -0.55;
     this.container = container;
 
     ops.buttons.forEach((ops: any) => {

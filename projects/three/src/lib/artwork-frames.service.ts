@@ -44,7 +44,7 @@ export class ArtworkFramesService {
     this.framesGroup.name = 'Frames Group';
     this.angle = (Math.PI * 2) / artworks.length;
     this.frames = artworks.map((artwork, i) => {
-      const f = this.placeFrame(this.createFrame(artwork, btns), i);
+      const f = this.placeFrame(this.createFrame(artwork, btns, i), i);
       return f;
     });
 
@@ -63,15 +63,16 @@ export class ArtworkFramesService {
    * @returns frame with location
    */
   placeFrame (frame: Group, i: number = 0) {
-    const alpha = Math.PI - i * this.angle;
+    const alpha = i * this.angle;
     const x = Math.sin(alpha) * this.frameDistance;// 0 - 1
-    const z = Math.cos(alpha) * this.frameDistance;// 0 - 0 
+    const z = -Math.cos(alpha) * this.frameDistance;// 0 - 0 
     frame.position.set(x, 0, z);
     frame.scale.set(1.3, 1.3, 1.3);
     frame.rotation.y = alpha;
+    console.log(`alpha ${i}`, alpha);
     frame.userData['originalPosition'] = frame.position.clone();
-    console.log("frame.userData['originalPosition'] ", frame.userData['originalPosition']);
-    const light = this.lightsService.createDirLight({ intensity: 0.4, helper: true })[0]; //, helper: false
+    // console.log("frame.userData['originalPosition'] ", frame.userData['originalPosition']);
+    const light = this.lightsService.createDirLight({ intensity: 0.4 })[0];
     light.castShadow = true;
     // @ts-ignore
     light.position.set(Math.sin(alpha), 2, Math.cos(alpha));
@@ -82,15 +83,6 @@ export class ArtworkFramesService {
     // @ts-ignore
     light.target.updateWorldMatrix();
 
-
-    // @ts-ignore
-    // const l = this.lightsService.createSpotLight();
-    // // @ts-ignore
-    // l.target = frame.children[0];
-    // @ts-ignore
-
-    // frame.add(l, l.target);
-    console.log(frame);
     return frame;
   }
 
@@ -100,7 +92,7 @@ export class ArtworkFramesService {
    * @param i 
    * @returns 
    */
-  createFrame (artwork: Artwork, btns: any[] = []): Group {
+  createFrame (artwork: Artwork, btns: any[] = [], i: number): Group {
     const frameGroup = new Group();
     frameGroup.name = ` ${artwork.title} frame group`;
     //Use the componenet options or take the default values
@@ -133,12 +125,16 @@ export class ArtworkFramesService {
     l[0].target = frameMesh;
     // @ts-ignore
     frameGroup.add(frameMesh, canvasMesh, ...l);
+    frameGroup.rotateY(Math.PI);
     btns.forEach((b, i) => {
       const button = this.createButton(b, artwork.id);
       frameGroup.add(button);
     });
+
+    const buttonsPanel = this.uiService.createInteractiveButtons({ buttons: btns });
+
     // console.log('InteractionManager after button creation ', this.interactionsService.interactionManager.interactiveObjects);
-    // this.debug.addToDebug({ obj: l, name: 'Frame Spot Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+
     const moreInfoPanel = this.uiService.createMoreInfoPanels({
       id: artwork.id,
       title: artwork.title,
@@ -147,11 +143,16 @@ export class ArtworkFramesService {
     });
 
     moreInfoPanel.quaternion.copy(frameMesh.quaternion);
+
+    buttonsPanel.position.x = 0;
+    buttonsPanel.position.y = -1.2;
+
+    buttonsPanel.rotateY(Math.PI);
+    buttonsPanel.rotateX(-0.55);
     moreInfoPanel.position.x = 1.3;
     moreInfoPanel.rotateY(-72);//TODO: look at the angle it is created
-    // this.debug.addToDebug({ obj: moreInfoPanel, name: 'UI Panel', properties: { 'Position': {}, 'Rotation': {} } });
-    frameGroup.add(moreInfoPanel);
-
+    frameGroup.add(moreInfoPanel, buttonsPanel);
+    this.debug.addToDebug({ obj: buttonsPanel, name: 'Frame buttonsPanel', properties: { 'Position': {}, 'Rotation': { min: -Math.PI / 2, max: Math.PI / 2, precision: 0.1 } } });
     return frameGroup;
   }
 
