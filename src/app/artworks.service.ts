@@ -50,7 +50,7 @@ export class ArtworksService {
       title: "The Bedroom",
       audio: "assets/audio/3.mp3",
       date: "1887",
-      description: "The painting depicts van Gogh's bedroom at 2, Place Lamartine in Arles, Bouches-du-Rhône, France, known as the Yellow House. The door to the right opened on to the upper floor and the staircase; the door to the left was that of the guest room he held prepared for Gauguin; the window in the front wall looked on to Place Lamartine and its public gardens. This room was not rectangular but trapezoid with an obtuse angle in the left hand corner of the front wall and an acute angle at the right.",
+      description: "The painting depicts van Gogh's bedroom at 2, Place Lamartine in Arles, Bouches-du-Rhone, France, known as the Yellow House. The door to the right opened on to the upper floor and the staircase; the door to the left was that of the guest room he held prepared for Gauguin; the window in the front wall looked on to Place Lamartine and its public gardens. This room was not rectangular but trapezoid with an obtuse angle in the left hand corner of the front wall and an acute angle at the right.",
       height: 72.4,
       textureUrl: "assets/artworks/bedroom.jpg",
       votes: 0,
@@ -92,14 +92,13 @@ export class ArtworksService {
 
   constructor() { }
 
-  getArtworks (): any {
+  getArtworks(): any {
     return this.artworks();
   }
 
   // TODO: firebase increment
-  upvoteArtwork (i: number) {
-    if (this.upvoted.indexOf(i) === -1)
-    {
+  upvoteArtwork(i: number) {
+    if (this.upvoted.indexOf(i) === -1) {
       this.upvoted.push(i);
       this.artworks.mutate((artworks: Artwork[]): void => {
         artworks[i].votes += 1;
