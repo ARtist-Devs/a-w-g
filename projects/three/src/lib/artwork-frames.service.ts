@@ -126,14 +126,8 @@ export class ArtworkFramesService {
     // @ts-ignore
     frameGroup.add(frameMesh, canvasMesh, ...l);
     frameGroup.rotateY(Math.PI);
-    btns.forEach((b, i) => {
-      const button = this.createButton(b, artwork.id);
-      frameGroup.add(button);
-    });
 
-    const buttonsPanel = this.uiService.createInteractiveButtons({ buttons: btns });
-
-    // console.log('InteractionManager after button creation ', this.interactionsService.interactionManager.interactiveObjects);
+    const buttonsPanel = this.uiService.createInteractiveButtons({ buttons: btns, id: artwork.id });
 
     const moreInfoPanel = this.uiService.createMoreInfoPanels({
       id: artwork.id,
@@ -152,7 +146,7 @@ export class ArtworkFramesService {
     moreInfoPanel.position.x = 1.3;
     moreInfoPanel.rotateY(-72);//TODO: look at the angle it is created
     frameGroup.add(moreInfoPanel, buttonsPanel);
-    this.debug.addToDebug({ obj: buttonsPanel, name: 'Frame buttonsPanel', properties: { 'Position': {}, 'Rotation': { min: -Math.PI / 2, max: Math.PI / 2, precision: 0.1 } } });
+
     return frameGroup;
   }
 

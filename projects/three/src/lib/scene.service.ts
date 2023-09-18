@@ -164,7 +164,8 @@ export class SceneService {
     this.icoLight1.position.set(-10, 1, 7.6);
 
     this.icoLight2 = this.icoLight.clone();
-    this.icoLight2.add(spotlight.copy);
+
+    this.icoLight2.add(spotlight);
     this.icoLight2.position.set(10, 1, 7.6);
 
     this.scene.add(this.icoLight1, this.icoLight2);

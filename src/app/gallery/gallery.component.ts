@@ -77,26 +77,30 @@ export class GalleryComponent {
         name: 'Next Button',
         text: 'Next',
         shape: 'triangle',
-        onClick: (e: any) => { this.changeSelection(e, 1); },
+        onClick: (ind: number) => { this.changeSelection(ind, 1); },
         position: { x: -0.75, y: 0, z: -0.0 },
+        rotation: {}
+      },
+
+      {
+        name: 'Upvote Button',
+        text: 'Upvote',
+        shape: 'heart',
+        onClick: (ind: number) => { this.upvoteSelection(ind); },
+        position: { x: -0.8, y: 0.8, z: -0.1 },
         rotation: {}
       },
       {
         name: 'Previous Button',
         text: 'Previous',
         shape: 'triangle',
-        onClick: (e: any) => { this.changeSelection(e, -1); },
+        onClick: (ind: number) => { this.changeSelection(ind, -1); },
         position: { x: 0.75, y: 0, z: -0. },
         rotation: {}
       },
-      {
-        name: 'Upvote Button',
-        text: 'Upvote',
-        shape: 'heart',
-        onClick: (e: any) => { this.upvoteSelection(e); },
-        position: { x: -0.8, y: 0.8, z: -0.1 },
-        rotation: {}
-      },
+
+
+
       // {
       //   name: 'Info Button',
       //   text: 'Info',
@@ -153,13 +157,14 @@ export class GalleryComponent {
    * @param e 
    */
   changeSelection (ind: any, n: number) {
-
+    console.log('Change selection event ', ind, n);
     this.framesService.resetPosition(this.focused);
-    let i = 0;
+    let i;
     if (n === 1)// Next
     {
       // i = (ind === 0) ? this.artworksLength - 1 : ind - 1;
       i = ind < (this.artworksLength - 1) ? (ind + 1) : 0;
+      console.log('selected ', i);
       this.framesService.rotateFrames(72);//Saga don
     } else if (n === -1)// Previous
     {
