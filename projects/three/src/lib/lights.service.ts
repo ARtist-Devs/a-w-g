@@ -47,7 +47,8 @@ export class LightsService {
     dirLight.castShadow = true;
     dirLight.color.setHSL(0.1, 1, 0.95);
     dirLight.color.convertLinearToSRGB();
-    dirLight.position.set(-0, 12, -15); // dirLight.position.multiplyScalar(30); dirLight.castShadow = true;
+    dirLight.position.set(-0, 12, -15);
+    dirLight.castShadow = true;
     dirLight.shadow.mapSize.width = 2048;
     dirLight.shadow.mapSize.height = 2048;
 
