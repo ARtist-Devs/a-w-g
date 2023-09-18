@@ -65,6 +65,12 @@ export class GalleryComponent {
     this.artworks = this.artworksService.getArtworks();
     const afterSceneInitCB = this.sceneService.initScene(this.canvasEl);
 
+    // Model
+    const model = this.loadersService.loadModel({
+      path: 'assets/models/VRGalleryOriginal150901.glb',
+      scene: this.sceneService.scene
+    });
+
     // Frames
     this.buttons = [
       {
@@ -103,12 +109,8 @@ export class GalleryComponent {
     this.frames = this.framesService.createFrames(this.artworks, this.buttons, afterSceneInitCB);
     this.sceneService.addToScene(this.frames);
 
-    this.sceneService.spotlight.target = this.frames.children[0];
-    // Model
-    const model = this.loadersService.loadModel({
-      path: 'assets/models/VRGalleryOriginal150901.glb',
-      scene: this.sceneService.scene
-    });
+    // this.sceneService.spotlight.target = this.frames.children[1];
+    console.log('this.frames.children[0] ', this.frames.children[0]);
 
     // @ts-ignore
     // this.sceneService.spotlight.target = this.frames[0];

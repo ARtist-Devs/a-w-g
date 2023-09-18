@@ -119,7 +119,8 @@ export class SceneService {
 
     this.spotLights = this.lightsService.createSpotLight();
     this.spotlight = this.spotLights[0];
-    this.spotlight.position.set(0, 4, -2.5);
+    this.spotlight.position.set(0, -0.4, 1.16);
+    this.spotlight.target.position.set(0, 0, -4);
     this.spotlight = this.spotLights[0];
 
     this.scene.add(...hemLight, ...this.spotLights, ...dirLights);//ambient, ...this.spotLights, ...hemLight, ...dirLights);//, ...hemLight, ...dirLights);
@@ -153,7 +154,7 @@ export class SceneService {
 
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
-    this.cameraService.moveCamera(0, 1.6, 0.001, 8);
+    this.cameraService.moveCamera(0, 1.6, 0.001, 7);
     return this.afterSceneInit();
   }
 

@@ -84,7 +84,13 @@ export class ArtworkFramesService {
 
     this.debug.addToDebug({ obj: light, name: 'Frame Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
     // @ts-ignore
-    frame.add(light);
+    const l = this.lightsService.createSpotLight();
+    // @ts-ignore
+    l.target = frame.children[0];
+    // @ts-ignore
+
+    frame.add(l, l.target);
+    console.log(frame);
     return frame;
   }
 

@@ -6,7 +6,9 @@ import { DirectionalLight, DirectionalLightHelper, HemisphereLight, HemisphereLi
 })
 export class LightsService {
   dirLight = new DirectionalLight(0xfbde74, 4);
-  spotLight = new SpotLight(0xfbde74, 15);
+  // color : Integer, intensity : Float, distance : Float, angle : Radians, penumbra : Float, decay : Float
+  spotLight = new SpotLight(0xffe29e, 15, 10, Math.PI / 4, 0.2, 1.2);
+
   constructor() { }
 
   createSpotLight (ops?: any) {
@@ -14,12 +16,13 @@ export class LightsService {
     sLight.castShadow = true;
     sLight.shadow.bias = -0.0001;
     sLight.shadow.mapSize.width = 1024 * 4;
-    // sLight.angle = 0.5;
+    sLight.shadow.mapSize.height = 1024 * 4;
+    // sLight.angle = Math.PI / 4;
     // sLight.penumbra = 0.2;
     // sLight.decay = 2;
-    // // sLight.distance = 50;
+    // sLight.distance = 10;
     const sLightHelper = new SpotLightHelper(sLight);
-    return [sLight, sLightHelper];
+    return [sLight];
 
   }
 
@@ -40,7 +43,7 @@ export class LightsService {
     dirLight.castShadow = true;
     dirLight.color.setHSL(0.1, 1, 0.95);
     dirLight.color.convertLinearToSRGB();
-    dirLight.position.set(-10, 20, -10); // dirLight.position.multiplyScalar(30); dirLight.castShadow = true;
+    dirLight.position.set(-0, 12, -15); // dirLight.position.multiplyScalar(30); dirLight.castShadow = true;
     dirLight.shadow.mapSize.width = 2048;
     dirLight.shadow.mapSize.height = 2048;
 
@@ -54,10 +57,11 @@ export class LightsService {
     dirLight.shadow.camera.far = 100;
     dirLight.shadow.bias = - 0.0001;
 
+    dirLight.target.position.set(0, 0, -2);
     if (ops && ops.helper)
     {
       const dirLightHelper = new DirectionalLightHelper(dirLight, 10);
-      return [dirLight, dirLightHelper];
+      return [dirLight, dirLight.target, dirLightHelper];
     }
 
     return [dirLight];
