@@ -150,9 +150,10 @@ export class SceneService {
 
     // WebXR
     this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
-    this.cameraService.moveCamera(0, 1.6, 0.1, 8);
+
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
+    this.cameraService.moveCamera(0, 1.6, 0.001, 8);
     return this.afterSceneInit();
   }
 
