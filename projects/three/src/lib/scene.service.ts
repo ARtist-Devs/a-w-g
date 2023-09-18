@@ -130,6 +130,16 @@ export class SceneService {
     this.camera.add(cameraLight[0]);
     this.scene.add(...hemLight, ...this.spotLights, ...dirLights);//ambient, ...this.spotLights, ...hemLight, ...dirLights);//, ...hemLight, ...dirLights);
 
+
+    const icoLight = this.objectsService.createIcosahedron({ radius: 0.5, detail: 0 });
+    icoLight.position.set(0, 1.6, -3);//0, 0.8, -10
+    const pointLight = this.lightsService.createPointLight();
+    icoLight.add(pointLight);
+
+    this.scene.add(icoLight);
+
+    this.debug.addToDebug({ obj: pointLight, name: 'pointLight', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    this.debug.addToDebug({ obj: icoLight, name: 'icoLight', properties: { 'Position': {}, 'Rotation': {} } });
     this.debug.addToDebug({ obj: cameraLight[0], name: 'Camera Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
     this.debug.addToDebug({ obj: hemLight[0], name: 'Hem Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
     this.debug.addToDebug({ obj: dirLights[0], name: 'Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
@@ -137,8 +147,9 @@ export class SceneService {
     // - Lights
 
 
+
     // SKYDOME
-    const sky = this.objectsService.createSkyDom({ color: hemLight[0].color });
+    // const sky = this.objectsService.createSkyDom({ color: hemLight[0].color });
     // this.scene.add(sky);
 
     // Controls

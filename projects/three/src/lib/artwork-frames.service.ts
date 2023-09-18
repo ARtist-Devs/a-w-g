@@ -25,7 +25,7 @@ export class ArtworkFramesService {
 
   framesGroup = new Group();
   artworksWithLocation: Artwork[];
-  frameButton = this.objectsService.createIcosahedron(0.12);
+  frameButton = this.objectsService.createIcosahedron({ radius: 0.12, detail: 0 });
   likeButton = this.objectsService.createHeart();
 
   constructor(
@@ -130,9 +130,9 @@ export class ArtworkFramesService {
 
     const l = this.lightsService.createSpotLight();
     // @ts-ignore
-    l.target = frameMesh;
+    l[0].target = frameMesh;
     // @ts-ignore
-    frameGroup.add(frameMesh, canvasMesh, l);
+    frameGroup.add(frameMesh, canvasMesh, ...l);
     btns.forEach((b, i) => {
       const button = this.createButton(b, artwork.id);
       frameGroup.add(button);

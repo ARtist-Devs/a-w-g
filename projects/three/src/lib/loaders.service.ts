@@ -94,6 +94,14 @@ export class LoadersService {
             if (obj.material.map) obj.material.map.anisotropy = 16;
             // console.log('OBJ ', obj);
           }
+          // @ts-ignore
+          if (obj.isLight)
+          {
+            // @ts-ignore
+            obj.visible = visible;
+            console.log("Light is ", obj);
+
+          }
         });
         const floor = model.children[0];
 

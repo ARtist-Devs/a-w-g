@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DirectionalLight, DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, SpotLight, SpotLightHelper, Vector3 } from 'three';
+import { DirectionalLight, DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, PointLight, SpotLight, SpotLightHelper, Vector3 } from 'three';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +20,8 @@ export class LightsService {
     sLight.shadow.camera.near = 0.1;
     sLight.shadow.camera.far = 100;
     const sLightHelper = new SpotLightHelper(sLight);
-    return [sLight, sLightHelper];
-
+    return [sLight];
+    // sLightHelper
   }
 
   createHemLight (ops?: any) {
@@ -34,6 +34,11 @@ export class LightsService {
 
     const hemLightHelper = new HemisphereLightHelper(hemLight, 1);
     return [hemLight, hemLightHelper];
+  }
+
+  createPointLight () {
+    const l = new PointLight(0x53ea78, 4.0, 300, 0);
+    return l;
   }
 
   createDirLight (ops?: any) {

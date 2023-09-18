@@ -47,9 +47,9 @@ export class ObjectsService {
     return this.reticle;
   }
 
-  createIcosahedron (ops?: any) {
+  createIcosahedron (ops = { radius: 1.5, detail: 0 }) {
     const shape = new Mesh(
-      new IcosahedronGeometry(ops),
+      new IcosahedronGeometry(ops.radius, ops.detail),
       this.materials.getRandomColoredMaterial()
     );
     shape.scale.x = 1.3;
