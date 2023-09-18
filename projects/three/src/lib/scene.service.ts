@@ -139,7 +139,7 @@ export class SceneService {
 
     // SKYDOME
     const sky = this.objectsService.createSkyDom({ color: hemLight[0].color });
-    this.scene.add(sky);
+    // this.scene.add(sky);
 
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });

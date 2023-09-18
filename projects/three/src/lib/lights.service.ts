@@ -26,7 +26,7 @@ export class LightsService {
 
   createHemLight (ops?: any) {
 
-    const hemLight = new HemisphereLight(0xf9b43e, 0xa9c9f9, 1.2);
+    const hemLight = new HemisphereLight(0xf6a96a, 0x9fc3f9, 0.8);
     hemLight.color.setHSL(0.6, 1, 0.6);
     hemLight.groundColor.setHSL(0.095, 1, 0.75);
     hemLight.position.set(-0.6, 0.64, -6);
