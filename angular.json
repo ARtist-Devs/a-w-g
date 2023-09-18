@@ -44,7 +44,8 @@
                 "input": "capabilities/WebGPU.js",
                 "bundleName": "three-capabilities"
               }
-            ]
+            ],
+            "baseHref": "https://ARtist-Devs.github.io/angular-webxr-gallery/"
           },
           "configurations": {
             "production": {
@@ -109,6 +110,10 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
     },
