@@ -37,7 +37,7 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "baseHref": "https://ARtist-Devs.github.io/angular-webxr-gallery/"
+            "baseHref": "https://webxr.art"
           },
           "configurations": {
             "production": {
