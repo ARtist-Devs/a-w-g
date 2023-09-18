@@ -36,16 +36,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [
-              {
-                "input": "capabilities/WebGPU.js",
-                "bundleName": "three-webgpu"
-              }
-              {
-                "input": "capabilities/WebGPU.js",
-                "bundleName": "three-capabilities"
-              }
-            ],
+            "scripts": [],
             "baseHref": "https://ARtist-Devs.github.io/angular-webxr-gallery/"
           },
           "configurations": {
@@ -54,7 +45,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",

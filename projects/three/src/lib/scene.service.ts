@@ -5,7 +5,7 @@ import { ACESFilmicToneMapping, Camera, CineonToneMapping, Clock, Color, CustomT
 // @ts-ignore
 // import WebGPU from 'three/examples/jsm/capabilities/WebGPU.js';
 // @ts-ignore
-import WebGPURenderer from 'three/examples/jsm/renderers/webgpu/WebGPURenderer.js';
+// import WebGPURenderer from 'three/examples/jsm/renderers/webgpu/WebGPURenderer.js';
 import { HDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader.js';
 import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture.js';
 
@@ -67,7 +67,7 @@ export class SceneService {
 
   ) { }
 
-  initScene (canvas: HTMLCanvasElement, options?: any) {
+  initScene(canvas: HTMLCanvasElement, options?: any) {
     const ops = Object.assign({}, sceneDefaults, options);
 
     // Camera
@@ -80,8 +80,7 @@ export class SceneService {
 
     // Scene
     this.scene.background = ops.background || new Color('skyblue');
-    if (ops.fog)
-    {
+    if (ops.fog) {
       this.scene.fog = new Fog(ops.fog.color, ops.fog.near, ops.fog.far);
     }
 
@@ -162,11 +161,11 @@ export class SceneService {
     return this.afterSceneInit();
   }
 
-  afterSceneInit (ops?: any) {
+  afterSceneInit(ops?: any) {
   }
 
 
-  onTouchStart (e: TouchEvent) {
+  onTouchStart(e: TouchEvent) {
 
     this.pointer.x = ((e.touches[0].clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
     this.pointer.y = - ((e.touches[0].clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
@@ -174,7 +173,7 @@ export class SceneService {
 
   }
 
-  onPointerDown (e: PointerEvent) {
+  onPointerDown(e: PointerEvent) {
     // console.log('pointer down event ', e);
     this.pointer.x = ((e.clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
     this.pointer.y = - ((e.clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
@@ -182,7 +181,7 @@ export class SceneService {
 
   }
 
-  render () {
+  render() {
     const delta = this.clock.getDelta();
 
     // update controls
@@ -206,18 +205,16 @@ export class SceneService {
 
   }
 
-  addToScene (obj: any) {
-    if (obj instanceof Array)
-    {
+  addToScene(obj: any) {
+    if (obj instanceof Array) {
       this.scene.add(...obj);
-    } else
-    {
+    } else {
       this.scene.add(obj);
     }
   }
 
   //TODO: check to see if you still need w,h args
-  onResize (e: UIEvent, w?: any, h?: any) {
+  onResize(e: UIEvent, w?: any, h?: any) {
     console.log('Resizing ', e);
     w = w || window.innerWidth;
     h = h || window.innerHeight;
@@ -235,5 +232,5 @@ export class SceneService {
     this.renderer.setPixelRatio(window.devicePixelRatio);
   }
 
-  onDeviceChange (e: Event) { }
+  onDeviceChange(e: Event) { }
 }
