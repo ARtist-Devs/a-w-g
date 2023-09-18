@@ -74,6 +74,7 @@ export class SceneService {
     ops.camera.width = this.width;
     ops.camera.height = this.height;
     this.camera = this.cameraService.createCamera(ops.camera);
+    // TODO: z:20
     this.dolly = this.cameraService.addDolly();
     this.scene.add(this.dolly);
 
@@ -113,16 +114,18 @@ export class SceneService {
     // Lights
     const hemLight = this.lightsService.createHemLight({ intensity: 0.5 });
     const dirLights = this.lightsService.createDirLight();
+    dirLights[0].castShadow = true;
+
 
     this.spotLights = this.lightsService.createSpotLight();
     this.spotlight = this.spotLights[0];
-    this.spotlight.position.set(0, 2, -4);
+    this.spotlight.position.set(0, 4, -2.5);
     this.spotlight = this.spotLights[0];
 
-    // this.scene.add(...hemLight);//ambient, ...this.spotLights, ...hemLight, ...dirLights);//, ...hemLight, ...dirLights);
+    this.scene.add(...hemLight, ...this.spotLights, ...dirLights);//ambient, ...this.spotLights, ...hemLight, ...dirLights);//, ...hemLight, ...dirLights);
     // this.debug.addToDebug({ obj: hemLight[0], name: 'Hem Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    // this.debug.addToDebug({ obj: dirLights[0], name: 'Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    // this.debug.addToDebug({ obj: this.spotLights[0], name: 'Spot Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    this.debug.addToDebug({ obj: dirLights[0], name: 'Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    this.debug.addToDebug({ obj: this.spotLights[0], name: 'Spot Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
     // - Lights
 
     // GROUND
@@ -138,6 +141,7 @@ export class SceneService {
     // this.controllerService.updateControls;
     // this.renderFunctions.push(this.controllerService.updateControls);
 
+    this.debug.addToDebug({ obj: this.camera, name: 'Camera', properties: { 'Position': {} } });
     window.addEventListener("resize", this.onResize.bind(this));
 
     // TODO: Interactions Service Imp
@@ -146,7 +150,7 @@ export class SceneService {
 
     // WebXR
     this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
-
+    this.cameraService.moveCamera(0, 1.6, 0.1, 8);
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
     return this.afterSceneInit();
@@ -185,6 +189,8 @@ export class SceneService {
     //   this.camera.position.z + 10
     // );
 
+    // update camera
+    this.cameraService.updateCamera({ camera: this.camera, scene: this.scene });
     // this.interactionsManager.update();
     // run renderFunctions
     this.renderFunctions.forEach(func => func(delta));

@@ -13,8 +13,8 @@ import { Colors } from './colors';
 export class ObjectsService {
   private boxGeometry = new BoxGeometry(1, 1, 1);
   private sphereGeometry = new SphereGeometry(15, 32, 16);
-  private material = new MeshBasicMaterial({ color: 0xffff00 });
-
+  private basicMaterial = new MeshBasicMaterial({ color: 0xffff00 });
+  private material = this.materials.getRandomColoredMaterial();
   private reticle: Mesh;
   boxDefaultOptions = {
     scale: 1,
@@ -34,7 +34,6 @@ export class ObjectsService {
     private materials: MaterialsService,
     private debug: DebugService
   ) {
-    this.material = this.materials.getRandomColoredMaterial();
   }
 
   createReticle () {
@@ -51,7 +50,7 @@ export class ObjectsService {
   createIcosahedron (ops?: any) {
     const shape = new Mesh(
       new IcosahedronGeometry(ops),
-      this.material
+      this.materials.getRandomColoredMaterial()
     );
     shape.scale.x = 1.3;
     return shape;

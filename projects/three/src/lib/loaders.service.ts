@@ -85,16 +85,7 @@ export class LoadersService {
           // @ts-ignore
           if (obj.isMesh)
           {
-            if (obj.name == 'Circle002')
-            {
-              obj.name = 'Windows';
-              console.log('OBJ Windows', obj);
-            }
-            if (obj.name == 'Circle003')
-            {
-              obj.name = 'Outer Wall';
-              console.log('OBJ Outer Wall', obj);
-            }
+
             obj.castShadow = true;
             obj.receiveShadow = true;
             obj.castShadow = true;
@@ -105,24 +96,22 @@ export class LoadersService {
           }
         });
         const floor = model.children[0];
-        floor.receiveShadow = true;
-        floor.castShadow = false;
 
         // @ts-ignore
         const floorMaterial = floor.material;
-        console.log(floorMaterial);
+        console.log("Floor material", floorMaterial);
 
         floorMaterial.map.repeat = floorMapRepeat;
         floorMaterial.normalMap.repeat = floorMapRepeat;
+        // floorMaterial.color 
         ops.scene.add(model);
-        const windowsSettings = {
-          castShadow: true,
-          receiveShadow: false,
-        };
+        // const windowsSettings = {
+        //   castShadow: true,
+        //   receiveShadow: false,
+        // };
 
         const windowsGroup = model.children[1];
         windowsGroup.castShadow = true;
-        windowsGroup.receiveShadow = false;
         // @ts-ignore
         console.log('GLTF model children windows ', windowsGroup);
         // this.debugService.addToDebug({ obj: model, name: 'model', properties: { 'Scale': {}, Position: {} } });

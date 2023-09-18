@@ -40,11 +40,11 @@ export class MaterialsService {
   }
 
   getBasicMaterial () {
-    return this.meshBasicMaterial;
+    return this.standardMaterial;
   };
 
   getRandomColoredMaterial () {
-    return new MeshBasicMaterial({ color: Math.random() * 0xffffff });
+    return new MeshStandardMaterial({ color: Math.random() * 0xffffff });
   }
 
 }

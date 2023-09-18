@@ -71,14 +71,14 @@ export class ArtworkFramesService {
     frame.rotation.y = alpha;
     frame.userData['originalPosition'] = frame.position.clone();
     console.log("frame.userData['originalPosition'] ", frame.userData['originalPosition']);
-    const light = this.lightsService.createDirLight({ intensity: 0.8, helper: true })[0]; //, helper: false
+    const light = this.lightsService.createDirLight({ intensity: 0.4, helper: true })[0]; //, helper: false
     light.castShadow = true;
     // @ts-ignore
     light.position.set(Math.sin(alpha), 2, Math.cos(alpha));
     // @ts-ignore
     light.name = `${frame.name} dir light`;
     // @ts-ignore
-    light.target.position.set(x, 1, z);
+    light.target.position.set(x, 0, z);
     // @ts-ignore
     light.target.updateWorldMatrix();
 
@@ -107,7 +107,6 @@ export class ArtworkFramesService {
     // Create the canvas material with the texture
     const texture = this.loadersService.loadTexture(artwork.textureUrl);
     texture.colorSpace = SRGBColorSpace;
-    console.log('texture.colorSpace  ', texture.colorSpace);
     texture.minFilter = texture.magFilter = LinearFilter;
     texture.mapping = UVMapping;
 
