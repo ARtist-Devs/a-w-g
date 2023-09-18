@@ -63,7 +63,7 @@ export class SceneService {
     private cameraService: CameraService,
     private controllerService: ControllerService,
     private ngZone: NgZone,
-    private interactionService: InteractionsService,
+    private interactionsService: InteractionsService,
     private lightsService: LightsService,
     private objectsService: ObjectsService,
     private webXRService: WebXRService,
@@ -138,14 +138,14 @@ export class SceneService {
 
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
-    // this.controllerService.updateControls;
-    // this.renderFunctions.push(this.controllerService.updateControls);
+    this.controllerService.updateControls;
+    this.renderFunctions.push(this.controllerService.updateControls);
 
     this.debug.addToDebug({ obj: this.camera, name: 'Camera', properties: { 'Position': {} } });
     window.addEventListener("resize", this.onResize.bind(this));
 
     // TODO: Interactions Service Imp
-    const interactionsUpdate = this.interactionService.initInteractionManager(this.renderer, this.camera, canvas);
+    const interactionsUpdate = this.interactionsService.initInteractionManager(this.renderer, this.camera, canvas);
     this.renderFunctions.push(interactionsUpdate);
 
     // WebXR
@@ -181,7 +181,7 @@ export class SceneService {
   afterSceneInit (ops?: any) {
     this.cameraService.moveCamera(0, 1.6, 0.001, 8);
     this.createCornerLights();
-    this.interactionsManager = this.interactionService.initInteractionManager(this.renderer, this.camera, this.canvas);
+    this.interactionsManager = this.interactionsService.initInteractionManager(this.renderer, this.camera, this.canvas);
   }
 
 
@@ -189,15 +189,14 @@ export class SceneService {
 
     this.pointer.x = ((e.touches[0].clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
     this.pointer.y = - ((e.touches[0].clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
-    // this.interactions.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene, select: true });
+    // this.interactionsService.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene, select: true });
 
   }
 
   onPointerDown (e: PointerEvent) {
-    // console.log('pointer down event ', e);
     this.pointer.x = ((e.clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
     this.pointer.y = - ((e.clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
-    // this.interactions.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene });
+    this.interactionsService.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene });
 
   }
 

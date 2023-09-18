@@ -69,9 +69,7 @@ export class ArtworkFramesService {
     frame.position.set(x, 0, z);
     frame.scale.set(1.3, 1.3, 1.3);
     frame.rotation.y = alpha;
-    console.log(`alpha ${i}`, alpha);
     frame.userData['originalPosition'] = frame.position.clone();
-    // console.log("frame.userData['originalPosition'] ", frame.userData['originalPosition']);
     const light = this.lightsService.createDirLight({ intensity: 0.4 })[0];
     light.castShadow = true;
     // @ts-ignore
@@ -110,7 +108,6 @@ export class ArtworkFramesService {
 
     const canvasMaterial = new MeshPhongMaterial({ map: texture, color: 0xffffff });
     const frameMaterial = new MeshStandardMaterial({ color: 0xffffff });
-
 
     // Create the frame & canvas mesh
 

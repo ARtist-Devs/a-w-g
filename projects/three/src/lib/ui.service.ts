@@ -316,10 +316,6 @@ export class UIService {
     return btn;
   }
 
-  updateButtons () {
-    console.log('Update buttons ');
-  }
-
   update () {
     ThreeMeshUI.update();
   }

@@ -20,18 +20,20 @@ export class DebugService {
 
   constructor() { }
 
-  addToDebug(options: any) {
-    // console.log(`Adding ${options.name || options.obj.name} to Debug addToDebug options: `, options);
+  addToDebug (options: any) {
 
-    if (!this.gui) {
+    if (!this.gui)
+    {
       this.gui = new GUI({ closeFolders: true });
       this.gui.open(false);
     }
 
     const folder = this.gui.addFolder(`${options.name || options.obj.name}`);
 
-    for (const [key, values] of Object.entries(options.properties)) {
-      switch (key) {
+    for (const [key, values] of Object.entries(options.properties))
+    {
+      switch (key)
+      {
         case 'Position' || 'position':
           this.addPosition(options, folder, values); break;
         case 'Color' || 'color':
@@ -52,7 +54,7 @@ export class DebugService {
     }
   }
 
-  addScale(ops: any, folder: any, values?: any) {
+  addScale (ops: any, folder: any, values?: any) {
     const scale = folder.addFolder('Scale');
     const vals = Object.assign({}, { min: 0, max: 100, precision: 1 }, values);
 
@@ -62,8 +64,7 @@ export class DebugService {
 
   }
 
-  addRotation(ops: any, folder: any, values?: any) {
-    // console.log(`Adding Rotations for ${ops.name || ops.obj.name} to Debug addToDebug options, values: `, ops, values);
+  addRotation (ops: any, folder: any, values?: any) {
 
     const rotation = folder.addFolder('Rotation');
     const vals = Object.assign({}, { min: 0, max: 360, precision: 1 }, values);
@@ -73,7 +74,7 @@ export class DebugService {
     rotation.add(ops.obj.rotation, 'z', vals.min, vals.max, vals.precision);
   }
 
-  addIntensity(ops: any, folder: any, values?: any) {
+  addIntensity (ops: any, folder: any, values?: any) {
     const intensity = folder.addFolder('Intensity');
     const vals = Object.assign({}, this.intensityOptions, values);
 
@@ -87,39 +88,32 @@ export class DebugService {
    * @param ops 
    * @param folder 
    */
-  addColor(ops: any, folder: any, values?: any) {
+  addColor (ops: any, folder: any, values?: any) {
     const color = folder.addFolder('Color');
-    // console.log('Debug addColor ops', ops.obj.name, ops.obj.backgroundMaterial);
-    // folder.addColor(ops.obj, ops.obj.backgroundMaterial.color);
+
     color.addColor(ops.obj, 'color')
       .onChange((e: any) => {
         ops.obj.color.set(e);
-        console.log('Debug changed color ', e);
       });
     color.open();
   };
 
-  addPosition(ops: any, folder: any, values?: any) {
-
-    // console.log(`Adding Position for ${ops.name || ops.obj.name} to  addToDebug options, values: `, ops, values);
+  addPosition (ops: any, folder: any, values?: any) {
 
     const pos = folder.addFolder('Position');
     const vals = Object.assign({}, this.positionOptions, values);
 
     pos.add(ops.obj.position, 'x', vals.min, vals.max, vals.precision)
       .onChange((e: any) => {
-        // ops.obj.position.x = e;
-        console.log('Debug changed x ', e);
+        ops.obj.position.x = e;
       });
     pos.add(ops.obj.position, 'y', vals.min, vals.max, vals.precision)
       .onChange((e: any) => {
         // ops.obj.position.y = e;
-        console.log('Debug changed y ', e);
       });
     pos.add(ops.obj.position, 'z', vals.min, vals.max, vals.precision)
       .onChange((e: any) => {
         // ops.obj.position.z = e;
-        console.log('Debug changed z', e);
       });
     pos.open();
   }

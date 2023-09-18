@@ -26,7 +26,7 @@ export class ControllerService {
    * @param ops 
    * @returns 
    */
-  createControls (ops?: any) {
+  createControls (ops: any) {
     this.renderer = ops.renderer;
 
     if (ops.type === 'orbit')
@@ -66,10 +66,10 @@ export class ControllerService {
     }
   }
 
+  // TODO:
   updateControls () {
-    // console.log("updating controls ", this.controls);
-    // if (this.renderer.xr.isPresenting) this.handleControllers();
-    return this.controls.update();//.bind(this);
+    // if (this.renderer.xr && this.renderer.xr?.isPresenting) { return this.handleControllers(); }
+    // return this.controls.update();
   }
 
   /**
