@@ -54,7 +54,7 @@ export class SceneService {
     blurriness: 0.3,
     intensity: 1.0,
   };
-
+  icoLight: any;
   constructor(
     private cameraService: CameraService,
     private controllerService: ControllerService,
@@ -131,12 +131,15 @@ export class SceneService {
     this.scene.add(...hemLight, ...this.spotLights, ...dirLights);//ambient, ...this.spotLights, ...hemLight, ...dirLights);//, ...hemLight, ...dirLights);
 
 
-    const icoLight = this.objectsService.createIcosahedron({ radius: 0.5, detail: 0 });
-    icoLight.position.set(0, 1.6, -3);//0, 0.8, -10
+    const icoLight = this.objectsService.createIcosahedron({ radius: 0.3, detail: 0, material: 'MeshPhysicalMaterial' });
+    icoLight.position.set(0, 0.8, -10);//0, 1.6, -3);//0, 0.8, -10
+    icoLight.material.opacity = 0.6;
     const pointLight = this.lightsService.createPointLight();
-    icoLight.add(pointLight);
 
-    this.scene.add(icoLight);
+    icoLight.add(pointLight);
+    this.icoLight = icoLight;
+
+    this.scene.add(this.icoLight);
 
     this.debug.addToDebug({ obj: pointLight, name: 'pointLight', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
     this.debug.addToDebug({ obj: icoLight, name: 'icoLight', properties: { 'Position': {}, 'Rotation': {} } });
@@ -195,7 +198,7 @@ export class SceneService {
 
   render () {
     const delta = this.clock.getDelta();
-
+    this.icoLight.rotation.y += 0.01;
     // update controls
     this.controllerService.updateControls();
 

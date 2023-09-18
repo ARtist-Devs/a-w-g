@@ -37,7 +37,9 @@ export class LightsService {
   }
 
   createPointLight () {
-    const l = new PointLight(0x53ea78, 4.0, 300, 0);
+    const l = new PointLight(0xb3e2ff, 1, 3, 0);
+    l.castShadow = true;
+    l.shadow.bias = - 0.005;
     return l;
   }
 
