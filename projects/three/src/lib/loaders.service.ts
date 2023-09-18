@@ -28,7 +28,6 @@ export class LoadersService {
         object.name = 'json model';
 
         scene.add(object);
-        console.log("Model ", object);
         return object;
       },
 
@@ -46,40 +45,14 @@ export class LoadersService {
 
   loadModel (ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any; }) {
 
-    const normalMap = this.textureLoader.load('assets/models/Floor/Floor_Bake1_PBR_Normal.png');
-    const bumpMap = this.textureLoader.load('assets/models/Floor/Floor_Bake1_PBR_Bump.png');
-    const diffuseMap = this.textureLoader.load('assets/models/Floor/Floor_Bake1_PBR_Diffuse.png');
-    diffuseMap.anisotropy = 4;
-    diffuseMap.colorSpace = SRGBColorSpace;
-    const ambientMap = this.textureLoader.load('assets/models/Floor/Floor_Bake1_PBR_Diffuse.png');
-    const specularMap = this.textureLoader.load('assets/models/Floor/Floor_Bake1_PBR_Glossiness.png');
-    specularMap.colorSpace = SRGBColorSpace;
-    const emissiveMap = this.textureLoader.load('assets/models/Floor/Floor_Bake1_PBR_Emission.png');
-
-
     const material = new MeshBasicMaterial();
-    //new MeshPhongMaterial({
-    //   aoMap: ambientMap,
-    //   normalMap: normalMap,
-    //   map: diffuseMap,
-    //   color: 0x9c6e49,
-    //   specular: 0x666666,
-    //   shininess: 25,
-    //   bumpMap: bumpMap,
-    //   bumpScale: 0.01,
-    //   specularMap: specularMap,
-    //   emissiveMap: emissiveMap,
-    //   normalScale: new Vector2(0.8, 0.8)
-    // });
+
     const floorMapRepeat = new Vector2(15, 15);
     this.gltfLoader.load(
       ops.path,
       (gltf) => {
         const model = gltf.scene;
-        // @ts-ignore
-        // const model = this.createScene(gltf.scene.children[0].geometry, 1, material);
         model.position.z = -0;
-        console.log('OBJ ', model);
         model.scale.set(3, 3, 3);
         model.traverse((obj) => {
           // @ts-ignore
@@ -92,14 +65,12 @@ export class LoadersService {
             obj.receiveShadow = true;
             // @ts-ignore
             if (obj.material.map) obj.material.map.anisotropy = 16;
-            // console.log('OBJ ', obj);
           }
           // @ts-ignore
           if (obj.isLight)
           {
             // @ts-ignore
             obj.visible = visible;
-            console.log("Light is ", obj);
 
           }
         });
@@ -107,22 +78,13 @@ export class LoadersService {
 
         // @ts-ignore
         const floorMaterial = floor.material;
-        console.log("Floor material", floorMaterial);
-
         floorMaterial.map.repeat = floorMapRepeat;
         floorMaterial.normalMap.repeat = floorMapRepeat;
-        // floorMaterial.color 
-        ops.scene.add(model);
-        // const windowsSettings = {
-        //   castShadow: true,
-        //   receiveShadow: false,
-        // };
 
         const windowsGroup = model.children[1];
         windowsGroup.castShadow = true;
-        // @ts-ignore
-        console.log('GLTF model children windows ', windowsGroup);
-        // this.debugService.addToDebug({ obj: model, name: 'model', properties: { 'Scale': {}, Position: {} } });
+
+        ops.scene.add(model);
       }
     );
   }
@@ -137,7 +99,6 @@ export class LoadersService {
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     return mesh;
-    // scene.add(mesh);
 
   }
 

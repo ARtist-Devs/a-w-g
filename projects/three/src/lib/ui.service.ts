@@ -5,6 +5,7 @@ import * as ThreeMeshUI from 'three-mesh-ui';
 // import { InteractionsService } from './interactions.service';
 // import { DebugService } from './debug.service';
 import { Colors } from './colors';
+import { InteractionsService } from './interactions.service';
 
 
 @Injectable({
@@ -152,7 +153,7 @@ export class UIService {
   selection: any[] = [1, 2, 3];
 
   constructor(
-    // private interactions: InteractionsService,
+    private interactions: InteractionsService,
     // private debug: DebugService,
   ) { }
 
@@ -172,7 +173,7 @@ export class UIService {
     });
 
     // Rotate container to towards the painting
-    container.rotation.y = -0.5;
+    // container.rotation.y = -0.5;
     container.name = `More Info Panel ${ops.id}`;
     // this.debug.addToDebug({
     //   obj: container, name: 'More info Panel', properties: {
@@ -199,12 +200,6 @@ export class UIService {
     title.name = `Painting ${ops.id} title`;
     this.title = title;
     container.add(this.title); // - Title
-
-    // this.debug.addToDebug({
-    //   obj: container, name: 'More info Caption', properties: {
-    //     'Position': { min: 0, max: 2, precision: 0.2 }
-    //   }
-    // });
 
     // Description
     const description = new ThreeMeshUI.Block({
@@ -257,8 +252,10 @@ export class UIService {
     ops.text.set({ content: c });
   }
 
-  createInteractiveButtons (options?: any) {
+  createInteractiveButtons (options: any) {
+
     const ops = Object.assign({}, this.defaultOptions, options);
+    console.log('button ops ', ops);
     const container = new ThreeMeshUI.Block(
       {
         justifyContent: 'center',
@@ -272,14 +269,11 @@ export class UIService {
         width: options.buttons.length / 2,
       }
     );
-
     container.name = ops.name;
-    container.position.set(0, 0.6, -1.2);
-    container.rotation.x = -0.55;
     this.container = container;
 
-    ops.buttons.forEach((ops: any) => {
-      const button = this.createButton(ops);
+    ops.buttons.forEach((o: any, i: number) => {
+      const button = this.createButton(ops.id, o);
       this.container.add(button);
     });
 
@@ -287,9 +281,10 @@ export class UIService {
 
   };
 
-  createButton (ops?: any) {
+  createButton (id: number, ops?: any) {
+    console.log('Creating buttons ', id, ops);
     const btn = new ThreeMeshUI.Block(this.buttonOptions);
-    btn.name = ops.name;
+    btn.name = `Frame ${id} ${ops.name}`;
 
     btn.add(new ThreeMeshUI.Text({
       content: ops.text,
@@ -313,15 +308,12 @@ export class UIService {
     btn.setupState(this.hoveredStateAttributes);
 
     btn.position.set(-0.5, 0, 0);
+    this.interactions.addToInteractions(btn);
+    this.interactions.addToColliders({ mesh: btn, name: ops.name, cb: () => { ops.onClick(id); } });
+    // @ts-ignore
+    btn.addEventListener('click', () => { ops.onClick(id); });
 
-    // this.interactions.addToColliders({ mesh: btn, name: ops.name, cb: ops.onClick })
-
-    // this.container.add(btn);
     return btn;
-  }
-
-  updateButtons () {
-    console.log('Update buttons ');
   }
 
   update () {
