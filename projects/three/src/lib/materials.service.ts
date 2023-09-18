@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Material, MeshBasicMaterial, MeshLambertMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshStandardMaterial } from 'three';
+import { Material, MeshBasicMaterial, MeshLambertMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshPhysicalMaterialParameters, MeshStandardMaterial } from 'three';
 
 @Injectable({
   providedIn: 'root'
@@ -28,10 +28,43 @@ export class MaterialsService {
 
   };
 
+  params: MeshPhysicalMaterialParameters = {
+    color: 0xffffff,
+    transmission: 1,
+    opacity: 1,
+    metalness: 0,
+    roughness: 0,
+    ior: 1.5,
+    thickness: 0.01,
+    // attenuationColor: 0xffffff,
+    attenuationDistance: 1,
+    specularIntensity: 1,
+    // specularColor: 0xffffff,
+    envMapIntensity: 1,
+    // lightIntensity: 1,
+    // exposure: 1
+  };
+
   constructor() { }
+
+  getMaterial (ops: string): any {
+    if (ops = 'MeshPhysicalMaterial')
+    {
+      const material = new MeshPhysicalMaterial(this.params);
+      return material;
+
+    } else if ('StandardMaterial')
+    {
+      return this.getStandardMaterial();
+    }
+  }
 
   getStandardMaterial () {
     return this.standardMaterial.clone();
+  }
+
+  getMeshPhysicalMaterial (ops?: any) {
+
   }
 
   getMaterialByName (name: string): Material {

@@ -1,11 +1,6 @@
 import { Injectable, NgZone, computed, signal } from '@angular/core';
 
 import { ACESFilmicToneMapping, Camera, CineonToneMapping, Clock, Color, CustomToneMapping, DirectionalLight, Fog, HemisphereLight, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, Raycaster, ReinhardToneMapping, Scene, ShaderChunk, Vector2, WebGLRenderer, SpotLight } from 'three';
-// WebGPU
-// @ts-ignore
-// import WebGPU from 'three/examples/jsm/capabilities/WebGPU.js';
-// @ts-ignore
-// import WebGPURenderer from 'three/examples/jsm/renderers/webgpu/WebGPURenderer.js';
 import { HDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader.js';
 import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture.js';
 
@@ -54,7 +49,10 @@ export class SceneService {
     blurriness: 0.3,
     intensity: 1.0,
   };
-
+  icoLight: any;
+  icoLight1: any;
+  pointLight: any;
+  icoLight2: any;
   constructor(
     private cameraService: CameraService,
     private controllerService: ControllerService,
@@ -96,26 +94,13 @@ export class SceneService {
     this.renderer.toneMapping = ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.5;
 
-    ShaderChunk.tonemapping_pars_fragment = ShaderChunk.tonemapping_pars_fragment.replace(
-      'vec3 CustomToneMapping( vec3 color ) { return color; }',
-      `#define Uncharted2Helper( x ) max( ( ( x * ( 0.15 * x + 0.10 * 0.50 ) + 0.20 * 0.02 ) / ( x * ( 0.15 * x + 0.50 ) + 0.20 * 0.30 ) ) - 0.02 / 0.30, vec3( 0.0 ) )
-					float toneMappingWhitePoint = 1.0;
-					vec3 CustomToneMapping( vec3 color ) {
-						color *= toneMappingExposure;
-						return saturate( Uncharted2Helper( color ) / Uncharted2Helper( vec3( toneMappingWhitePoint ) ) );
-					}`
-    );
     this.scene.backgroundBlurriness = 0.3;
 
     this.rect = this.renderer.domElement.getBoundingClientRect();
 
-    // GROUND
-    // const ground = this.objectsService.createGround();
-    // this.scene.add(ground);
-
     // Lights
     const hemLight = this.lightsService.createHemLight({ intensity: 0.5 });
-    const dirLights = this.lightsService.createDirLight();
+    const dirLights = this.lightsService.createDirLight({ intensity: 1.2 });
     dirLights[0].castShadow = true;
 
     this.spotLights = this.lightsService.createSpotLight();
@@ -129,39 +114,59 @@ export class SceneService {
     this.camera.add(cameraLight[0]);
     this.scene.add(...hemLight, ...this.spotLights, ...dirLights);//ambient, ...this.spotLights, ...hemLight, ...dirLights);//, ...hemLight, ...dirLights);
 
-    this.debug.addToDebug({ obj: cameraLight[0], name: 'Camera Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    this.debug.addToDebug({ obj: hemLight[0], name: 'Hem Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    this.debug.addToDebug({ obj: dirLights[0], name: 'Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    this.debug.addToDebug({ obj: this.spotLights[0], name: 'Spot Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    // - Lights
+
+    const icoLight = this.objectsService.createIcosahedron({ radius: 0.3, detail: 0, material: 'MeshPhysicalMaterial' });
+    icoLight.position.set(0, 1, -10);
+    icoLight.material.opacity = 0.6;
+    this.pointLight = this.lightsService.createPointLight();
+    this.pointLight.position.y = 2.2;
+
+    icoLight.add(this.pointLight);
+    this.icoLight = icoLight;
 
 
-    // SKYDOME
-    const sky = this.objectsService.createSkyDom({ color: hemLight[0].color });
-    this.scene.add(sky);
+    this.scene.add(this.icoLight);
 
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
     // this.controllerService.updateControls;
     // this.renderFunctions.push(this.controllerService.updateControls);
 
-    this.debug.addToDebug({ obj: this.camera, name: 'Camera', properties: { 'Position': {} } });
     window.addEventListener("resize", this.onResize.bind(this));
 
     // TODO: Interactions Service Imp
     const interactionsUpdate = this.interactionService.initInteractionManager(this.renderer, this.camera, canvas);
     this.renderFunctions.push(interactionsUpdate);
 
-    // WebXR
-    this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
-
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
-    this.cameraService.moveCamera(0, 1.6, 0.001, 7);
+
     return this.afterSceneInit();
   }
 
-  afterSceneInit(ops?: any) {
+  createCornerLights () {
+    this.icoLight1 = this.icoLight.clone();
+    const spotlight = this.lightsService.createPointLight();
+    this.icoLight1.add(spotlight);
+    this.icoLight1.position.set(-10, 1, 7.6);
+
+    this.icoLight2 = this.icoLight.clone();
+    this.icoLight2.add(spotlight.copy);
+    this.icoLight2.position.set(10, 1, 7.6);
+
+    this.scene.add(this.icoLight1, this.icoLight2);
+    this.renderFunctions.push(this.animateLights.bind(this));
+  }
+
+  animateLights (delta: any) {
+    this.icoLight.rotation.y += 0.01;
+    this.icoLight1.rotation.y += 0.01;
+    this.icoLight2.rotation.y += 0.01;
+  }
+
+  afterSceneInit (ops?: any) {
+    this.cameraService.moveCamera(0, 1.6, 0.001, 7);
+    this.createCornerLights();
   }
 
 
@@ -183,16 +188,10 @@ export class SceneService {
 
   render() {
     const delta = this.clock.getDelta();
+    console.log(delta);
 
     // update controls
     this.controllerService.updateControls();
-
-    // Lights
-    // this.spotLight.position.set(
-    //   this.camera.position.x + 10,
-    //   this.camera.position.y + 10,
-    //   this.camera.position.z + 10
-    // );
 
     // update camera
     this.cameraService.updateCamera({ camera: this.camera, scene: this.scene });
@@ -220,10 +219,7 @@ export class SceneService {
     h = h || window.innerHeight;
 
     // Set the camera's aspect ratio
-    // @ts-ignore
-    this.camera.aspect = w / h;
     // update the camera's frustum
-    // @ts-ignore
     this.camera.updateProjectionMatrix();
 
     // update the size of the renderer & the canvas

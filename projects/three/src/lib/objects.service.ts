@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { BackSide, BoxGeometry, Color, CylinderGeometry, DoubleSide, EdgesGeometry, ExtrudeGeometry, GridHelper, Group, IcosahedronGeometry, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, PlaneGeometry, RingGeometry, ShaderMaterial, Shape, ShapeGeometry, SphereGeometry } from 'three';
+import { BackSide, BoxGeometry, Color, CylinderGeometry, DoubleSide, EdgesGeometry, ExtrudeGeometry, GridHelper, Group, IcosahedronGeometry, LineBasicMaterial, LineSegments, Material, Mesh, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, PlaneGeometry, RingGeometry, ShaderMaterial, Shape, ShapeGeometry, SphereGeometry } from 'three';
 
 import { InteractionsService } from './interactions.service';
 import { MaterialsService } from './materials.service';
@@ -47,11 +47,19 @@ export class ObjectsService {
     return this.reticle;
   }
 
-  createIcosahedron (ops?: any) {
+  createIcosahedron (options?: any) {
+    const ops = Object.assign({ radius: 1.5, detail: 0 }, options);
+    let material = this.materials.getRandomColoredMaterial();
+    if (ops.material)
+    {
+      this.materials.getMaterial(ops.material);
+    }
     const shape = new Mesh(
-      new IcosahedronGeometry(ops),
+      new IcosahedronGeometry(ops.radius, ops.detail),
       this.materials.getRandomColoredMaterial()
     );
+
+
     shape.scale.x = 1.3;
     return shape;
   }
