@@ -110,28 +110,32 @@ export class SceneService {
 
     this.rect = this.renderer.domElement.getBoundingClientRect();
 
+    // GROUND
+    // const ground = this.objectsService.createGround();
+    // this.scene.add(ground);
 
     // Lights
     const hemLight = this.lightsService.createHemLight({ intensity: 0.5 });
     const dirLights = this.lightsService.createDirLight();
     dirLights[0].castShadow = true;
 
-
     this.spotLights = this.lightsService.createSpotLight();
     this.spotlight = this.spotLights[0];
-    this.spotlight.position.set(0, -0.4, 1.16);
+    this.spotlight.position.set(0, 7, 1.16);
     this.spotlight.target.position.set(0, 0, -4);
     this.spotlight = this.spotLights[0];
 
+    const cameraLight: any = this.lightsService.createSpotLight();
+    cameraLight[0].position.set(0, -2, 0.64);
+    this.camera.add(cameraLight[0]);
     this.scene.add(...hemLight, ...this.spotLights, ...dirLights);//ambient, ...this.spotLights, ...hemLight, ...dirLights);//, ...hemLight, ...dirLights);
-    // this.debug.addToDebug({ obj: hemLight[0], name: 'Hem Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+
+    this.debug.addToDebug({ obj: cameraLight[0], name: 'Camera Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+    this.debug.addToDebug({ obj: hemLight[0], name: 'Hem Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
     this.debug.addToDebug({ obj: dirLights[0], name: 'Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
     this.debug.addToDebug({ obj: this.spotLights[0], name: 'Spot Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
     // - Lights
 
-    // GROUND
-    const ground = this.objectsService.createGround();
-    this.scene.add(ground);
 
     // SKYDOME
     const sky = this.objectsService.createSkyDom({ color: hemLight[0].color });

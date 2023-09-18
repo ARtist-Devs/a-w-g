@@ -82,14 +82,14 @@ export class ArtworkFramesService {
     // @ts-ignore
     light.target.updateWorldMatrix();
 
-    this.debug.addToDebug({ obj: light, name: 'Frame Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
+
     // @ts-ignore
-    const l = this.lightsService.createSpotLight();
-    // @ts-ignore
-    l.target = frame.children[0];
+    // const l = this.lightsService.createSpotLight();
+    // // @ts-ignore
+    // l.target = frame.children[0];
     // @ts-ignore
 
-    frame.add(l, l.target);
+    // frame.add(l, l.target);
     console.log(frame);
     return frame;
   }
@@ -119,6 +119,7 @@ export class ArtworkFramesService {
     const canvasMaterial = new MeshPhongMaterial({ map: texture, color: 0xffffff });
     const frameMaterial = new MeshStandardMaterial({ color: 0xffffff });
 
+
     // Create the frame & canvas mesh
 
     const frameMesh = new Mesh(frameGeometry, frameMaterial);
@@ -126,13 +127,18 @@ export class ArtworkFramesService {
     const canvasMesh = new Mesh(canvasGeometry, canvasMaterial);
     frameMesh.name = ` ${artwork.title} frame mesh` || 'frame';
     canvasMesh.name = ` ${artwork.title} canvas mesh` || 'frame canvas';
-    frameGroup.add(frameMesh, canvasMesh);
+
+    const l = this.lightsService.createSpotLight();
+    // @ts-ignore
+    l.target = frameMesh;
+    // @ts-ignore
+    frameGroup.add(frameMesh, canvasMesh, l);
     btns.forEach((b, i) => {
       const button = this.createButton(b, artwork.id);
       frameGroup.add(button);
     });
     // console.log('InteractionManager after button creation ', this.interactionsService.interactionManager.interactiveObjects);
-
+    // this.debug.addToDebug({ obj: l, name: 'Frame Spot Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
     const moreInfoPanel = this.uiService.createMoreInfoPanels({
       id: artwork.id,
       title: artwork.title,
