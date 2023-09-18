@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { DirectionalLight, DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, PointLight, SpotLight, SpotLightHelper, Vector3 } from 'three';
+import { DirectionalLight, HemisphereLight, PointLight, SpotLight } from 'three';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LightsService {
-  dirLight = new DirectionalLight(0xfdc577, 4);
+  private dirLight = new DirectionalLight(0xfdc577, 4);
   // color : Integer, intensity : Float, distance : Float, angle : Radians, penumbra : Float, decay : Float
-  spotLight = new SpotLight(0xffe29e, 15, 10, Math.PI / 4, 0.2, 1.5);
+  private spotLight = new SpotLight(0xffe29e, 15, 10, Math.PI / 4, 0.2, 1.5);
 
   constructor() { }
 
@@ -19,9 +19,7 @@ export class LightsService {
     sLight.shadow.mapSize.height = 1024 * 4;
     sLight.shadow.camera.near = 0.1;
     sLight.shadow.camera.far = 100;
-    const sLightHelper = new SpotLightHelper(sLight);
     return [sLight];
-    // sLightHelper
   }
 
   createHemLight (ops?: any) {
@@ -32,8 +30,7 @@ export class LightsService {
     hemLight.position.set(-0.6, -2, -6);
 
 
-    const hemLightHelper = new HemisphereLightHelper(hemLight, 1);
-    return [hemLight, hemLightHelper];
+    return [hemLight];
   }
 
   createPointLight () {
@@ -65,13 +62,8 @@ export class LightsService {
     dirLight.shadow.bias = - 0.0001;
 
     dirLight.target.position.set(0, 0, -2);
-    if (ops && ops.helper)
-    {
-      const dirLightHelper = new DirectionalLightHelper(dirLight, 10);
-      return [dirLight, dirLight.target, dirLightHelper];
-    }
+    return [dirLight, dirLight.target];
 
-    return [dirLight];
 
   }
 

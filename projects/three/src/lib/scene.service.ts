@@ -146,15 +146,6 @@ export class SceneService {
 
     this.scene.add(this.icoLight);
 
-    // this.debug.addToDebug({ obj: pointLight, name: 'pointLight', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    // this.debug.addToDebug({ obj: icoLight, name: 'icoLight', properties: { 'Position': {}, 'Rotation': {} } });
-    // this.debug.addToDebug({ obj: cameraLight[0], name: 'Camera Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    // this.debug.addToDebug({ obj: hemLight[0], name: 'Hem Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    // this.debug.addToDebug({ obj: dirLights[0], name: 'Dir Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    // this.debug.addToDebug({ obj: this.spotLights[0], name: 'Spot Lights', properties: { 'Position': {}, 'Rotation': {}, 'Intensity': {}, Color: {} } });
-    // - Lights
-
-
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
     // this.controllerService.updateControls;
@@ -187,6 +178,13 @@ export class SceneService {
     this.icoLight2.position.set(10, 1, 7.6);
 
     this.scene.add(this.icoLight1, this.icoLight2);
+    this.renderFunctions.push(this.animateLights.bind(this));
+  }
+
+  animateLights (delta: any) {
+    this.icoLight.rotation.y += 0.01;
+    this.icoLight1.rotation.y += 0.01;
+    this.icoLight2.rotation.y += 0.01;
   }
 
   afterSceneInit (ops?: any) {
@@ -213,16 +211,10 @@ export class SceneService {
 
   render () {
     const delta = this.clock.getDelta();
-    this.icoLight.rotation.y += 0.01;
+    console.log(delta);
+
     // update controls
     this.controllerService.updateControls();
-
-    // Lights
-    // this.spotLight.position.set(
-    //   this.camera.position.x + 10,
-    //   this.camera.position.y + 10,
-    //   this.camera.position.z + 10
-    // );
 
     // update camera
     this.cameraService.updateCamera({ camera: this.camera, scene: this.scene });
