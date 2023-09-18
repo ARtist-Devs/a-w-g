@@ -116,7 +116,7 @@ export class SceneService {
 
     // Lights
     const hemLight = this.lightsService.createHemLight({ intensity: 0.5 });
-    const dirLights = this.lightsService.createDirLight();
+    const dirLights = this.lightsService.createDirLight({ intensity: 1.2 });
     dirLights[0].castShadow = true;
 
     this.spotLights = this.lightsService.createSpotLight();
@@ -132,12 +132,14 @@ export class SceneService {
 
 
     const icoLight = this.objectsService.createIcosahedron({ radius: 0.3, detail: 0, material: 'MeshPhysicalMaterial' });
-    icoLight.position.set(0, 0.8, -10);//0, 1.6, -3);//0, 0.8, -10
+    icoLight.position.set(0, 1, -10);
     icoLight.material.opacity = 0.6;
     const pointLight = this.lightsService.createPointLight();
+    pointLight.position.y = 2.2;
 
     icoLight.add(pointLight);
     this.icoLight = icoLight;
+
 
     this.scene.add(this.icoLight);
 

@@ -29,7 +29,7 @@ export class LightsService {
     const hemLight = new HemisphereLight(0xf6a96a, 0x9fc3f9, 0.8);
     hemLight.color.setHSL(0.6, 1, 0.6);
     hemLight.groundColor.setHSL(0.095, 1, 0.75);
-    hemLight.position.set(-0.6, 0.64, -6);
+    hemLight.position.set(-0.6, -2, -6);
 
 
     const hemLightHelper = new HemisphereLightHelper(hemLight, 1);
@@ -37,7 +37,8 @@ export class LightsService {
   }
 
   createPointLight () {
-    const l = new PointLight(0xb3e2ff, 1, 3, 0);
+    // Color, intensity, distance, decay
+    const l = new PointLight(0xb3e2ff, 1.5, 13, 0);
     l.castShadow = true;
     l.shadow.bias = - 0.005;
     return l;
