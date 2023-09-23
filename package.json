@@ -6,6 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "deploy": "ng deploy --cname=webxr.art",
+    "update": "ng update @angular/cli @angular/core",
+    "update-next": "ng update @angular/cli@next @angular/core@next",
     "test": "ng test"
   },
   "private": true,
