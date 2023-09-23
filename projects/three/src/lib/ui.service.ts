@@ -255,7 +255,6 @@ export class UIService {
   createInteractiveButtons (options: any) {
 
     const ops = Object.assign({}, this.defaultOptions, options);
-    console.log('button ops ', ops);
     const container = new ThreeMeshUI.Block(
       {
         justifyContent: 'center',
@@ -282,7 +281,6 @@ export class UIService {
   };
 
   createButton (id: number, ops?: any) {
-    console.log('Creating buttons ', id, ops);
     const btn = new ThreeMeshUI.Block(this.buttonOptions);
     btn.name = `Frame ${id} ${ops.name}`;
 
@@ -295,11 +293,9 @@ export class UIService {
     btn.setupState({
       state: 'selected',
       attributes: this.selectedAttributes,
-      onSet: (e: any) => {
-        console.log('button state set to selected ', ops.onClick);
-        // ops.onClick();
-        console.log(`Button onSet  ${ops.name}`, e);
-      }
+      // onSet: (e: any) => {
+
+      // }
     });
 
     // @ts-ignore

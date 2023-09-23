@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Raycaster, Matrix4, Vector3 } from 'three';
+import { Raycaster, Matrix4, Vector3, TOUCH } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { DebugService } from './debug.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,9 @@ export class ControllerService {
     selectPressed: false
   };
   renderer: any;
-  constructor() { }
+  constructor(
+    private debug: DebugService
+  ) { }
 
   /**
    * TODO: Add hand controls and controllers. Push the update function to render functions
@@ -45,10 +48,42 @@ export class ControllerService {
     this.controls = new OrbitControls(ops.camera, ops.canvas);
     this.controls.target.set(0, 1.6, 0);
     this.controls.enableDamping = true;
+    this.controls.dampingFactor = 0.001;
+    this.controls.panSpeed = 0.5;
+    this.controls.rotateSpeed = 0.8;
     this.controls.minDistance = ops.minDistance || 0.1;
-    this.controls.maxDistance = ops.maxDistance || 300;
+    this.controls.maxDistance = ops.maxDistance || 200;
+
+    // Limit the vertical rotation
+    this.controls.minPolarAngle = Math.PI / 4;
+    this.controls.maxPolarAngle = Math.PI / 2;
+    this.controls.screenSpacePanning = false;
+    this.controls.zoomSpeed = 0.5;
+
     // Enable arrow keys
     this.controls.listenToKeyEvents(window);
+    this.controls.keys = {
+      LEFT: 'ArrowLeft', //left arrow
+      UP: 'ArrowUp', // up arrow
+      RIGHT: 'ArrowRight', // right arrow
+      BOTTOM: 'ArrowDown' // down arrow
+    };
+    // { ROTATE: 0, PAN: 1, DOLLY_PAN: 2, DOLLY_ROTATE: 3 }
+    this.controls.touches = {
+      ONE: TOUCH.ROTATE,
+      TWO: TOUCH.DOLLY_PAN
+    };
+
+    this.debug.addToDebug({
+      obj: this.controls, name: 'Orbit Controls', properties: {
+        'panSpeed': { min: 0, max: 1, precision: 0.001 },
+        'rotateSpeed': { min: 0, max: 1, precision: 0.001 },
+        'touches': {},
+        'zoomSpeed': { min: 0, max: 1, precision: 0.001 }
+      }
+    });
+
+
     return this.controls;
   }
 

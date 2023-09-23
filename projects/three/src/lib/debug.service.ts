@@ -48,6 +48,7 @@ export class DebugService {
           const lookAtfolder = folder.addFolder('LookAt');
           this.addPosition(options, lookAtfolder, values); break;
         default:
+          folder.add(options.obj, key, options.min, options.max, options.precision);
 
           break;
       }

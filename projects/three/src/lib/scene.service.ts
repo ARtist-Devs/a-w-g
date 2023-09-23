@@ -141,7 +141,6 @@ export class SceneService {
     this.controllerService.updateControls;
     this.renderFunctions.push(this.controllerService.updateControls);
 
-    this.debug.addToDebug({ obj: this.camera, name: 'Camera', properties: { 'Position': {} } });
     window.addEventListener("resize", this.onResize.bind(this));
 
     // TODO: Interactions Service Imp
