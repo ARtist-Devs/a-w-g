@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSign
 import { Group } from 'three';
 
 import { Artwork } from 'projects/three/src/lib/artwork';
-import { ArtworkFramesService, LightsService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
+import { ArtworkFramesService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
 import { ArtworksService } from '../artworks.service';
 
 @Component({
@@ -20,6 +20,8 @@ export class GalleryComponent {
   public frames: Group;
   private buttons: Object;
   private focused = 0;
+
+
   private info = computed(() => {
     this.artworks[this.selectedIndex()];
   });
@@ -47,7 +49,8 @@ export class GalleryComponent {
 
     // Model
     const model = this.loadersService.loadModel({
-      path: 'assets/models/VRGalleryOriginal150901.glb',
+      // path: 'assets/models/VRGalleryOriginal150901.glb', 
+      path: 'assets/models/VRGalleryOriginal1510Comp4.glb',
       scene: this.sceneService.scene
     });
 

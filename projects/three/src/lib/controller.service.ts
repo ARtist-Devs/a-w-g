@@ -78,7 +78,6 @@ export class ControllerService {
       obj: this.controls, name: 'Orbit Controls', properties: {
         'panSpeed': { min: 0, max: 1, precision: 0.001 },
         'rotateSpeed': { min: 0, max: 1, precision: 0.001 },
-        'touches': {},
         'zoomSpeed': { min: 0, max: 1, precision: 0.001 }
       }
     });
