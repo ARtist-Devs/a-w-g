@@ -49,13 +49,13 @@ export class ControllerService {
     this.controls.target.set(0, 1.6, 0);
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.001;
-    this.controls.panSpeed = 0.5;
+    this.controls.panSpeed = 1;
     this.controls.rotateSpeed = 0.8;
     this.controls.minDistance = ops.minDistance || 0.1;
     this.controls.maxDistance = ops.maxDistance || 200;
 
     // Limit the vertical rotation
-    this.controls.minPolarAngle = Math.PI / 4;
+    this.controls.minPolarAngle = Math.PI / 2;
     this.controls.maxPolarAngle = Math.PI / 2;
     this.controls.screenSpacePanning = false;
     this.controls.zoomSpeed = 0.5;
