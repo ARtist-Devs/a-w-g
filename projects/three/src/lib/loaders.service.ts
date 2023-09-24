@@ -17,11 +17,9 @@ export class LoadersService {
   constructor(
     private debugService: DebugService,
   ) {
-    // this.dracoLoader.setDecoderPath('assets/models/');
-    // this.dracoLoader.preload();
-
-    this.dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
     this.dracoLoader.setDecoderConfig({ type: 'js' });
+    this.dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+    this.dracoLoader.preload();
     this.gltfLoader.setDRACOLoader(this.dracoLoader);
   }
 
@@ -116,6 +114,7 @@ export class LoadersService {
     this.gltfLoader.load(
       ops.path,
       (gltf) => {
+        console.log('GLTF ', gltf);
         const model = gltf.scene;
         model.position.z = -0;
         model.scale.set(3, 3, 3);

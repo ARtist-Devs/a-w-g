@@ -49,8 +49,7 @@ export class GalleryComponent {
 
     // Model
     const model = this.loadersService.loadModel({
-      // path: 'assets/models/VRGalleryOriginal150901.glb', 
-      path: 'assets/models/VRGalleryOriginal1510Comp4.glb',
+      path: "assets/models/VRGalleryOriginal1509comp2.glb",
       scene: this.sceneService.scene
     });
 
