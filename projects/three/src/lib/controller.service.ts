@@ -58,7 +58,7 @@ export class ControllerService {
     this.controls.minPolarAngle = Math.PI / 2;
     this.controls.maxPolarAngle = Math.PI / 2;
     this.controls.screenSpacePanning = false;
-    this.controls.zoomSpeed = 0.5;
+    this.controls.zoomSpeed = 0.8;
 
     // Enable arrow keys
     this.controls.listenToKeyEvents(window);

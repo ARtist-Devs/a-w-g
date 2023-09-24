@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSign
 import { Group } from 'three';
 
 import { Artwork } from 'projects/three/src/lib/artwork';
-import { ArtworkFramesService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
+import { ArtworkFramesService, CameraService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
 import { ArtworksService } from '../artworks.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class GalleryComponent {
   private artworksLength = 0;
   private selectedIndex: WritableSignal<number> = signal(0);
   public frames: Group;
-  private buttons: Object;
+  private buttons: Object[];
   private focused = 0;
 
 
@@ -37,6 +37,7 @@ export class GalleryComponent {
     private artworksService: ArtworksService,
     private framesService: ArtworkFramesService,
     private loadersService: LoadersService,
+    private cameraService: CameraService,
     public sceneService: SceneService,
     private ui: UIService,
   ) {
@@ -50,7 +51,8 @@ export class GalleryComponent {
     // Model
     const model = this.loadersService.loadModel({
       path: "assets/models/VRGalleryOriginal1509comp2.glb",
-      scene: this.sceneService.scene
+      scene: this.sceneService.scene,
+      onLoadCB: () => { afterSceneInitCB(); this.sceneService.addToScene(this.frames); }
     });
 
     // Frames
@@ -79,9 +81,7 @@ export class GalleryComponent {
       }
 
     ];
-    // @ts-ignore
     this.frames = this.framesService.createFrames(this.artworks, this.buttons, afterSceneInitCB);
-    this.sceneService.addToScene(this.frames);
 
     // UI
     this.sceneService.renderFunctions.push(this.ui.update);

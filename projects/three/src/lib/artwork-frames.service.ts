@@ -52,7 +52,7 @@ export class ArtworkFramesService {
 
     this.framesGroup.position.set(0, 1.6, 0);
     this.focusFrame(0);
-    if (cb) cb();
+    // if (cb) cb();
     return this.framesGroup;
   }
 

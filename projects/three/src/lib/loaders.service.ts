@@ -107,7 +107,7 @@ export class LoadersService {
 
 
 
-  loadModel (ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any; }) {
+  loadModel (ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any, onLoadCB: Function; }) {
     const material = new MeshBasicMaterial();
 
     const floorMapRepeat = new Vector2(15, 15);
@@ -149,6 +149,7 @@ export class LoadersService {
         windowsGroup.castShadow = true;
 
         ops.scene.add(model);
+        ops.onLoadCB();
       }
     );
   }
