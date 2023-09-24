@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSignal, signal, computed } from '@angular/core';
 
-import { Group } from 'three';
-
 import { Artwork } from 'projects/three/src/lib/artwork';
 import { ArtworkFramesService, CameraService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
 import { ArtworksService } from '../artworks.service';
@@ -17,7 +15,7 @@ export class GalleryComponent {
   private artworks: Artwork[] = [];
   private artworksLength = 0;
   private selectedIndex: WritableSignal<number> = signal(0);
-  public frames: Group;
+  public frames: any;
   private buttons: Object[];
   private focused = 0;
 

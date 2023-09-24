@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DirectionalLight, HemisphereLight, PointLight, SpotLight } from 'three';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'platform'
 })
 export class LightsService {
   private dirLight = new DirectionalLight(0xfdc577, 4);

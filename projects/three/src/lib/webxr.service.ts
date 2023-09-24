@@ -9,7 +9,7 @@ import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerM
 import { InteractionsService } from './interactions.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: null
 })
 export class WebXRService {
 

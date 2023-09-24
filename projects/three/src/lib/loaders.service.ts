@@ -51,62 +51,6 @@ export class LoadersService {
     );
   }
 
-  // loadDraco (ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any; }) {
-  //   const material = new MeshBasicMaterial();
-  //   console.log('Loading draco ', ops.path, this.dracoLoader);
-  //   const floorMapRepeat = new Vector2(15, 15);
-  //   this.dracoLoader.load(
-  //     ops.path,
-  //     (gltf: any) => {
-  //       console.log('gltf', gltf);
-  //       const model = gltf.scene;
-  //       model.position.z = -0;
-  //       model.scale.set(3, 3, 3);
-  //       model.traverse((obj: Object3D) => {
-  //         // @ts-ignore
-  //         if (obj.isMesh)
-  //         {
-
-  //           obj.castShadow = true;
-  //           obj.receiveShadow = true;
-  //           obj.castShadow = true;
-  //           obj.receiveShadow = true;
-  //           // @ts-ignore
-  //           if (obj.material.map) obj.material.map.anisotropy = 16;
-  //         }
-  //         // @ts-ignore
-  //         if (obj.isLight)
-  //         {
-  //           // @ts-ignore
-  //           obj.visible = visible;
-
-  //         }
-  //       });
-
-  //       const floor = model.children[0];
-
-  //       // @ts-ignore
-  //       const floorMaterial = floor.material;
-  //       floorMaterial.map.repeat = floorMapRepeat;
-  //       floorMaterial.normalMap.repeat = floorMapRepeat;
-
-  //       const windowsGroup = model.children[1];
-  //       windowsGroup.castShadow = true;
-
-  //       ops.scene.add(model);
-  //     }, (xhr: any) => {
-  //       console.log('xhr ', xhr);
-  //       // console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-
-  //     },
-  //     // called when loading has errors
-  //     (error: any): void => {
-  //       console.error('Error loading Draco model', error);
-  //     });
-  // };
-
-
-
   loadModel (ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any, onLoadCB: Function; }) {
     const material = new MeshBasicMaterial();
 

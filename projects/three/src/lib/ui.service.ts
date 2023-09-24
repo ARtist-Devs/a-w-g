@@ -9,7 +9,7 @@ import { InteractionsService } from './interactions.service';
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: null
 })
 export class UIService {
 

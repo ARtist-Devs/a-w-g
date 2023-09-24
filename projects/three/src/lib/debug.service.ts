@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import GUI from 'lil-gui';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'platform'
 })
 export class DebugService {
   gui: any;

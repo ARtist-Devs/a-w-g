@@ -20,7 +20,7 @@ import { ObjectsService } from './objects.service';
 import { DebugService } from './debug.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: null,
 
 })
 export class SceneService {
@@ -66,7 +66,6 @@ export class SceneService {
     private interactionsService: InteractionsService,
     private lightsService: LightsService,
     private objectsService: ObjectsService,
-    private webXRService: WebXRService,
     private debug: DebugService,
 
   ) { }
@@ -184,7 +183,7 @@ export class SceneService {
     console.log("After model loaded on Scene function", ops);
     const millis = Date.now() - ops; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
     // WebXR
-    this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
+    // this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
   }
 
 

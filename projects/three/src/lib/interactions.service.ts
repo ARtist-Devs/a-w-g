@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { InteractionManager } from 'three.interactive';
-import { SceneService } from './scene.service';
 import { Camera, Matrix4, Object3D, Raycaster, Vector2, Vector3, WebGLRenderer } from 'three';
+import { InteractionManager } from 'three.interactive';
 import { ColliderObjectModel, ColliderOptions } from './webxr.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'platform'
 })
 export class InteractionsService {
   interactionManager: InteractionManager;

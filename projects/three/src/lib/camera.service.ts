@@ -3,7 +3,7 @@ import { Camera, MathUtils, Object3D, PerspectiveCamera } from 'three';
 import gsap from 'gsap';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: null
 })
 export class CameraService {
   public camera: Camera | undefined;

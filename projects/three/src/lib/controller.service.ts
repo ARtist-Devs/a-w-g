@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Raycaster, Matrix4, Vector3, TOUCH } from 'three';
+import { Matrix4, Raycaster, TOUCH, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { DebugService } from './debug.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'platform'
 })
 export class ControllerService {
 

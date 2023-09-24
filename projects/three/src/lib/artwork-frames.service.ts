@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 
 import gsap from 'gsap';
-import { BoxGeometry, Group, LinearFilter, MathUtils, Mesh, MeshBasicMaterial, MeshPhongMaterial, MeshStandardMaterial, Object3D, SRGBColorSpace, UVMapping, Vector3, } from 'three';
+import { BoxGeometry, Group, LinearFilter, MathUtils, Mesh, MeshPhongMaterial, MeshStandardMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
 
 import { Artwork } from './artwork';
-import { ObjectsService } from './objects.service';
-import { InteractionsService } from './interactions.service';
-import { UIService } from './ui.service';
 import { DebugService } from './debug.service';
+import { InteractionsService } from './interactions.service';
+import { LightsService } from './lights.service';
 import { LoadersService } from './loaders.service';
 import { MaterialsService } from './materials.service';
-import { LightsService } from './lights.service';
+import { ObjectsService } from './objects.service';
+import { UIService } from './ui.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'platform'
 })
 export class ArtworkFramesService {
   frameDistance = 7;
