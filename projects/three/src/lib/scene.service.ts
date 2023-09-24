@@ -181,7 +181,8 @@ export class SceneService {
     this.createCornerLights();
     this.cameraService.moveCamera(0, 1.6, 0.001, 8);
     this.interactionsManager = this.interactionsService.initInteractionManager(this.renderer, this.camera, this.canvas);
-
+    console.log("After model loaded on Scene function", ops);
+    const millis = Date.now() - ops; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
     // WebXR
     this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
   }

@@ -45,14 +45,16 @@ export class GalleryComponent {
 
   // Init the WebXR scene with Artworks
   ngOnInit () {
+    const start = Date.now();
     this.artworks = this.artworksService.getArtworks();
     const afterSceneInitCB = this.sceneService.initScene(this.canvasEl);
 
+    console.log("before model loaded", start);
     // Model
     const model = this.loadersService.loadModel({
       path: "assets/models/VRGalleryOriginal1509comp2.glb",
       scene: this.sceneService.scene,
-      onLoadCB: () => { afterSceneInitCB(); this.sceneService.addToScene(this.frames); }
+      onLoadCB: () => { afterSceneInitCB(start); this.sceneService.addToScene(this.frames); const millis = Date.now() - start; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`); }
     });
 
     // Frames

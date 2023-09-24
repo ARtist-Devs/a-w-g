@@ -149,6 +149,7 @@ export class LoadersService {
         windowsGroup.castShadow = true;
 
         ops.scene.add(model);
+        console.log("After model loaded ", Date.now());
         ops.onLoadCB();
       }
     );
