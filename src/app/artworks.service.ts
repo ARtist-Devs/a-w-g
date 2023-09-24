@@ -1,15 +1,7 @@
 import {
-  EventEmitter,
-  Injectable,
-  OnInit,
-  Output,
-  Signal,
-  WritableSignal,
-  computed,
-  effect,
-  signal,
+  Injectable, signal
 } from '@angular/core';
-import { Artwork } from 'projects/three/src/lib/artwork';
+// import { Artwork } from 'projects/three/src/lib/artwork';
 
 /**
  * No three.js but only the database and app state.
@@ -101,7 +93,7 @@ export class ArtworksService {
     if (this.upvoted.indexOf(i) === -1)
     {
       this.upvoted.push(i);
-      this.artworks.mutate((artworks: Artwork[]): void => {
+      this.artworks.mutate((artworks: any[]): void => {
         artworks[i].votes += 1;
       });
       console.log('Mutated', i, this.artworks()[i].votes);

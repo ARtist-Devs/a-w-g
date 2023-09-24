@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Vector3, BufferGeometry, BufferGeometryLoader, MeshLambertMaterial, Mesh, Scene, MeshBasicMaterial, ACESFilmicToneMapping, CineonToneMapping, CustomToneMapping, LinearToneMapping, NoToneMapping, ReinhardToneMapping, TextureLoader, MeshPhongMaterial, SRGBColorSpace, Vector2 } from 'three';
+
+import { BufferGeometryLoader, Mesh, MeshBasicMaterial, Object3D, Scene, TextureLoader, Vector2 } from 'three';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+
 import { DebugService } from './debug.service';
-import { vec2 } from 'gl-matrix';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +13,15 @@ export class LoadersService {
   private gltfLoader = new GLTFLoader();
   private bufferLoader: BufferGeometryLoader = new BufferGeometryLoader();
   private textureLoader: TextureLoader = new TextureLoader();
+  private dracoLoader = new DRACOLoader();
   constructor(
     private debugService: DebugService,
-  ) { }
+  ) {
+    this.dracoLoader.setDecoderConfig({ type: 'js' });
+    this.dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+    this.dracoLoader.preload();
+    this.gltfLoader.setDRACOLoader(this.dracoLoader);
+  }
 
   loadBufferGeometry (scene: Scene, path: string, cb?: Function) {
 
@@ -43,14 +51,14 @@ export class LoadersService {
     );
   }
 
-  loadModel (ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any; }) {
-
+  loadModel (ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any, onLoadCB: Function; }) {
     const material = new MeshBasicMaterial();
 
     const floorMapRepeat = new Vector2(15, 15);
     this.gltfLoader.load(
       ops.path,
       (gltf) => {
+        console.log('GLTF ', gltf);
         const model = gltf.scene;
         model.position.z = -0;
         model.scale.set(3, 3, 3);
@@ -85,6 +93,8 @@ export class LoadersService {
         windowsGroup.castShadow = true;
 
         ops.scene.add(model);
+        console.log("After model loaded ", Date.now());
+        ops.onLoadCB();
       }
     );
   }

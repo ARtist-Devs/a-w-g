@@ -20,7 +20,7 @@ import { ObjectsService } from './objects.service';
 import { DebugService } from './debug.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: null,
 
 })
 export class SceneService {
@@ -66,7 +66,6 @@ export class SceneService {
     private interactionsService: InteractionsService,
     private lightsService: LightsService,
     private objectsService: ObjectsService,
-    private webXRService: WebXRService,
     private debug: DebugService,
 
   ) { }
@@ -147,13 +146,12 @@ export class SceneService {
     const interactionsUpdate = this.interactionsService.initInteractionManager(this.renderer, this.camera, canvas);
     this.renderFunctions.push(interactionsUpdate);
 
-    // WebXR
-    this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
+
 
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
 
-    return this.afterSceneInit();
+    return this.afterSceneInit.bind(this);
   }
 
   createCornerLights () {
@@ -178,9 +176,14 @@ export class SceneService {
   }
 
   afterSceneInit (ops?: any) {
-    this.cameraService.moveCamera(0, 1.6, 0.001, 8);
+
     this.createCornerLights();
+    this.cameraService.moveCamera(0, 1.6, 0.001, 8);
     this.interactionsManager = this.interactionsService.initInteractionManager(this.renderer, this.camera, this.canvas);
+    console.log("After model loaded on Scene function", ops);
+    const millis = Date.now() - ops; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
+    // WebXR
+    // this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
   }
 
 
@@ -228,7 +231,6 @@ export class SceneService {
 
   //TODO: check to see if you still need w,h args
   onResize (e: UIEvent, w?: any, h?: any) {
-    console.log('Resizing ', e);
     w = w || window.innerWidth;
     h = h || window.innerHeight;
 

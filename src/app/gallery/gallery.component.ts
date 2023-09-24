@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSignal, signal, computed } from '@angular/core';
 
-import { Group } from 'three';
-
 import { Artwork } from 'projects/three/src/lib/artwork';
-import { ArtworkFramesService, LightsService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
+import { ArtworkFramesService, CameraService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
 import { ArtworksService } from '../artworks.service';
 
 @Component({
@@ -17,9 +15,11 @@ export class GalleryComponent {
   private artworks: Artwork[] = [];
   private artworksLength = 0;
   private selectedIndex: WritableSignal<number> = signal(0);
-  public frames: Group;
-  private buttons: Object;
+  public frames: any;
+  private buttons: Object[];
   private focused = 0;
+
+
   private info = computed(() => {
     this.artworks[this.selectedIndex()];
   });
@@ -35,6 +35,7 @@ export class GalleryComponent {
     private artworksService: ArtworksService,
     private framesService: ArtworkFramesService,
     private loadersService: LoadersService,
+    private cameraService: CameraService,
     public sceneService: SceneService,
     private ui: UIService,
   ) {
@@ -42,13 +43,16 @@ export class GalleryComponent {
 
   // Init the WebXR scene with Artworks
   ngOnInit () {
+    const start = Date.now();
     this.artworks = this.artworksService.getArtworks();
     const afterSceneInitCB = this.sceneService.initScene(this.canvasEl);
 
+    console.log("before model loaded", start);
     // Model
     const model = this.loadersService.loadModel({
-      path: 'assets/models/VRGalleryOriginal150901.glb',
-      scene: this.sceneService.scene
+      path: "assets/models/VRGalleryOriginal1509comp2.glb",
+      scene: this.sceneService.scene,
+      onLoadCB: () => { afterSceneInitCB(start); this.sceneService.addToScene(this.frames); const millis = Date.now() - start; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`); }
     });
 
     // Frames
@@ -77,9 +81,7 @@ export class GalleryComponent {
       }
 
     ];
-    // @ts-ignore
     this.frames = this.framesService.createFrames(this.artworks, this.buttons, afterSceneInitCB);
-    this.sceneService.addToScene(this.frames);
 
     // UI
     this.sceneService.renderFunctions.push(this.ui.update);

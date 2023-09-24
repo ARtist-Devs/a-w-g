@@ -8,7 +8,7 @@ import { DebugService } from './debug.service';
 import { Colors } from './colors';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'platform'
 })
 export class ObjectsService {
   private boxGeometry = new BoxGeometry(1, 1, 1);

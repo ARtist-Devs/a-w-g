@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Material, MeshBasicMaterial, MeshLambertMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshPhysicalMaterialParameters, MeshStandardMaterial } from 'three';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'platform'
 })
 export class MaterialsService {
 

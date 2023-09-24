@@ -118,7 +118,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/three/ng-package.json"
+            "project": "projects/three/ng-package.json",
           },
           "configurations": {
             "production": {

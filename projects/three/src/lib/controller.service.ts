@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Raycaster, Matrix4, Vector3, TOUCH } from 'three';
+import { Matrix4, Raycaster, TOUCH, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { DebugService } from './debug.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'platform'
 })
 export class ControllerService {
 
@@ -49,16 +49,16 @@ export class ControllerService {
     this.controls.target.set(0, 1.6, 0);
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.001;
-    this.controls.panSpeed = 0.5;
+    this.controls.panSpeed = 1;
     this.controls.rotateSpeed = 0.8;
     this.controls.minDistance = ops.minDistance || 0.1;
     this.controls.maxDistance = ops.maxDistance || 200;
 
     // Limit the vertical rotation
-    this.controls.minPolarAngle = Math.PI / 4;
+    this.controls.minPolarAngle = Math.PI / 2;
     this.controls.maxPolarAngle = Math.PI / 2;
     this.controls.screenSpacePanning = false;
-    this.controls.zoomSpeed = 0.5;
+    this.controls.zoomSpeed = 0.8;
 
     // Enable arrow keys
     this.controls.listenToKeyEvents(window);
@@ -78,7 +78,6 @@ export class ControllerService {
       obj: this.controls, name: 'Orbit Controls', properties: {
         'panSpeed': { min: 0, max: 1, precision: 0.001 },
         'rotateSpeed': { min: 0, max: 1, precision: 0.001 },
-        'touches': {},
         'zoomSpeed': { min: 0, max: 1, precision: 0.001 }
       }
     });

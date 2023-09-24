@@ -3,7 +3,7 @@ import { Camera, MathUtils, Object3D, PerspectiveCamera } from 'three';
 import gsap from 'gsap';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: null
 })
 export class CameraService {
   public camera: Camera | undefined;
@@ -16,7 +16,7 @@ export class CameraService {
 
   createCamera (ops?: any) {
     this.camera = new PerspectiveCamera(ops.fov, ops.width / ops.height, ops.near, ops.far);
-    this.camera.position.set(ops.position.x, ops.position.y, 20);
+    this.camera.position.set(ops.position.x, ops.position.y, 24);
     this.camera.rotation.set(0, 0, 0);
     this.camera.name = ops.name;
     return this.camera;
