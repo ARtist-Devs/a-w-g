@@ -23,35 +23,7 @@ export class LoadersService {
     this.gltfLoader.setDRACOLoader(this.dracoLoader);
   }
 
-  loadBufferGeometry (scene: Scene, path: string, cb?: Function) {
-
-    this.bufferLoader.load(
-      // resource URL
-      path,
-
-      // onLoad callback
-      function (geometry) {
-        const material = new MeshBasicMaterial({ color: 0xF5F5F5 });
-        const object = new Mesh(geometry, material);
-        object.name = 'json model';
-
-        scene.add(object);
-        return object;
-      },
-
-      // onProgress callback
-      function (xhr) {
-        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-      },
-
-      // onError callback
-      function (err) {
-        console.log('An error happened', err);
-      }
-    );
-  }
-
-  loadModel (ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any, onLoadCB: Function; }) {
+  loadModel (ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any, onLoadCB: Function, onLoadProgress: Function; }) {
     const material = new MeshBasicMaterial();
 
     const floorMapRepeat = new Vector2(15, 15);
@@ -91,10 +63,14 @@ export class LoadersService {
 
         const windowsGroup = model.children[1];
         windowsGroup.castShadow = true;
-
-        ops.scene.add(model);
+        console.log("refreshed.......");
+        // ops.scene.add(model);
         console.log("After model loaded ", Date.now());
         ops.onLoadCB();
+      },
+      (xhr) => { ops.onLoadProgress(xhr); },
+      (err) => {
+        console.error('Error loading model');
       }
     );
   }

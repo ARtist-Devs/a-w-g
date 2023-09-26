@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
+
 import { Camera, MathUtils, Object3D, PerspectiveCamera } from 'three';
 import gsap from 'gsap';
 
 @Injectable({
-  providedIn: null
+  providedIn: 'platform'
 })
 export class CameraService {
-  public camera: Camera | undefined;
+  public camera: PerspectiveCamera | undefined;
   public dummyCamera = new Object3D();
   public dolly = new Object3D();
   theta = 0;

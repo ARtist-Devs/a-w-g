@@ -15,6 +15,7 @@ export class GalleryComponent {
   private artworks: Artwork[] = [];
   private artworksLength = 0;
   private selectedIndex: WritableSignal<number> = signal(0);
+  public loadingProgress: WritableSignal<number> = signal(0);
   public frames: any;
   private buttons: Object[];
   private focused = 0;
@@ -35,7 +36,6 @@ export class GalleryComponent {
     private artworksService: ArtworksService,
     private framesService: ArtworkFramesService,
     private loadersService: LoadersService,
-    private cameraService: CameraService,
     public sceneService: SceneService,
     private ui: UIService,
   ) {
@@ -52,7 +52,12 @@ export class GalleryComponent {
     const model = this.loadersService.loadModel({
       path: "assets/models/VRGalleryOriginal1509comp2.glb",
       scene: this.sceneService.scene,
-      onLoadCB: () => { afterSceneInitCB(start); this.sceneService.addToScene(this.frames); const millis = Date.now() - start; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`); }
+      onLoadProgress: this.onLoadProgress.bind(this),
+      onLoadCB: () => {
+        afterSceneInitCB(start);
+        this.sceneService.addToScene(this.frames);
+        const millis = Date.now() - start; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
+      }
     });
 
     // Frames
@@ -90,6 +95,13 @@ export class GalleryComponent {
 
     this.selectedArtwork = signal(this.artworks[0], { equal: this.compareSelected });
   }
+
+  onLoadProgress (xhr: ProgressEvent) {
+    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    this.loadingProgress.set(xhr.loaded / xhr.total);
+
+  }
+
 
   compareSelected (o: Artwork, n: Artwork) {
     return o ? o.id === n.id : true;
