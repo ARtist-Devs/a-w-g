@@ -7,7 +7,7 @@ import {
  * No three.js but only the database and app state.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'platform'
 })
 export class ArtworksService {
   private artworks = signal([

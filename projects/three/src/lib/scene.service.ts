@@ -1,23 +1,14 @@
-import { Injectable, NgZone, computed, signal } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
-import { ACESFilmicToneMapping, Camera, CineonToneMapping, Clock, Color, CustomToneMapping, DirectionalLight, Fog, HemisphereLight, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, Raycaster, ReinhardToneMapping, Scene, ShaderChunk, Vector2, WebGLRenderer, SpotLight } from 'three';
-// WebGPU
-// @ts-ignore
-// import WebGPU from 'three/examples/jsm/capabilities/WebGPU.js';
-// @ts-ignore
-import WebGPURenderer from 'three/examples/jsm/renderers/webgpu/WebGPURenderer.js';
-import { HDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader.js';
-import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture.js';
+import { ACESFilmicToneMapping, Camera, CineonToneMapping, Clock, Color, CustomToneMapping, Fog, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, Scene, SpotLight, Vector2, WebGLRenderer } from 'three';
 
-
-import { sceneDefaults } from './scene.config';
 import { CameraService } from './camera.service';
 import { ControllerService } from './controller.service';
+import { DebugService } from './debug.service';
 import { InteractionsService } from './interactions.service';
-import { WebXRService } from './webxr.service';
 import { LightsService } from './lights.service';
 import { ObjectsService } from './objects.service';
-import { DebugService } from './debug.service';
+import { sceneDefaults } from './scene.config';
 
 @Injectable({
   providedIn: null,
@@ -25,7 +16,7 @@ import { DebugService } from './debug.service';
 })
 export class SceneService {
 
-  public camera: Camera;
+  public camera: PerspectiveCamera;
   public scene: Scene = new Scene();
   public renderFunctions: Function[] = [];
   public clock = new Clock();
@@ -154,26 +145,7 @@ export class SceneService {
     return this.afterSceneInit.bind(this);
   }
 
-  createCornerLights () {
-    this.icoLight1 = this.icoLight.clone();
-    const spotlight = this.lightsService.createPointLight();
-    this.icoLight1.add(spotlight);
-    this.icoLight1.position.set(-10, 1, 7.6);
 
-    this.icoLight2 = this.icoLight.clone();
-
-    this.icoLight2.add(spotlight);
-    this.icoLight2.position.set(10, 1, 7.6);
-
-    this.scene.add(this.icoLight1, this.icoLight2);
-    this.renderFunctions.push(this.animateLights.bind(this));
-  }
-
-  animateLights (delta: any) {
-    this.icoLight.rotation.y += 0.01;
-    this.icoLight1.rotation.y += 0.01;
-    this.icoLight2.rotation.y += 0.01;
-  }
 
   afterSceneInit (ops?: any) {
 
@@ -184,6 +156,7 @@ export class SceneService {
     const millis = Date.now() - ops; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
     // WebXR
     // this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
+
   }
 
 
@@ -219,6 +192,12 @@ export class SceneService {
 
   }
 
+  animateLights (delta: any) {
+    this.icoLight.rotation.y += 0.01;
+    this.icoLight1.rotation.y += 0.01;
+    this.icoLight2.rotation.y += 0.01;
+  }
+
   addToScene (obj: any) {
     if (obj instanceof Array)
     {
@@ -229,16 +208,44 @@ export class SceneService {
     }
   }
 
+  createCornerLights () {
+    this.icoLight1 = this.icoLight.clone();
+    const spotlight = this.lightsService.createPointLight();
+    this.icoLight1.add(spotlight);
+    this.icoLight1.position.set(-10, 1, 7.6);
+
+    this.icoLight2 = this.icoLight.clone();
+
+    this.icoLight2.add(spotlight);
+    this.icoLight2.position.set(10, 1, 7.6);
+
+    this.scene.add(this.icoLight1, this.icoLight2);
+    this.renderFunctions.push(this.animateLights.bind(this));
+  }
+
+  onTouchStart (e: TouchEvent) {
+
+    this.pointer.x = ((e.touches[0].clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
+    this.pointer.y = - ((e.touches[0].clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
+    // this.interactionsService.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene, select: true });
+
+  }
+
+  onPointerDown (e: PointerEvent) {
+    this.pointer.x = ((e.clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
+    this.pointer.y = - ((e.clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
+    this.interactionsService.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene });
+
+  }
+
   //TODO: check to see if you still need w,h args
   onResize (e: UIEvent, w?: any, h?: any) {
     w = w || window.innerWidth;
     h = h || window.innerHeight;
 
     // Set the camera's aspect ratio
-    // @ts-ignore
     this.camera.aspect = w / h;
     // update the camera's frustum
-    // @ts-ignore
     this.camera.updateProjectionMatrix();
 
     // update the size of the renderer & the canvas
@@ -247,5 +254,6 @@ export class SceneService {
     this.renderer.setPixelRatio(window.devicePixelRatio);
   }
 
+  // TODO: change the controls
   onDeviceChange (e: Event) { }
 }

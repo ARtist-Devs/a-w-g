@@ -31,8 +31,6 @@ yarn-error.log
 
 # Miscellaneous
 /.angular/cache
-/scripts
-asset_pipeline/
 
 .sass-cache/
 /connect.lock
@@ -44,3 +42,9 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Junk files
+content/
+asset_pipeline/
+renderers/
+scripts/
