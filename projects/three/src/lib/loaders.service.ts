@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { BufferGeometryLoader, Mesh, MeshBasicMaterial, Object3D, Scene, TextureLoader, Vector2 } from 'three';
+import { BufferGeometryLoader, Mesh, MeshBasicMaterial, Scene, TextureLoader, Vector2 } from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
@@ -63,7 +63,6 @@ export class LoadersService {
 
         const windowsGroup = model.children[1];
         windowsGroup.castShadow = true;
-        console.log("refreshed.......");
         ops.scene.add(model);
         console.log("After model loaded ", Date.now());
         ops.onLoadCB();
