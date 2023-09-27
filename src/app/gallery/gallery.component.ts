@@ -50,7 +50,7 @@ export class GalleryComponent {
     console.log("before model loaded", start);
     // Model
     const model = this.loadersService.loadModel({
-      path: "assets/models/VRGalleryOriginal1509comp2.glb",
+      path: "assets/models/VRGalleryOriginal1509compressed1.glb",
       scene: this.sceneService.scene,
       onLoadProgress: this.onLoadProgress.bind(this),
       onLoadCB: () => {

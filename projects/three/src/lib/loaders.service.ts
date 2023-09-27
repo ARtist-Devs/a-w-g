@@ -64,7 +64,7 @@ export class LoadersService {
         const windowsGroup = model.children[1];
         windowsGroup.castShadow = true;
         console.log("refreshed.......");
-        // ops.scene.add(model);
+        ops.scene.add(model);
         console.log("After model loaded ", Date.now());
         ops.onLoadCB();
       },
