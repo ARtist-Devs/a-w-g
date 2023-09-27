@@ -156,6 +156,23 @@ export class SceneService {
     const millis = Date.now() - ops; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
     // WebXR
     // this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
+
+  }
+
+
+  onTouchStart (e: TouchEvent) {
+
+    this.pointer.x = ((e.touches[0].clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
+    this.pointer.y = - ((e.touches[0].clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
+    // this.interactionsService.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene, select: true });
+
+  }
+
+  onPointerDown (e: PointerEvent) {
+    this.pointer.x = ((e.clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
+    this.pointer.y = - ((e.clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
+    this.interactionsService.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene });
+
   }
 
   render () {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { BufferGeometryLoader, Mesh, MeshBasicMaterial, Scene, TextureLoader, Vector2 } from 'three';
+
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
@@ -24,6 +25,7 @@ export class LoadersService {
   }
 
   loadModel (ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any, onLoadCB: Function, onLoadProgress: Function; }) {
+
     const material = new MeshBasicMaterial();
 
     const floorMapRepeat = new Vector2(15, 15);
@@ -70,6 +72,7 @@ export class LoadersService {
       (xhr) => { ops.onLoadProgress(xhr); },
       (err) => {
         console.error('Error loading model');
+
       }
     );
   }

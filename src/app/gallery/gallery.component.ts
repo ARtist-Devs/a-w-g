@@ -36,6 +36,7 @@ export class GalleryComponent {
     private artworksService: ArtworksService,
     private framesService: ArtworkFramesService,
     private loadersService: LoadersService,
+    private cameraService: CameraService,
     public sceneService: SceneService,
     private ui: UIService,
   ) {
@@ -58,6 +59,7 @@ export class GalleryComponent {
         this.sceneService.addToScene(this.frames);
         const millis = Date.now() - start; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
       }
+
     });
 
     // Frames
