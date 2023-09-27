@@ -8,7 +8,6 @@ import { WebXRButtonComponent } from './webxr-button/webxr-button.component';
 
 import { SharedModule } from './shared/shared.module';
 import { ThreeModule } from 'projects/three/src/public-api';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     AppRoutingModule,
     SharedModule,
     ThreeModule,
-    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

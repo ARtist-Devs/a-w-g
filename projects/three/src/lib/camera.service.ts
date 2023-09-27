@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Camera, MathUtils, Object3D, PerspectiveCamera } from 'three';
 import gsap from 'gsap';
+import { MathUtils, Object3D, PerspectiveCamera } from 'three';
 
 @Injectable({
   providedIn: 'platform'

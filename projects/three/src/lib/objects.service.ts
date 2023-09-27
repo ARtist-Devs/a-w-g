@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { BackSide, BoxGeometry, Color, CylinderGeometry, DoubleSide, EdgesGeometry, ExtrudeGeometry, GridHelper, Group, IcosahedronGeometry, LineBasicMaterial, LineSegments, Material, Mesh, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, PlaneGeometry, RingGeometry, ShaderMaterial, Shape, ShapeGeometry, SphereGeometry } from 'three';
+import { BackSide, BoxGeometry, Color, EdgesGeometry, ExtrudeGeometry, Group, IcosahedronGeometry, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, PlaneGeometry, RingGeometry, ShaderMaterial, Shape, SphereGeometry } from 'three';
 
+import { DebugService } from './debug.service';
 import { InteractionsService } from './interactions.service';
 import { MaterialsService } from './materials.service';
-import { DebugService } from './debug.service';
-import { Colors } from './colors';
 
 @Injectable({
   providedIn: 'platform'

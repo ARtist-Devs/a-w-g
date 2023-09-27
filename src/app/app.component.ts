@@ -18,9 +18,10 @@ export class AppComponent {
     this.handleRouteEvents();
   }
 
-  handleRouteEvents() {
+  handleRouteEvents () {
     this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
+      if (event instanceof NavigationEnd)
+      {
         const title = this.getTitle(this.router.routerState, this.router.routerState.root).join('-');
         this.titleService.setTitle(title);
         gtag('event', 'page_view', {
@@ -32,12 +33,14 @@ export class AppComponent {
     });
   }
 
-  getTitle(state: RouterState, parent: ActivatedRoute): string[] {
+  getTitle (state: RouterState, parent: ActivatedRoute): string[] {
     const data = [];
-    if (parent && parent.snapshot.data && parent.snapshot.data['title']) {
+    if (parent && parent.snapshot.data && parent.snapshot.data['title'])
+    {
       data.push(parent.snapshot.data['title']);
     }
-    if (state && parent && parent.firstChild) {
+    if (state && parent && parent.firstChild)
+    {
       data.push(...this.getTitle(state, parent.firstChild));
     }
     return data;

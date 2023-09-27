@@ -95,10 +95,6 @@ export class SceneService {
 
     this.rect = this.renderer.domElement.getBoundingClientRect();
 
-    // GROUND
-    // const ground = this.objectsService.createGround();
-    // this.scene.add(ground);
-
     // Lights
     const hemLight = this.lightsService.createHemLight({ intensity: 0.5 });
     // const dirLights = this.lightsService.createDirLight({ intensity: 1.2 });
@@ -123,8 +119,8 @@ export class SceneService {
     icoLight.add(this.pointLight);
     this.icoLight = icoLight;
 
-
     this.scene.add(this.icoLight);
+    // --Lights
 
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
@@ -137,12 +133,11 @@ export class SceneService {
     const interactionsUpdate = this.interactionsService.initInteractionManager(this.renderer, this.camera, canvas);
     this.renderFunctions.push(interactionsUpdate);
 
-
-
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
 
     return this.afterSceneInit.bind(this);
+
   }
 
 
@@ -152,32 +147,16 @@ export class SceneService {
     this.createCornerLights();
     this.cameraService.moveCamera(0, 1.6, 0.001, 8);
     this.interactionsManager = this.interactionsService.initInteractionManager(this.renderer, this.camera, this.canvas);
-    console.log("After model loaded on Scene function", ops);
     const millis = Date.now() - ops; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
-    // WebXR
-    // this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
 
   }
 
-
-  onTouchStart (e: TouchEvent) {
-
-    this.pointer.x = ((e.touches[0].clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
-    this.pointer.y = - ((e.touches[0].clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
-    // this.interactionsService.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene, select: true });
-
-  }
-
-  onPointerDown (e: PointerEvent) {
-    this.pointer.x = ((e.clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
-    this.pointer.y = - ((e.clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
-    this.interactionsService.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene });
-
-  }
 
   render () {
+
+    // time elapsed since last frame
     const delta = this.clock.getDelta();
-    // console.log(delta);
+
     // update controls
     this.controllerService.updateControls();
 
@@ -193,12 +172,16 @@ export class SceneService {
   }
 
   animateLights (delta: any) {
+
     this.icoLight.rotation.y += 0.01;
     this.icoLight1.rotation.y += 0.01;
     this.icoLight2.rotation.y += 0.01;
+
   }
 
+
   addToScene (obj: any) {
+
     if (obj instanceof Array)
     {
       this.scene.add(...obj);
@@ -206,9 +189,11 @@ export class SceneService {
     {
       this.scene.add(obj);
     }
+
   }
 
   createCornerLights () {
+
     this.icoLight1 = this.icoLight.clone();
     const spotlight = this.lightsService.createPointLight();
     this.icoLight1.add(spotlight);
@@ -221,6 +206,7 @@ export class SceneService {
 
     this.scene.add(this.icoLight1, this.icoLight2);
     this.renderFunctions.push(this.animateLights.bind(this));
+
   }
 
   onTouchStart (e: TouchEvent) {
@@ -232,26 +218,30 @@ export class SceneService {
   }
 
   onPointerDown (e: PointerEvent) {
+
     this.pointer.x = ((e.clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
     this.pointer.y = - ((e.clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
     this.interactionsService.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene });
 
   }
 
-  //TODO: check to see if you still need w,h args
   onResize (e: UIEvent, w?: any, h?: any) {
+
     w = w || window.innerWidth;
     h = h || window.innerHeight;
 
     // Set the camera's aspect ratio
     this.camera.aspect = w / h;
+
     // update the camera's frustum
     this.camera.updateProjectionMatrix();
 
     // update the size of the renderer & the canvas
     this.renderer.setSize(w, h);
+
     // set the pixel ratio (for mobile devices)
     this.renderer.setPixelRatio(window.devicePixelRatio);
+
   }
 
   // TODO: change the controls

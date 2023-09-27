@@ -41,7 +41,7 @@ export class LightsService {
     return l;
   }
 
-  createDirLight (ops?: any) {
+  createDirLight (ops?: any): any[] {
     const intensity = ops?.intensity || 2;
     const dirLight = new DirectionalLight(0xffffff, intensity);
     dirLight.castShadow = true;
@@ -64,7 +64,6 @@ export class LightsService {
 
     dirLight.target.position.set(0, 0, -2);
     return [dirLight, dirLight.target];
-
 
   }
 

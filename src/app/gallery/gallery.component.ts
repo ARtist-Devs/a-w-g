@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSignal, signal, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSignal, computed, signal } from '@angular/core';
 
 import { Artwork } from 'projects/three/src/lib/artwork';
-import { ArtworkFramesService, CameraService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
+import { ArtworkFramesService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
 import { ArtworksService } from '../artworks.service';
 
 @Component({
@@ -36,7 +36,6 @@ export class GalleryComponent {
     private artworksService: ArtworksService,
     private framesService: ArtworkFramesService,
     private loadersService: LoadersService,
-    private cameraService: CameraService,
     public sceneService: SceneService,
     private ui: UIService,
   ) {
@@ -86,8 +85,8 @@ export class GalleryComponent {
         position: { x: 0.75, y: 0, z: -0. },
         rotation: {}
       }
-
     ];
+
     this.frames = this.framesService.createFrames(this.artworks, this.buttons, afterSceneInitCB);
 
     // UI
@@ -125,7 +124,7 @@ export class GalleryComponent {
    * @param e 
    */
   changeSelection (ind: any, n: number) {
-    console.log('Change selection event ', ind, n);
+
     this.framesService.resetPosition(this.focused);
     let i;
     if (n === 1)// Next
@@ -139,6 +138,7 @@ export class GalleryComponent {
     }
     this.focused = i;
     this.framesService.focusFrame(i);
+
   }
 
   upvoteSelection (i: number): void {

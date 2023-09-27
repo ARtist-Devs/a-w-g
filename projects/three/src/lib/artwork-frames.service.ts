@@ -52,7 +52,6 @@ export class ArtworkFramesService {
 
     this.framesGroup.position.set(0, 1.6, 0);
     this.focusFrame(0);
-    // if (cb) cb();
     return this.framesGroup;
   }
 
@@ -72,13 +71,9 @@ export class ArtworkFramesService {
     frame.userData['originalPosition'] = frame.position.clone();
     const light = this.lightsService.createDirLight({ intensity: 0.4 })[0];
     light.castShadow = true;
-    // @ts-ignore
     light.position.set(Math.sin(alpha), 2, Math.cos(alpha));
-    // @ts-ignore
     light.name = `${frame.name} dir light`;
-    // @ts-ignore
     light.target.position.set(x, 0, z);
-    // @ts-ignore
     light.target.updateWorldMatrix();
 
     return frame;
@@ -118,9 +113,7 @@ export class ArtworkFramesService {
     canvasMesh.name = ` ${artwork.title} canvas mesh` || 'frame canvas';
 
     const l = this.lightsService.createSpotLight();
-    // @ts-ignore
     l[0].target = frameMesh;
-    // @ts-ignore
     frameGroup.add(frameMesh, canvasMesh, ...l);
     frameGroup.rotateY(Math.PI);
 
@@ -147,7 +140,6 @@ export class ArtworkFramesService {
     return frameGroup;
   }
 
-
   createButton (ops: any, i: number) {
     let button;
     if (ops.shape === 'heart')
@@ -169,7 +161,6 @@ export class ArtworkFramesService {
     return button;
   }
 
-
   focusFrame (i: number) {
 
     const f = this.frames[i];
@@ -181,23 +172,27 @@ export class ArtworkFramesService {
   }
 
   resetPosition (i: number) {
+
     const f = this.frames[i];
     const p = f.userData['originalPosition'];
     this.moveFrame(f, p);
+
   }
 
   // TODO: use Three animation system?
   moveFrame (f: any, p: any) {
+
     gsap.to(f.position, {
       // @ts-ignore
       x: p.x, y: p.y, z: p.z, duration: 2.5
     });
+
   }
 
   rotateFrames (angle: number = 72) {
+
     const y = MathUtils.degToRad(angle) + this.framesGroup.rotation.y;
     gsap.to(this.framesGroup.rotation, { y: y, duration: 1 });
-    // this.framesGroup.rotateY(MathUtils.degToRad(angle));
-  }
 
+  }
 };
