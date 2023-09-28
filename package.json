@@ -1,9 +1,23 @@
 {
   "name": "angular-webxr-gallery",
+  "author": {
+    "name": "Ayşegül Yönet",
+    "email": "AysSomething@gmail.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "WebXR",
+    "Angular",
+    "Angular Signals",
+    "Art Gallery",
+    "3D",
+    "Immersive Web",
+    "three"
+  ],
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --configuration=production",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "deploy": "ng deploy --cname=webxr.art",
