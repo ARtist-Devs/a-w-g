@@ -158,7 +158,7 @@ export class UIService {
   ) { }
 
   // TODO: Needs to calculate position based on the artwork or the biggest width
-  createMoreInfoPanels (ops?: any) {
+  createMoreInfoPanels(ops?: any) {
 
     // Container
     const container = new ThreeMeshUI.Block({
@@ -191,7 +191,7 @@ export class UIService {
     });
 
     const titleText = new ThreeMeshUI.Text({
-      content: `${ops.title}: ${ops.votes} `,
+      content: `${ops.title} `,
     });
 
     titleText.name = `${ops.id} Text`;
@@ -241,18 +241,18 @@ export class UIService {
 
   }
 
-  updateInfoPanel (ops?: any) {
+  updateInfoPanel(ops?: any) {
     this.description.children[1].set({ content: String(ops.description) });
-    this.title.children[1].set({ content: String(`${ops.title}: ${ops.votes} `) });
+    this.title.children[1].set({ content: String(`${ops.title}: ${ops.votes} likes`) });
   }
 
   //TODO: only update the vote onPanel
-  updateVote (ops?: any) {
+  updateVote(ops?: any) {
     const c = `${ops.text.content.split(':')[0]} : ${ops.votes}`;
     ops.text.set({ content: c });
   }
 
-  createInteractiveButtons (options: any) {
+  createInteractiveButtons(options: any) {
 
     const ops = Object.assign({}, this.defaultOptions, options);
     const container = new ThreeMeshUI.Block(
@@ -280,7 +280,7 @@ export class UIService {
 
   };
 
-  createButton (id: number, ops?: any) {
+  createButton(id: number, ops?: any) {
     const btn = new ThreeMeshUI.Block(this.buttonOptions);
     btn.name = `Frame ${id} ${ops.name}`;
 
@@ -312,7 +312,7 @@ export class UIService {
     return btn;
   }
 
-  update () {
+  update() {
     ThreeMeshUI.update();
   }
 

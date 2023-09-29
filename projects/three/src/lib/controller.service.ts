@@ -45,16 +45,15 @@ export class ControllerService {
   createOrbitControls(ops: any) {
     this.controls = new OrbitControls(ops.camera, ops.canvas);
     this.controls.target.set(0, 1.6, 0);
-    this.controls.listenToKeyEvents(window);
+
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.05;
     // Check to see
     this.controls.screenSpacePanning = false;
     this.controls.panSpeed = 1;
     this.controls.rotateSpeed = 0.8;
-    console.log('controls ops ', ops);
     this.controls.minDistance = ops.minDistance || 1;
-    this.controls.maxDistance = ops.maxDistance || 200;
+    this.controls.maxDistance = ops.maxDistance || 100;
 
     // Limit the vertical rotation
     // this.controls.minPolarAngle = Math.PI / 2;

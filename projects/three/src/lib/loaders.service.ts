@@ -24,7 +24,7 @@ export class LoadersService {
     this.gltfLoader.setDRACOLoader(this.dracoLoader);
   }
 
-  loadModel (ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any, onLoadCB: Function, onLoadProgress: Function; }) {
+  loadModel(ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any, onLoadCB: Function, onLoadProgress: Function; }) {
 
     const material = new MeshBasicMaterial();
 
@@ -32,14 +32,13 @@ export class LoadersService {
     this.gltfLoader.load(
       ops.path,
       (gltf) => {
-        console.log('GLTF ', gltf);
+        // console.log('GLTF ', gltf);
         const model = gltf.scene;
         model.position.z = -0;
         model.scale.set(3, 3, 3);
         model.traverse((obj) => {
           // @ts-ignore
-          if (obj.isMesh)
-          {
+          if (obj.isMesh) {
 
             obj.castShadow = true;
             obj.receiveShadow = true;
@@ -49,8 +48,7 @@ export class LoadersService {
             if (obj.material.map) obj.material.map.anisotropy = 16;
           }
           // @ts-ignore
-          if (obj.isLight)
-          {
+          if (obj.isLight) {
             // @ts-ignore
             obj.visible = visible;
 
@@ -66,7 +64,7 @@ export class LoadersService {
         const windowsGroup = model.children[1];
         windowsGroup.castShadow = true;
         ops.scene.add(model);
-        console.log("After model loaded ", Date.now());
+        // console.log("After model loaded ", Date.now());
         ops.onLoadCB();
       },
       (xhr) => { ops.onLoadProgress(xhr); },
@@ -77,7 +75,7 @@ export class LoadersService {
     );
   }
 
-  createScene (geometry: any, scale: number, material: any) {
+  createScene(geometry: any, scale: number, material: any) {
 
     const mesh = new Mesh(geometry, material);
 
@@ -90,7 +88,7 @@ export class LoadersService {
 
   }
 
-  loadTexture (path: string) {
+  loadTexture(path: string) {
     return this.textureLoader.load(path);
   }
 }
