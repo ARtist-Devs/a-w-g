@@ -91,9 +91,8 @@ export class ArtworkFramesService {
     //Use the componenet options or take the default values
 
     // Create the frame geometry & canvas geometry
-    const frameGeometry: any = new BoxGeometry(1.5, 2, 0.2);
-    // @ts-ignore
-    const canvasGeometry = new BoxGeometry(artwork?.width / 100, artwork?.height / 100, 0.3);
+    const frameGeometry: any = new BoxGeometry(1.3, 1.8, 0.2);
+    const canvasGeometry = new BoxGeometry(artwork?.width / 100, artwork?.height / 100, 0.25);
 
     // Create the canvas material with the texture
     const texture = this.loadersService.loadTexture(artwork.textureUrl);
@@ -102,7 +101,7 @@ export class ArtworkFramesService {
     texture.mapping = UVMapping;
 
     const canvasMaterial = new MeshPhongMaterial({ map: texture, color: 0xffffff });
-    const frameMaterial = new MeshStandardMaterial({ color: 0xffffff });
+    const frameMaterial = new MeshPhongMaterial({ color: 0xffffff });
 
     // Create the frame & canvas mesh
 

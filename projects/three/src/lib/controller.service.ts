@@ -29,38 +29,24 @@ export class ControllerService {
    * @param ops 
    * @returns 
    */
-  createControls(ops: any) {
+  createControls (ops: any) {
     this.renderer = ops.renderer;
 
-    if (ops.type === 'orbit') {
+    if (ops.type === 'orbit')
+    {
       return this.createOrbitControls(ops);
     }
-    if (ops.xrMode === 'immersive-vr') {
+    if (ops.xrMode === 'immersive-vr')
+    {
       this.createControllers();
     }
 
   }
 
   // TODO: Disable the orbit controllers on device change
-  createOrbitControls(ops: any) {
+  createOrbitControls (ops: any) {
     this.controls = new OrbitControls(ops.camera, ops.canvas);
     this.controls.target.set(0, 1.6, 0);
-
-    this.controls.enableDamping = true;
-    this.controls.dampingFactor = 0.07;
-
-    this.controls.screenSpacePanning = false;
-    this.controls.panSpeed = 0.7;
-    this.controls.rotateSpeed = 0.6;
-    this.controls.zoomSpeed = 0.8;
-
-    this.controls.minDistance = ops.minDistance || 1;
-    this.controls.maxDistance = ops.maxDistance || 100;
-
-    // Limit the vertical rotation
-    this.controls.maxPolarAngle = Math.PI / 2;
-    this.controls.screenSpacePanning = false;
-
 
     // Enable arrow keys
     this.controls.listenToKeyEvents(window);
@@ -75,13 +61,30 @@ export class ControllerService {
       LEFT: MOUSE.ROTATE,
       MIDDLE: MOUSE.DOLLY,
       RIGHT: MOUSE.PAN
-    }
+    };
 
     // { ROTATE: 0, PAN: 1, DOLLY_PAN: 2, DOLLY_ROTATE: 3 }
     this.controls.touches = {
       ONE: TOUCH.ROTATE,
       TWO: TOUCH.DOLLY_PAN
     };
+
+    this.controls.enableDamping = true;
+    this.controls.dampingFactor = 0.07;
+
+    this.controls.screenSpacePanning = false;
+    this.controls.panSpeed = 0.5;
+    this.controls.rotateSpeed = 0.5;
+    this.controls.zoomSpeed = 0.5;
+    this.controls.keyPanSpeed = 40;
+
+    this.controls.minDistance = ops.minDistance || 1;
+    this.controls.maxDistance = ops.maxDistance || 100;
+    this.controls.maxZoom = 80;
+
+    // Limit the vertical rotation
+    this.controls.maxPolarAngle = Math.PI / 2;
+    this.controls.screenSpacePanning = false;
 
     this.debug.addToDebug({
       obj: this.controls, name: 'Orbit Controls', properties: {
@@ -91,6 +94,7 @@ export class ControllerService {
         'dampingFactor': { min: 0, max: 1, precision: 0.01 },
         'minDistance': { min: 0, max: 5, precision: 0.01 },
         'maxDistance': { min: 10, max: 500, precision: 1 },
+        'keyPanSpeed': { min: 0, max: 100, precision: 1 },
       }
     });
 
@@ -98,22 +102,24 @@ export class ControllerService {
     return this.controls;
   }
 
-  createControllers() {
+  createControllers () {
     // disposes the orbit controls in VR. 
     this.controls.dispose();
 
   }
 
   // TODO: fix the function arguments
-  handleControllers(controller?: any, dt?: any) {
-    if (this.controllers?.userData.selectPressed) {
+  handleControllers (controller?: any, dt?: any) {
+    if (this.controllers?.userData.selectPressed)
+    {
       console.log('Select Pressed ');
     }
   }
 
   // TODO:
-  updateControls(delta: any) {
-    if (this.renderer.xr && this.renderer.xr?.isPresenting) {
+  updateControls (delta: any) {
+    if (this.renderer.xr && this.renderer.xr?.isPresenting)
+    {
       this.controls.enabled = false;
       return this.handleControllers();
     }
@@ -124,13 +130,13 @@ export class ControllerService {
    * TODO: Add hand controls and controllers
    * Assumes userData.selectPressed, not implemented yet
    */
-  get selectPressed() {
+  get selectPressed () {
     return (this.controllers !== undefined && this.controllers[0].userData.selectPressed || this.controllers[1].userData.selectPressed);
   }
 
   // Controller Events
   // TODO:intersection service is intersecting on pointer move
-  getControllerIntersections(controller: any, objects: any) {
+  getControllerIntersections (controller: any, objects: any) {
     console.log('getIntersections controller ', controller);
     controller.updateMatrixWorld();
 
@@ -144,26 +150,26 @@ export class ControllerService {
   }
 
   // Touch Events
-  onPinchEndLeft(e: Event) {
+  onPinchEndLeft (e: Event) {
     console.log('Pinch end Left ', e);
   }
-  onPinchEndRight(e: Event) {
+  onPinchEndRight (e: Event) {
     console.log('Pinch end Right ', e);
   }
-  onPinchStartLeft(e: Event) {
+  onPinchStartLeft (e: Event) {
     console.log('Pinch start Left ', e);
   }
-  onPinchStartRight(e: Event) {
+  onPinchStartRight (e: Event) {
     console.log('Pinch start Right ', e);
   }
 
-  onSelectStart(e: Event) {
+  onSelectStart (e: Event) {
     console.log('SelectStart controller service  ', e);
 
     this.userData.selectPressed = true;
   }
 
-  onSelectEnd(e: Event) {
+  onSelectEnd (e: Event) {
     console.log('SelectEnd controller service  ', e);
     this.userData.selectPressed = false;
   }
