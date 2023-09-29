@@ -23,7 +23,7 @@
     "@angular-devkit/core" "17.0.0-next.6"
     rxjs "7.8.1"
 
-"@angular-devkit/build-angular@^17.0.0-next.5":
+"@angular-devkit/build-angular@^17.0.0-next.6":
   version "17.0.0-next.6"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-angular/-/build-angular-17.0.0-next.6.tgz#212bf083ca7868a0e539bc689e0292cffe62cbce"
   integrity sha512-w7Ofqp4cBtdu94G9MApEzH5N50mrfpv/4na3qGWAv1uQJRzXsL5R13grNevOy88u8XXXh9vR5clSXexmzjskxw==
@@ -179,7 +179,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/cli@~17.0.0-next.5":
+"@angular/cli@~17.0.0-next.6":
   version "17.0.0-next.6"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-17.0.0-next.6.tgz#afa412bce468be376f3cfc6594aeecefb3c26403"
   integrity sha512-eE5Q2D1om5Hqumh74Cj40K2Cr9d1kafH24YXHhVjU3eccSGw1UlhMIw14NmJGMJyrONX6UAwKPqvH3JR988Wvg==
@@ -8394,10 +8394,10 @@ three.interactive@^1.7.0:
   resolved "https://registry.yarnpkg.com/three.interactive/-/three.interactive-1.7.0.tgz#1bbe484114a3b700a40fba3424ca5c88622055e2"
   integrity sha512-WuJijcJUT8cxiU3iP7FbqjN9EtU4xuVH/YR+jmEV4dG5ijNE8KeZcQtFRuK2dlJk4AGwCFte1GPUxAR7hYyo3g==
 
-three@^0.156.1:
-  version "0.156.1"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.156.1.tgz#bab4fec121a5b3975eb4f4d227d9c912171eb399"
-  integrity sha512-kP7H0FK9d/k6t/XvQ9FO6i+QrePoDcNhwl0I02+wmUJRNSLCUIDMcfObnzQvxb37/0Uc9TDT0T1HgsRRrO6SYQ==
+three@^0.157.0:
+  version "0.157.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.157.0.tgz#5baac531941fc8c4ca62d45ee4265652e03318d0"
+  integrity sha512-CeAwQrf4x3z0/e+MC4F+nXLW5t0gh3pw+L6CCBqpHvOq3bGYIgRYub7Pv0j/9wR+d++OiEglyZzWyuSYbwWGOA==
 
 through@^2.3.4, through@^2.3.6, through@^2.3.8:
   version "2.3.8"

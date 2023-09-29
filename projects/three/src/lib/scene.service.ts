@@ -123,8 +123,8 @@ export class SceneService {
 
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
-    this.controllerService.updateControls;
-    this.renderFunctions.push(this.controllerService.updateControls);
+    // this.controllerService.updateControls;
+    // this.renderFunctions.push(this.controllerService.updateControls);
 
     window.addEventListener("resize", this.onResize.bind(this));
 
@@ -157,7 +157,7 @@ export class SceneService {
     const delta = this.clock.getDelta();
 
     // update controls
-    this.controllerService.updateControls();
+    this.controllerService.updateControls(delta);
 
     // update camera
     this.cameraService.updateCamera({ camera: this.camera, scene: this.scene });
