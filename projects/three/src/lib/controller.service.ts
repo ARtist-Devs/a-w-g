@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Matrix4, Raycaster, TOUCH, Vector3 } from 'three';
+import { MOUSE, Matrix4, Raycaster, TOUCH, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { DebugService } from './debug.service';
 
@@ -47,19 +47,20 @@ export class ControllerService {
     this.controls.target.set(0, 1.6, 0);
 
     this.controls.enableDamping = true;
-    this.controls.dampingFactor = 0.05;
-    // Check to see
+    this.controls.dampingFactor = 0.07;
+
     this.controls.screenSpacePanning = false;
-    this.controls.panSpeed = 1;
-    this.controls.rotateSpeed = 0.8;
+    this.controls.panSpeed = 0.7;
+    this.controls.rotateSpeed = 0.6;
+    this.controls.zoomSpeed = 0.8;
+
     this.controls.minDistance = ops.minDistance || 1;
     this.controls.maxDistance = ops.maxDistance || 100;
 
     // Limit the vertical rotation
-    // this.controls.minPolarAngle = Math.PI / 2;
-    this.controls.maxPolarAngle = Math.PI / 2;
+    this.controls.maxPolarAngle = Math.PI / 3;
     this.controls.screenSpacePanning = false;
-    this.controls.zoomSpeed = 0.8;
+
 
     // Enable arrow keys
     this.controls.listenToKeyEvents(window);
@@ -69,6 +70,13 @@ export class ControllerService {
       RIGHT: 'ArrowRight', // right arrow
       BOTTOM: 'ArrowDown' // down arrow
     };
+
+    this.controls.mouseButtons = {
+      LEFT: MOUSE.ROTATE,
+      MIDDLE: MOUSE.DOLLY,
+      RIGHT: MOUSE.PAN
+    }
+
     // { ROTATE: 0, PAN: 1, DOLLY_PAN: 2, DOLLY_ROTATE: 3 }
     this.controls.touches = {
       ONE: TOUCH.ROTATE,
@@ -77,9 +85,13 @@ export class ControllerService {
 
     this.debug.addToDebug({
       obj: this.controls, name: 'Orbit Controls', properties: {
-        'panSpeed': { min: 0, max: 1, precision: 0.001 },
-        'rotateSpeed': { min: 0, max: 1, precision: 0.001 },
-        'zoomSpeed': { min: 0, max: 1, precision: 0.001 }
+        'panSpeed': { min: 0, max: 1, precision: 0.01 },
+        'rotateSpeed': { min: 0, max: 1, precision: 0.01 },
+        'zoomSpeed': { min: 0, max: 1, precision: 0.01 },
+        'dampingFactor': { min: 0, max: 1, precision: 0.01 },
+        'minDistance': { min: 0, max: 5, precision: 0.01 },
+        'maxDistance': { min: 10, max: 500, precision: 1 },
+        'maxPolarAngle': { min: 0, max: Math.PI, precision: 0.01 },
       }
     });
 
@@ -101,9 +113,12 @@ export class ControllerService {
   }
 
   // TODO:
-  updateControls() {
-    // if (this.renderer.xr && this.renderer.xr?.isPresenting) { return this.handleControllers(); }
-    // return this.controls.update();
+  updateControls(delta: any) {
+    if (this.renderer.xr && this.renderer.xr?.isPresenting) {
+      this.controls.enabled = false;
+      return this.handleControllers();
+    }
+    return this.controls.update(delta);
   }
 
   /**
