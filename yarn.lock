@@ -238,13 +238,6 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/forms@^17.0.0-next.5":
-  version "17.0.0-next.5"
-  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-17.0.0-next.5.tgz#33c6f6a467fd16188208ea66827ee6bcf7e32310"
-  integrity sha512-YUpK6GOoeWl92lNu9PjAQhRcuCMBf5rlhizcICXWjAUA4/AVfB0nKCRGQuPKV1PmWdj435Ya6exeeV9ANS0zYA==
-  dependencies:
-    tslib "^2.3.0"
-
 "@angular/platform-browser-dynamic@^17.0.0-next.5":
   version "17.0.0-next.5"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-17.0.0-next.5.tgz#faeccb7766bf6ffd6c56b24e47483e9a142ebe85"
@@ -7590,7 +7583,7 @@ rx@4.1.0:
   resolved "https://registry.yarnpkg.com/rx/-/rx-4.1.0.tgz#a5f13ff79ef3b740fe30aa803fb09f98805d4782"
   integrity sha512-CiaiuN6gapkdl+cZUr67W6I8jquN4lkak3vtIsIWCl4XIPP8ffsoyN6/+PuGXnQy8Cu8W2y9Xxh31Rq4M6wUug==
 
-rxjs@7.8.1, rxjs@^7.2.0, rxjs@^7.5.5, rxjs@^7.5.6, rxjs@^7.8.0, rxjs@^7.8.1, rxjs@~7.8.0:
+rxjs@7.8.1, rxjs@^7.2.0, rxjs@^7.5.5, rxjs@^7.5.6, rxjs@^7.8.0, rxjs@^7.8.1:
   version "7.8.1"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.1.tgz#6f6f3d99ea8044291efd92e7c7fcf562c4057543"
   integrity sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==
