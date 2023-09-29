@@ -58,7 +58,7 @@ export class ControllerService {
     this.controls.maxDistance = ops.maxDistance || 100;
 
     // Limit the vertical rotation
-    this.controls.maxPolarAngle = Math.PI / 3;
+    this.controls.maxPolarAngle = Math.PI / 2;
     this.controls.screenSpacePanning = false;
 
 
@@ -91,7 +91,6 @@ export class ControllerService {
         'dampingFactor': { min: 0, max: 1, precision: 0.01 },
         'minDistance': { min: 0, max: 5, precision: 0.01 },
         'maxDistance': { min: 10, max: 500, precision: 1 },
-        'maxPolarAngle': { min: 0, max: Math.PI, precision: 0.01 },
       }
     });
 
