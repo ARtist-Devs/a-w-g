@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Material, MeshBasicMaterial, MeshLambertMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshPhysicalMaterialParameters, MeshStandardMaterial } from 'three';
+import { Material, MeshBasicMaterial, MeshLambertMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshPhysicalMaterialParameters, MeshStandardMaterial, Vector2 } from 'three';
+import { DebugService } from './debug.service';
 
 @Injectable({
   providedIn: 'platform'
@@ -45,7 +46,20 @@ export class MaterialsService {
     // exposure: 1
   };
 
-  constructor() { }
+  constructor(
+    private debugService: DebugService,
+  ) { }
+
+
+  createFloorMaterial (textures: any) {
+    const floorMat = new MeshStandardMaterial({
+      roughness: 0.8,
+      color: 0xffffff,
+      metalness: 0.2,
+      bumpScale: 0.0005
+    });
+    return floorMat;
+  }
 
   getMaterial (ops: string): any {
     if (ops = 'MeshPhysicalMaterial')
@@ -64,7 +78,17 @@ export class MaterialsService {
   }
 
   getMeshPhysicalMaterial (ops?: any) {
+    let material = new MeshPhysicalMaterial({
+      // clearcoat: 0,
+      clearcoatRoughness: 0.1,
+      // metalness: 0,
+      roughness: 0.9,
+      color: 0x54001b// Teal: 0x004a54,
+      // normalScale: new Vector2(0.15, 0.15)
+    });
 
+
+    return material;
   }
 
   getMaterialByName (name: string): Material {

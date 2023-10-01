@@ -29,7 +29,7 @@ export class GalleryComponent {
   @ViewChild('canvas', { static: true })
   canvas!: ElementRef<HTMLCanvasElement>;
 
-  private get canvasEl(): HTMLCanvasElement {
+  private get canvasEl (): HTMLCanvasElement {
     return this.canvas!.nativeElement;
   }
   constructor(
@@ -42,15 +42,26 @@ export class GalleryComponent {
   }
 
   // Init the WebXR scene with Artworks
-  ngOnInit() {
+  ngOnInit () {
     const start = Date.now();
     this.artworks = this.artworksService.getArtworks();
     const afterSceneInitCB = this.sceneService.initScene(this.canvasEl);
 
-    // console.log("before model loaded", start);
-    // Model
+    // Model //VRGalleryOriginal1509compressed1.glb",
     const model = this.loadersService.loadModel({
-      path: "assets/models/VRGalleryOriginal1509compressed1.glb",
+      path: "assets/models/VRGallery0110NoFloorTexture.glb",
+      scene: this.sceneService.scene,
+      onLoadProgress: this.onLoadProgress.bind(this),
+      onLoadCB: () => {
+        afterSceneInitCB(start);
+        this.sceneService.addToScene(this.frames);
+        const millis = Date.now() - start; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
+      }
+
+    });
+
+    const modelWalls = this.loadersService.loadModel({
+      path: "assets/models/VRGalleryInnerWalls0110Merge.glb",
       scene: this.sceneService.scene,
       onLoadProgress: this.onLoadProgress.bind(this),
       onLoadCB: () => {
@@ -97,25 +108,25 @@ export class GalleryComponent {
     this.selectedArtwork = signal(this.artworks[0], { equal: this.compareSelected });
   }
 
-  onLoadProgress(xhr: ProgressEvent) {
+  onLoadProgress (xhr: ProgressEvent) {
     console.log((xhr.loaded / xhr.total * 100) + '% loaded');
     this.loadingProgress.set(xhr.loaded / xhr.total);
 
   }
 
 
-  compareSelected(o: Artwork, n: Artwork) {
+  compareSelected (o: Artwork, n: Artwork) {
     return o ? o.id === n.id : true;
   }
 
-  showInfo(e: Event) {
+  showInfo (e: Event) {
     // @ts-ignore
     const ind = e.target.userData['artworkId'];
 
   }
 
   // Handle Artwork selection events
-  onSelectArtwork(e: Event, i: number) {
+  onSelectArtwork (e: Event, i: number) {
     this.framesService.focusFrame(this.selectedArtwork().id);
   }
 
@@ -123,7 +134,7 @@ export class GalleryComponent {
    * TODO: Select next artwork and show info panel?
    * @param e 
    */
-  changeSelection(ind: any, n: number) {
+  changeSelection (ind: any, n: number) {
 
     this.framesService.resetPosition(this.focused);
     let i;
@@ -141,32 +152,32 @@ export class GalleryComponent {
 
   }
 
-  upvoteSelection(i: number): void {
+  upvoteSelection (i: number): void {
     const name = `${i} Text`;
     const textMesh = this.frames.children[i].getObjectByName(name);
     const votes = this.artworksService.upvoteArtwork(i);
     this.ui.updateVote({ votes: votes, text: textMesh });
   };
 
-  onKeyDown(e: KeyboardEvent) { }
+  onKeyDown (e: KeyboardEvent) { }
 
-  onPointerDown(e: Event) { }
+  onPointerDown (e: Event) { }
 
-  onTouchStart(e: Event) { }
+  onTouchStart (e: Event) { }
 
-  onPointerMove(e: Event) {
+  onPointerMove (e: Event) {
   }
 
-  onPointerUp(e: Event) {
+  onPointerUp (e: Event) {
   }
 
-  onCanvasClick(e: Event) {
+  onCanvasClick (e: Event) {
   }
 
-  onObjectHover(e: Event) { }
+  onObjectHover (e: Event) { }
 
-  onDeviceChange(e: Event) { }
+  onDeviceChange (e: Event) { }
 
-  onTouchEnd(e: Event) { }
+  onTouchEnd (e: Event) { }
 
 }

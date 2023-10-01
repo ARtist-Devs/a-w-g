@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import gsap from 'gsap';
-import { BoxGeometry, Group, LinearFilter, MathUtils, Mesh, MeshPhongMaterial, MeshStandardMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
+import { BoxGeometry, CylinderGeometry, Group, LinearFilter, MathUtils, Mesh, MeshPhongMaterial, MeshStandardMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
 
 import { Artwork } from './artwork';
 import { DebugService } from './debug.service';
@@ -91,7 +91,9 @@ export class ArtworkFramesService {
     //Use the componenet options or take the default values
 
     // Create the frame geometry & canvas geometry
-    const frameGeometry: any = new BoxGeometry(1.3, 1.8, 0.2);
+    // radiusTop: Float, radiusBottom : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float
+    const frameGeometry: any = new CylinderGeometry(0.8, 0.7, 0.1, 36, 5);//new BoxGeometry(1.3, 1.8, 0.2);
+    frameGeometry.rotateX(Math.PI / 2);
     const canvasGeometry = new BoxGeometry(artwork?.width / 100, artwork?.height / 100, 0.25);
 
     // Create the canvas material with the texture
@@ -106,6 +108,7 @@ export class ArtworkFramesService {
     // Create the frame & canvas mesh
 
     const frameMesh = new Mesh(frameGeometry, frameMaterial);
+    this.animateFrameColors(frameMesh);
 
     const canvasMesh = new Mesh(canvasGeometry, canvasMaterial);
     frameMesh.name = ` ${artwork.title} frame mesh` || 'frame';
@@ -176,6 +179,13 @@ export class ArtworkFramesService {
     const p = f.userData['originalPosition'];
     this.moveFrame(f, p);
 
+  }
+
+  animateFrameColors (f: any, colors?: any) {
+    console.log(f.material);
+    // gsap.to(f.material, {
+    //   color: 0x9c0000, duration: 2
+    // });
   }
 
   // TODO: use Three animation system?

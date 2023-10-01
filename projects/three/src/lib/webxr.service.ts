@@ -158,8 +158,6 @@ export class WebXRService {
 
     this.scene = ops.scene;
 
-
-
     document.body.appendChild(XRButton.createButton(this.renderer));
 
     // this.inlineViewerHelper.init(ops.canvas, referenceSpace);

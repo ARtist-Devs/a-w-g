@@ -9,6 +9,7 @@ import { InteractionsService } from './interactions.service';
 import { LightsService } from './lights.service';
 import { ObjectsService } from './objects.service';
 import { sceneDefaults } from './scene.config';
+import { XRButton } from 'three/examples/jsm/webxr/XRButton';
 
 @Injectable({
   providedIn: null,
@@ -62,7 +63,8 @@ export class SceneService {
   ) { }
 
   initScene (canvas: HTMLCanvasElement, options?: any) {
-    const ops = Object.assign({}, sceneDefaults, options);
+
+    const ops = options ? Object.assign({}, sceneDefaults, options) : sceneDefaults;
     this.canvas = canvas;
 
     // Camera
@@ -90,6 +92,7 @@ export class SceneService {
     this.renderer.shadowMap.type = PCFSoftShadowMap;
     this.renderer.toneMapping = ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.5;
+    this.renderer.xr.enabled = true;
 
 
     this.scene.backgroundBlurriness = 0.3;
@@ -98,7 +101,7 @@ export class SceneService {
 
     // Lights
     const hemLight = this.lightsService.createHemLight({ intensity: 0.5 });
-    const dirLights = this.lightsService.createDirLight({ intensity: 1.2 });
+    // const dirLights = this.lightsService.createDirLight({ intensity: 1.2 });
 
     this.spotLights = this.lightsService.createSpotLight();
     this.spotlight = this.spotLights[0];
@@ -126,12 +129,12 @@ export class SceneService {
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
 
-    window.addEventListener("resize", this.onResize.bind(this));
+
 
     // TODO: Interactions Service Imp
     const interactionsUpdate = this.interactionsService.initInteractionManager(this.renderer, this.camera, canvas);
     this.renderFunctions.push(interactionsUpdate);
-
+    document.body.appendChild(XRButton.createButton(this.renderer));
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
 
@@ -147,7 +150,7 @@ export class SceneService {
     this.cameraService.moveCamera(0, 1.6, 0.001, 8);
     this.interactionsManager = this.interactionsService.initInteractionManager(this.renderer, this.camera, this.canvas);
     const millis = Date.now() - ops; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
-
+    window.addEventListener("resize", this.onResize.bind(this));
   }
 
 
