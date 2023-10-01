@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Color, HemisphereLight, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
 import * as ThreeMeshUI from 'three-mesh-ui';
-// import { InteractionsService } from './interactions.service';
-// import { DebugService } from './debug.service';
+import { DebugService } from './debug.service';
 import { Colors } from './colors';
 import { InteractionsService } from './interactions.service';
 
@@ -24,8 +23,8 @@ export class UIService {
   private containerOptions: any = {
     justifyContent: 'center',
     contentDirection: 'row-reverse',
-    fontSize: 0.2,
-    padding: 0.02,
+    fontSize: 0.1,
+    padding: 0.05,
     borderRadius: 0.11,
     height: 1.6,
     width: 0.8,
@@ -154,7 +153,7 @@ export class UIService {
 
   constructor(
     private interactions: InteractionsService,
-    // private debug: DebugService,
+    private debug: DebugService,
   ) { }
 
   // TODO: Needs to calculate position based on the artwork or the biggest width
@@ -163,7 +162,7 @@ export class UIService {
     // Container
     const container = new ThreeMeshUI.Block({
       ref: "container",
-      padding: 0.025,
+      padding: 0.02,
       fontFamily: this.FontJSON,
       fontTexture: this.FontImage,
       fontColor: new Color(0xffffff),
@@ -176,17 +175,18 @@ export class UIService {
     // Rotate container to towards the painting
     container.rotation.y = -0.5;
     container.name = `More Info Panel ${ops.id}`;
-    // this.debug.addToDebug({
-    //   obj: container, name: 'More info Panel', properties: {
-    //     'Position': { min: 0, max: 2, precision: 0.2 }
-    //   }
-    // })// - Container
+    this.debug.addToDebug({
+      obj: container, name: 'More info Panel', properties: {
+        'Position': { min: 0, max: 2, precision: 0.2 }
+      }
+    });
+    // - Container
 
     // Title
     const title = new ThreeMeshUI.Block({
       height: 0.2,
       width: 0.9,
-      margin: 0.025,
+      margin: 0.05,
       justifyContent: "center",
       fontSize: 0.15,
     });
