@@ -58,7 +58,7 @@ export class SceneService {
     private interactionsService: InteractionsService,
     private lightsService: LightsService,
     private objectsService: ObjectsService,
-    // private debug: DebugService,
+    private debug: DebugService,
 
   ) { }
 
@@ -101,7 +101,7 @@ export class SceneService {
 
     // Lights
     const hemLight = this.lightsService.createHemLight({ intensity: 0.5 });
-    // const dirLights = this.lightsService.createDirLight({ intensity: 1.2 });
+    const dirLights = this.lightsService.createDirLight({ intensity: 1.2 });
 
     this.spotLights = this.lightsService.createSpotLight();
     this.spotlight = this.spotLights[0];
@@ -110,15 +110,26 @@ export class SceneService {
     this.spotlight = this.spotLights[0];
 
     const cameraLight: any = this.lightsService.createSpotLight();
-    cameraLight[0].position.set(0, -2, 0.64);
+    cameraLight[0].position.set(0, -2, 1);
     this.camera.add(cameraLight[0]);
+
+    this.debug.addToDebug({
+      obj: cameraLight[0], name: 'Camera Light', properties: {
+        'Position': {},
+        'intensity': { min: 0, max: 20, precision: 1 },
+        'distance': { min: 0, max: 10, precision: 1 },
+        'angle': { min: 0, max: Math.PI, precision: Math.PI / 36 },
+        'penumbra': { min: 0, max: 1, precision: 0.01 },
+        'decay': { min: 0, max: 10, precision: 1 },
+      }
+    });
     this.scene.add(...hemLight);
 
-    const icoLight = this.objectsService.createIcosahedron({ radius: 0.3, detail: 0, material: 'MeshPhysicalMaterial' });
-    icoLight.position.set(0, 1, -10);
-    icoLight.material.opacity = 0.6;
+    const icoLight = this.objectsService.createIcosahedron({ radius: 0.5, detail: 0, material: 'MeshPhysicalMaterial' });
+    icoLight.position.set(0, 3, -10);
+    icoLight.material.opacity = 0.5;
     this.pointLight = this.lightsService.createPointLight();
-    this.pointLight.position.y = 2.2;
+    // this.pointLight.position.y = 3;
 
     icoLight.add(this.pointLight);
     this.icoLight = icoLight;
@@ -135,6 +146,7 @@ export class SceneService {
     const interactionsUpdate = this.interactionsService.initInteractionManager(this.renderer, this.camera, canvas);
     this.renderFunctions.push(interactionsUpdate);
     document.body.appendChild(XRButton.createButton(this.renderer));
+
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
 

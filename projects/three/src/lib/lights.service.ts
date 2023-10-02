@@ -7,18 +7,19 @@ import { DirectionalLight, HemisphereLight, PointLight, SpotLight } from 'three'
 export class LightsService {
   private dirLight = new DirectionalLight(0xffffff, 4);
   // color : Integer, intensity : Float, distance : Float, angle : Radians, penumbra : Float, decay : Float
-  private spotLight = new SpotLight(0xffffff, 15, 10, Math.PI / 4, 0.2, 1.5);
+  private spotLight = new SpotLight(0xffffff, 30, 30, Math.PI / 4, 0.5);
 
   constructor() { }
 
   createSpotLight (ops?: any) {
     const sLight = this.spotLight.clone();
     sLight.castShadow = true;
-    sLight.shadow.bias = -0.0001;
-    sLight.shadow.mapSize.width = 1024 * 4;
-    sLight.shadow.mapSize.height = 1024 * 4;
+    sLight.shadow.bias = -0.001;
+    sLight.shadow.mapSize.width = 512;
+    sLight.shadow.mapSize.height = 512;
     sLight.shadow.camera.near = 0.1;
     sLight.shadow.camera.far = 100;
+    sLight.shadow.camera.fov = 30;
     return [sLight];
   }
 
@@ -35,7 +36,7 @@ export class LightsService {
 
   createPointLight () {
     // Color, intensity, distance, decay
-    const l = new PointLight(0xffffff, 1.5, 13, 0);
+    const l = new PointLight(0xffffff, 3, 13, 1);
     l.castShadow = true;
     l.shadow.bias = - 0.005;
     return l;
