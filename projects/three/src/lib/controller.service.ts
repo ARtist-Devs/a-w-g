@@ -75,12 +75,14 @@ export class ControllerService {
     this.controls.screenSpacePanning = false;
     this.controls.panSpeed = 0.5;
     this.controls.rotateSpeed = 0.5;
-    this.controls.zoomSpeed = 0.5;
     this.controls.keyPanSpeed = 40;
 
-    this.controls.minDistance = ops.minDistance || 1;
-    this.controls.maxDistance = ops.maxDistance || 100;
-    this.controls.maxZoom = 80;
+    this.controls.minDistance = ops.minDistance || -30;
+    this.controls.maxDistance = ops.maxDistance || 50;
+
+    this.controls.zoomSpeed = 0.5;
+    this.controls.maxZoom = 30;
+    this.controls.minZoom = -30;
 
     // Limit the vertical rotation
     this.controls.maxPolarAngle = Math.PI / 2;

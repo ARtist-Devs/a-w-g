@@ -183,9 +183,10 @@ export class ArtworkFramesService {
 
   animateFrameColors (f: any, colors?: any) {
     console.log(f.material);
-    // gsap.to(f.material, {
-    //   color: 0x9c0000, duration: 2
-    // });
+
+    gsap.to(f.material.color, {
+      r: 144, g: 140, b: 209, duration: 2
+    });
   }
 
   // TODO: use Three animation system?
