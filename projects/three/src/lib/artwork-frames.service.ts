@@ -39,7 +39,7 @@ export class ArtworkFramesService {
 
   ) { }
 
-  createFrames (artworks: Artwork[] = [], btns: any[] = [], cb?: Function): Group {
+  createFrames(artworks: Artwork[] = [], btns: any[] = [], cb?: Function): Group {
     this.framesGroup.name = 'Frames Group';
     this.angle = (Math.PI * 2) / artworks.length;
     this.frames = artworks.map((artwork, i) => {
@@ -60,7 +60,7 @@ export class ArtworkFramesService {
    * @param i index
    * @returns frame with location
    */
-  placeFrame (frame: Group, i: number = 0) {
+  placeFrame(frame: Group, i: number = 0) {
     const alpha = i * this.angle;
     const x = Math.sin(alpha) * this.frameDistance;// 0 - 1
     const z = -Math.cos(alpha) * this.frameDistance;// 0 - 0 
@@ -85,14 +85,14 @@ export class ArtworkFramesService {
    * @param i 
    * @returns 
    */
-  createFrame (artwork: Artwork, btns: any[] = [], i: number): Group {
+  createFrame(artwork: Artwork, btns: any[] = [], i: number): Group {
     const frameGroup = new Group();
     frameGroup.name = ` ${artwork.title} frame group`;
     //Use the componenet options or take the default values
 
     // Create the frame geometry & canvas geometry
     // radiusTop: Float, radiusBottom : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float
-    const frameGeometry: any = new CylinderGeometry(0.6, 0.7, 0.1, 36, 5);
+    const frameGeometry: any = new CylinderGeometry(0.8, 0.7, 0.1, 36, 5);
     frameGeometry.rotateX(Math.PI / 2);
     const canvasGeometry = new BoxGeometry(artwork?.width / 100, artwork?.height / 100, 0.15);
 
@@ -107,7 +107,7 @@ export class ArtworkFramesService {
 
     // Create the frame & canvas mesh
     const frameMesh = new Mesh(frameGeometry, frameMaterial);
-    this.animateFrameColors(frameMesh);
+    // this.animateFrameColors(frameMesh);
 
     const canvasMesh = new Mesh(canvasGeometry, canvasMaterial);
     frameMesh.name = ` ${artwork.title} frame mesh` || 'frame';
@@ -141,7 +141,7 @@ export class ArtworkFramesService {
     return frameGroup;
   }
 
-  createButton (ops: any, i: number) {
+  createButton(ops: any, i: number) {
     let button;
 
     button = this.frameButton.clone();
@@ -156,7 +156,7 @@ export class ArtworkFramesService {
     return button;
   }
 
-  focusFrame (i: number) {
+  focusFrame(i: number) {
 
     const f = this.frames[i];
     const x = f.position.x / this.frameDistance * this.focusFactor;
@@ -166,7 +166,7 @@ export class ArtworkFramesService {
 
   }
 
-  resetPosition (i: number) {
+  resetPosition(i: number) {
 
     const f = this.frames[i];
     const p = f.userData['originalPosition'];
@@ -174,7 +174,7 @@ export class ArtworkFramesService {
 
   }
 
-  animateFrameColors (f: any, colors?: any) {
+  animateFrameColors(f: any, colors?: any) {
     console.log(f.material);
 
     gsap.to(f.material.color, {
@@ -183,7 +183,7 @@ export class ArtworkFramesService {
   }
 
   // TODO: use Three animation system?
-  moveFrame (f: any, p: any) {
+  moveFrame(f: any, p: any) {
 
     gsap.to(f.position, {
       // @ts-ignore
@@ -192,7 +192,7 @@ export class ArtworkFramesService {
 
   }
 
-  rotateFrames (angle: number = 72) {
+  rotateFrames(angle: number = 72) {
 
     const y = MathUtils.degToRad(angle) + this.framesGroup.rotation.y;
     gsap.to(this.framesGroup.rotation, { y: y, duration: 1 });
