@@ -44,6 +44,8 @@ export class ControllerService {
   }
 
   // TODO: Disable the orbit controllers on device change
+
+  // TODO: Disable the orbit controllers on device change
   createOrbitControls (ops: any) {
     this.controls = new OrbitControls(ops.camera, ops.canvas);
     this.controls.target.set(0, 1.6, 0);
@@ -99,7 +101,6 @@ export class ControllerService {
         'keyPanSpeed': { min: 0, max: 100, precision: 1 },
       }
     });
-
 
     return this.controls;
   }

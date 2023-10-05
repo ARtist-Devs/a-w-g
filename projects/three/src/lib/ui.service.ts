@@ -127,12 +127,6 @@ export class UIService {
     // Rotate container to towards the painting
     container.rotation.y = -0.5;
     container.name = `More Info Panel ${ops.id}`;
-    // this.debug.addToDebug({
-    //   obj: container, name: 'More info Panel', properties: {
-    //     'Position': { min: 0, max: 2, precision: 0.2 }
-    //   }
-    // });
-    // - Container
 
     // Title
     const title = new ThreeMeshUI.Block({

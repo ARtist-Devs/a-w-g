@@ -62,7 +62,7 @@ export class SceneService {
 
   ) { }
 
-  initScene(canvas: HTMLCanvasElement, options?: any) {
+  initScene (canvas: HTMLCanvasElement, options?: any) {
 
     const ops = options ? Object.assign({}, sceneDefaults, options) : sceneDefaults;
     this.canvas = canvas;
@@ -77,7 +77,8 @@ export class SceneService {
 
     // Scene
     this.scene.background = ops.background || new Color('skyblue');
-    if (ops.fog) {
+    if (ops.fog)
+    {
       this.scene.fog = new Fog(ops.fog.color, ops.fog.near, ops.fog.far);
     }
 
@@ -155,7 +156,7 @@ export class SceneService {
 
 
 
-  afterSceneInit(ops?: any) {
+  afterSceneInit (ops?: any) {
 
     this.createCornerLights();
     this.cameraService.moveCamera(0, 1.6, 0.001, 8);
@@ -165,7 +166,7 @@ export class SceneService {
   }
 
 
-  render() {
+  render () {
 
     // time elapsed since last frame
     const delta = this.clock.getDelta();
@@ -184,7 +185,7 @@ export class SceneService {
 
   }
 
-  animateLights(delta: any) {
+  animateLights (delta: any) {
 
     this.icoLight.rotation.y += 0.01;
     this.icoLight1.rotation.y += 0.01;
@@ -192,17 +193,19 @@ export class SceneService {
 
   }
 
-  addToScene(obj: any) {
+  addToScene (obj: any) {
 
-    if (obj instanceof Array) {
+    if (obj instanceof Array)
+    {
       this.scene.add(...obj);
-    } else {
+    } else
+    {
       this.scene.add(obj);
     }
 
   }
 
-  createCornerLights() {
+  createCornerLights () {
 
     this.icoLight1 = this.icoLight.clone();
     const spotlight = this.lightsService.createPointLight();
@@ -219,7 +222,7 @@ export class SceneService {
 
   }
 
-  onTouchStart(e: TouchEvent) {
+  onTouchStart (e: TouchEvent) {
 
     this.pointer.x = ((e.touches[0].clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
     this.pointer.y = - ((e.touches[0].clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
@@ -227,7 +230,7 @@ export class SceneService {
 
   }
 
-  onPointerDown(e: PointerEvent) {
+  onPointerDown (e: PointerEvent) {
 
     this.pointer.x = ((e.clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
     this.pointer.y = - ((e.clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
@@ -235,7 +238,7 @@ export class SceneService {
 
   }
 
-  onResize(e: UIEvent, w?: any, h?: any) {
+  onResize (e: UIEvent, w?: any, h?: any) {
 
     w = w || window.innerWidth;
     h = h || window.innerHeight;
@@ -255,5 +258,5 @@ export class SceneService {
   }
 
   // TODO: change the controls
-  onDeviceChange(e: Event) { }
+  onDeviceChange (e: Event) { }
 }
