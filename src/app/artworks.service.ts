@@ -1,7 +1,11 @@
 import {
   Injectable, signal
 } from '@angular/core';
+import { environment } from 'src/environments/environment.development';
 // import { Artwork } from 'projects/three/src/lib/artwork';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs, doc, increment, getDoc, setDoc, DocumentData } from 'firebase/firestore';
+import { Artwork } from 'projects/three/src/lib/artwork';
 
 /**
  * No three.js but only the database and app state.
@@ -79,6 +83,9 @@ export class ArtworksService {
       wiki: "https://en.wikipedia.org/wiki/Vase_with_Irises_Against_a_Yellow_Background",
     },
   ]);
+  config = environment;
+  app = initializeApp(this.config);
+  db = getFirestore(this.app);
 
   upvoted: number[] = [];
   artworksLength: number = this.artworks.length;
@@ -86,21 +93,62 @@ export class ArtworksService {
   constructor() { }
 
   getArtworks (): any {
+    let dbArtworks = collection(this.db, 'artworks');
+    let artList: DocumentData[] = [];
+    getDocs(dbArtworks)
+      .then((artSnaps) => {
+        artList = artSnaps.docs.map(doc => doc.data());
+        let artMap = new Map<number, DocumentData>();
+        for (let artData of artList)
+        {
+          artMap.set(artData['id'], artData);
+        }
+        this.artworks.mutate(value => {
+          for (let i = 0;i < value.length;i++)
+          {
+            value[i].votes = artList[i]['vote_count'];
+          }
+        });
+      });
     return this.artworks();
   }
 
   // TODO: firebase increment
   upvoteArtwork (i: number) {
-    if (this.upvoted.indexOf(i) === -1)
+    if (true)//this.upvoted.indexOf(i) === -1)
     {
-      this.upvoted.push(i);
-      this.artworks.mutate((artworks: any[]): void => {
-        artworks[i].votes += 1;
-      });
-      console.log('Mutated', i, this.artworks()[i].votes);
+      let docDB = doc(this.db, "artworks", i.toString());
+      getDoc(docDB)
+        .then((docSnap) => {
+          if (docSnap.exists())
+          {
+            console.log("Upvoting", docSnap.data());
+            this.artworks.mutate((artworks: Artwork[]): void => {
+              artworks[i].votes += 1;
+              // artworks[i].votes = docSnap.data()['vote_count'] + 1;
+            });
 
+            console.log('Mutated', i, this.artworks()[i].votes);
+          } else
+          {
+            console.log('No such document!');
+          }
+        })
+        .catch((error) => {
+          console.error('Error getting document:', error);
+        });
+      setDoc(docDB, { vote_count: increment(1) }, { merge: true })
+        .then(() => {
+          console.log('Incremented vote count field by 1.');
+        })
+        .catch((error) => {
+          console.error('Error incrementing count field:', error);
+        });
+      this.upvoted.push(i);
     }
-    console.log('Upvoted already!');
-    return this.artworks()[i].votes;
+    else
+    {
+      console.log('Upvoted already!');
+    }
   }
 }
