@@ -134,7 +134,7 @@ export class UIService {
       width: 0.9,
       margin: 0.05,
       justifyContent: "center",
-      fontSize: 0.15,
+      fontSize: 0.1,
     });
 
     const titleText = new ThreeMeshUI.Text({

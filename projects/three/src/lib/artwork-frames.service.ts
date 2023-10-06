@@ -63,7 +63,7 @@ export class ArtworkFramesService {
   placeFrame (frame: Group, i: number = 0) {
     const alpha = i * this.angle;
     const x = Math.sin(alpha) * this.frameDistance;// 0 - 1
-    const z = -Math.cos(alpha) * this.frameDistance;// 0 - 0 
+    const z = -Math.cos(alpha) * this.frameDistance;// 0 - 0
     frame.position.set(x, 0, z);
     frame.scale.set(1.3, 1.3, 1.3);
     frame.rotation.y = alpha;
@@ -81,9 +81,9 @@ export class ArtworkFramesService {
 
   /**
    * Creates artframes with the textured canvas in the middle
-   * @param artwork 
-   * @param i 
-   * @returns 
+   * @param artwork
+   * @param i
+   * @returns
    */
   createFrame (artwork: Artwork, btns: any[] = [], i: number): Group {
     const frameGroup = new Group();
@@ -130,7 +130,8 @@ export class ArtworkFramesService {
     moreInfoPanel.quaternion.copy(frameMesh.quaternion);
 
     buttonsPanel.position.x = 0;
-    buttonsPanel.position.y = -1.2;
+    buttonsPanel.position.y = -0.8;
+    buttonsPanel.position.z = -0.25;
 
     buttonsPanel.rotateY(Math.PI);
     buttonsPanel.rotateX(-0.55);

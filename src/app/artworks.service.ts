@@ -94,6 +94,7 @@ export class ArtworksService {
   constructor() {
     this.getArtworksFb();
   }
+
   getArtworks (): Artwork[] {
     return this.artworks();
   }
@@ -108,11 +109,9 @@ export class ArtworksService {
 
           });
         });
-        console.log("Data after fb update ", this.artworks());
       });
   };
 
-  // TODO: firebase increment
   upvoteArtwork (i: number) {
     if (this.upvoted.indexOf(i) === -1)
     {
@@ -121,13 +120,10 @@ export class ArtworksService {
         artworks[i].votes += 1;
       });
       this.updateUpvote(i);
-      console.log('Mutated', i, this.artworks()[i].votes);
-
     } else
     {
       console.log('Upvoted already!');
     }
-
     return this.artworks()[i].votes;
   }
 

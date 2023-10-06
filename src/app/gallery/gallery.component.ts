@@ -160,25 +160,28 @@ export class GalleryComponent {
     this.ui.updateVote({ votes: votes, text: textMesh });
   };
 
-  onKeyDown (e: KeyboardEvent) { }
+  onKeyDown (e: KeyboardEvent) { console.log('KeyDown', e); }
 
-  onPointerDown (e: Event) { }
+  onPointerDown (e: Event) { console.log('onPointerDown', e); }
 
-  onTouchStart (e: Event) { }
+  onTouchStart (e: Event) { console.log('onTouchStart', e); }
 
   onPointerMove (e: Event) {
+    console.log('onPointerMove', e);
   }
 
   onPointerUp (e: Event) {
+    console.log('onPointerUp', e);
   }
 
   onCanvasClick (e: Event) {
+    console.log('onCanvasClick', e);
   }
 
-  onObjectHover (e: Event) { }
+  onObjectHover (e: Event) { console.log('onObjectHover', e); }
 
-  onDeviceChange (e: Event) { }
+  onDeviceChange (e: Event) { console.log('onDeviceChange', e); }
 
-  onTouchEnd (e: Event) { }
+  onTouchEnd (e: Event) { console.log('onTouchEnd', e); }
 
 }
