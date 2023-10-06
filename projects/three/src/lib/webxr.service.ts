@@ -32,7 +32,7 @@ export class WebXRService {
   controllerRight: any;
 
   constructor(
-    // private inlineViewerHelper: InlineViewerHelperService, 
+    // private inlineViewerHelper: InlineViewerHelperService,
     private interactions: InteractionsService) {
 
     // this.xrMode.set(this.appConfig.xrMode);
@@ -40,7 +40,7 @@ export class WebXRService {
   }
 
   checkXRSupport (ops?: any) {
-    // We check the navigator once. if 
+    // We check the navigator once. if
     if (this.vrSupported || this.arSupported) { return true; }
     if (navigator.xr)
     {

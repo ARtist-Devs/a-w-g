@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { BufferGeometryLoader, Mesh, MeshBasicMaterial, MeshPhysicalMaterial, MeshStandardMaterial, RepeatWrapping, SRGBColorSpace, Scene, TextureLoader, Vector2 } from 'three';
+import { BufferGeometryLoader, Light, Material, Mesh, MeshStandardMaterial, Object3D, RepeatWrapping, SRGBColorSpace, Scene, TextureLoader, Vector2 } from 'three';
 
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -35,30 +35,22 @@ export class LoadersService {
     this.gltfLoader.load(
       ops.path,
       (gltf) => {
+
         // console.log('GLTF ', gltf);
         const model = gltf.scene;
         model.position.z = -0;
-        model.scale.set(3, 3, 3);
-        model.traverse((obj) => {
-          let material = this.materialsService.getMeshPhysicalMaterial();
-          // new MeshPhysicalMaterial({
-          //   clearcoat: 1.0,
-          //   clearcoatRoughness: 0.1,
-          //   metalness: 0.9,
-          //   roughness: 0.5,
-          //   color: 0x004a54,
-          //   normalScale: new Vector2(0.15, 0.15)
-          // });//this.materialsService.getRandomColoredMaterial();#54001b bordo, teal: #004a54
+        model.scale.set(3, 3, 3); // TODO: scale on blender
+        let material: Material = this.materialsService.getMeshPhysicalMaterial();
+        model.traverse((obj: Object3D) => {
+
           // @ts-ignore
           if (obj.isMesh)
           {
-            console.log("Mesh is ", obj.name, obj);
             if (obj.name == 'Floor')
             {
-              // @ts-ignore
               material = this.createFloor();
-
             }
+
             // @ts-ignore
             obj.material = material;
 
@@ -66,47 +58,19 @@ export class LoadersService {
             obj.receiveShadow = true;
             obj.castShadow = true;
             obj.receiveShadow = true;
-
             // @ts-ignore
-            if (obj.material.map) obj.material.map.anisotropy = 16;
+            if (obj.material.map) { obj.material.map.anisotropy = 16; }
           }
-          // @ts-ignore
-          if (obj.isLight)
-          {
-            // @ts-ignore
-            obj.visible = visible;
-
-          }
-
-          // @ts-ignore
-          // this.debugService.addToDebug({ obj: obj.material, key: 'clearcoat', min: 0, max: 1 });
-          // @ts-ignore
-          // this.debugService.addToDebug({ obj: material, key: 'clearcoatRoughness', min: 0, max: 1, precision: 0.1 });
-          // // @ts-ignore
-          // this.debugService.addToDebug({ obj: material, key: 'metalness', min: 0, max: 1, precision: 0.1 });
-          // // @ts-ignore
-          // this.debugService.addToDebug({ obj: material, key: 'roughness', min: 0, max: 1, precision: 0.1 });
         });
-        const floor = model.children[0];
-
-        // @ts-ignore
-        // const floorMaterial = floor.material;
-        // floorMaterial.map.repeat = floorMapRepeat;
-        // floorMaterial.normalMap.repeat = floorMapRepeat;
-
-        // const windowsGroup = model.children[1];
-        // windowsGroup.castShadow = true;
         ops.scene.add(model);
-        // console.log("After model loaded ", Date.now());
         ops.onLoadCB();
       },
-      (xhr) => { ops.onLoadProgress(xhr); },
+      (xhr: any) => { ops.onLoadProgress(xhr); },
       (err) => {
         console.error('Error loading model');
+      });
 
-      }
-    );
-  }
+  };
 
   createFloor () {
     const floorMat = new MeshStandardMaterial({

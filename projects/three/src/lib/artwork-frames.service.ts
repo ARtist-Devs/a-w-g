@@ -94,7 +94,7 @@ export class ArtworkFramesService {
     // radiusTop: Float, radiusBottom : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float
     const frameGeometry: any = new CylinderGeometry(0.8, 0.7, 0.1, 36, 5);
     frameGeometry.rotateX(Math.PI / 2);
-    const canvasGeometry = new BoxGeometry(artwork?.width / 100, artwork?.height / 100, 0.15);
+    const canvasGeometry = new BoxGeometry(artwork?.width / 100 * 1.12, artwork?.height / 100 * 1.12, 0.15);
 
     // Create the canvas material with the texture
     const texture = this.loadersService.loadTexture(artwork.textureUrl);

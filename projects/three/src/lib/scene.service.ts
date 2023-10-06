@@ -140,9 +140,7 @@ export class SceneService {
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
 
-
-
-    // TODO: Interactions Service Imp
+    // Interactions
     const interactionsUpdate = this.interactionsService.initInteractionManager(this.renderer, this.camera, canvas);
     this.renderFunctions.push(interactionsUpdate);
     document.body.appendChild(XRButton.createButton(this.renderer));
@@ -154,16 +152,14 @@ export class SceneService {
 
   }
 
-
-
   afterSceneInit (ops?: any) {
 
     this.createCornerLights();
     this.cameraService.moveCamera(0, 1.6, 0.001, 8);
     this.interactionsManager = this.interactionsService.initInteractionManager(this.renderer, this.camera, this.canvas);
-    const millis = Date.now() - ops; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
     window.addEventListener("resize", this.onResize.bind(this));
     window.addEventListener("touchstart", this.onTouchStart.bind(this));
+
   }
 
 
@@ -239,7 +235,7 @@ export class SceneService {
 
   }
 
-  onResize (e: UIEvent, w?: any, h?: any) {
+  onResize (e?: UIEvent, w?: any, h?: any) {
 
     w = w || window.innerWidth;
     h = h || window.innerHeight;
@@ -259,5 +255,10 @@ export class SceneService {
   }
 
   // TODO: change the controls
-  onDeviceChange (e: Event) { }
+  onDeviceChange (e: Event) {
+    console.log(
+      "Device changed: ", e
+    );
+    this.onResize();
+  }
 }

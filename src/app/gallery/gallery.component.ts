@@ -68,9 +68,7 @@ export class GalleryComponent {
       onLoadCB: () => {
         afterSceneInitCB(start);
         this.sceneService.addToScene(this.frames);
-        const millis = Date.now() - start; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
       }
-
     });
 
     // Frames
