@@ -26,7 +26,7 @@ export class LoadersService {
     this.dracoLoader.setDecoderConfig({ type: 'js' });
     this.dracoLoader.preload();
     this.gltfLoader.setDRACOLoader(this.dracoLoader);
-    // this.floorTextureDefuse = 
+    // this.floorTextureDefuse =
   }
 
   loadModel (ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any, onLoadCB: Function, onLoadProgress: Function; }) {

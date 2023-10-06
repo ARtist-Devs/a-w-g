@@ -82,7 +82,7 @@ export class SceneService {
       this.scene.fog = new Fog(ops.fog.color, ops.fog.near, ops.fog.far);
     }
 
-    // Renderer powerPreference: "high-performance", preserveDrawingBuffer: true 
+    // Renderer powerPreference: "high-performance", preserveDrawingBuffer: true
     this.renderer = new WebGLRenderer({ canvas: canvas, antialias: true });
 
     // TODO: this.renderer = new WebGPURenderer();
@@ -163,6 +163,7 @@ export class SceneService {
     this.interactionsManager = this.interactionsService.initInteractionManager(this.renderer, this.camera, this.canvas);
     const millis = Date.now() - ops; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
     window.addEventListener("resize", this.onResize.bind(this));
+    window.addEventListener("touchstart", this.onTouchStart.bind(this));
   }
 
 
@@ -224,6 +225,7 @@ export class SceneService {
 
   onTouchStart (e: TouchEvent) {
 
+    console.log('Toyuch Start', e);
     this.pointer.x = ((e.touches[0].clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
     this.pointer.y = - ((e.touches[0].clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
     // this.interactionsService.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene, select: true });

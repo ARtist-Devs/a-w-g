@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSign
 import { Artwork } from 'projects/three/src/lib/artwork';
 import { ArtworkFramesService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
 import { ArtworksService } from '../artworks.service';
+import { FirebaseService } from '../firebase.service';
 
 @Component({
   selector: 'art-gallery',
@@ -132,7 +133,7 @@ export class GalleryComponent {
 
   /**
    * TODO: Select next artwork and show info panel?
-   * @param e 
+   * @param e
    */
   changeSelection (ind: any, n: number) {
 
