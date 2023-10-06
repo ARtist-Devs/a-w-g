@@ -9,6 +9,7 @@ import { InteractionsService } from './interactions.service';
 import { LightsService } from './lights.service';
 import { ObjectsService } from './objects.service';
 import { sceneDefaults } from './scene.config';
+import { XRButton } from 'three/examples/jsm/webxr/XRButton';
 
 @Injectable({
   providedIn: null,
@@ -57,12 +58,13 @@ export class SceneService {
     private interactionsService: InteractionsService,
     private lightsService: LightsService,
     private objectsService: ObjectsService,
-    // private debug: DebugService,
+    private debug: DebugService,
 
   ) { }
 
-  initScene(canvas: HTMLCanvasElement, options?: any) {
-    const ops = Object.assign({}, sceneDefaults, options);
+  initScene (canvas: HTMLCanvasElement, options?: any) {
+
+    const ops = options ? Object.assign({}, sceneDefaults, options) : sceneDefaults;
     this.canvas = canvas;
 
     // Camera
@@ -75,12 +77,14 @@ export class SceneService {
 
     // Scene
     this.scene.background = ops.background || new Color('skyblue');
-    if (ops.fog) {
+    if (ops.fog)
+    {
       this.scene.fog = new Fog(ops.fog.color, ops.fog.near, ops.fog.far);
     }
 
-    // Renderer powerPreference: "high-performance", preserveDrawingBuffer: true 
+    // Renderer powerPreference: "high-performance", preserveDrawingBuffer: true
     this.renderer = new WebGLRenderer({ canvas: canvas, antialias: true });
+
     // TODO: this.renderer = new WebGPURenderer();
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.width, this.height);
@@ -88,6 +92,7 @@ export class SceneService {
     this.renderer.shadowMap.type = PCFSoftShadowMap;
     this.renderer.toneMapping = ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.5;
+    this.renderer.xr.enabled = true;
 
 
     this.scene.backgroundBlurriness = 0.3;
@@ -107,6 +112,17 @@ export class SceneService {
     const cameraLight: any = this.lightsService.createSpotLight();
     cameraLight[0].position.set(0, -2, 0.64);
     this.camera.add(cameraLight[0]);
+
+    this.debug.addToDebug({
+      obj: cameraLight[0], name: 'Camera Light', properties: {
+        'Position': {},
+        'intensity': { min: 0, max: 20, precision: 1 },
+        'distance': { min: 0, max: 10, precision: 1 },
+        'angle': { min: 0, max: Math.PI, precision: Math.PI / 36 },
+        'penumbra': { min: 0, max: 1, precision: 0.01 },
+        'decay': { min: 0, max: 10, precision: 1 },
+      }
+    });
     this.scene.add(...hemLight);
 
     const icoLight = this.objectsService.createIcosahedron({ radius: 0.3, detail: 0, material: 'MeshPhysicalMaterial' });
@@ -123,14 +139,13 @@ export class SceneService {
 
     // Controls
     const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
-    // this.controllerService.updateControls;
-    // this.renderFunctions.push(this.controllerService.updateControls);
 
-    window.addEventListener("resize", this.onResize.bind(this));
+
 
     // TODO: Interactions Service Imp
     const interactionsUpdate = this.interactionsService.initInteractionManager(this.renderer, this.camera, canvas);
     this.renderFunctions.push(interactionsUpdate);
+    document.body.appendChild(XRButton.createButton(this.renderer));
 
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
@@ -141,17 +156,18 @@ export class SceneService {
 
 
 
-  afterSceneInit(ops?: any) {
+  afterSceneInit (ops?: any) {
 
     this.createCornerLights();
     this.cameraService.moveCamera(0, 1.6, 0.001, 8);
     this.interactionsManager = this.interactionsService.initInteractionManager(this.renderer, this.camera, this.canvas);
     const millis = Date.now() - ops; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
-
+    window.addEventListener("resize", this.onResize.bind(this));
+    window.addEventListener("touchstart", this.onTouchStart.bind(this));
   }
 
 
-  render() {
+  render () {
 
     // time elapsed since last frame
     const delta = this.clock.getDelta();
@@ -170,7 +186,7 @@ export class SceneService {
 
   }
 
-  animateLights(delta: any) {
+  animateLights (delta: any) {
 
     this.icoLight.rotation.y += 0.01;
     this.icoLight1.rotation.y += 0.01;
@@ -178,18 +194,19 @@ export class SceneService {
 
   }
 
+  addToScene (obj: any) {
 
-  addToScene(obj: any) {
-
-    if (obj instanceof Array) {
+    if (obj instanceof Array)
+    {
       this.scene.add(...obj);
-    } else {
+    } else
+    {
       this.scene.add(obj);
     }
 
   }
 
-  createCornerLights() {
+  createCornerLights () {
 
     this.icoLight1 = this.icoLight.clone();
     const spotlight = this.lightsService.createPointLight();
@@ -206,15 +223,16 @@ export class SceneService {
 
   }
 
-  onTouchStart(e: TouchEvent) {
+  onTouchStart (e: TouchEvent) {
 
+    console.log('Toyuch Start', e);
     this.pointer.x = ((e.touches[0].clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
     this.pointer.y = - ((e.touches[0].clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
     // this.interactionsService.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene, select: true });
 
   }
 
-  onPointerDown(e: PointerEvent) {
+  onPointerDown (e: PointerEvent) {
 
     this.pointer.x = ((e.clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
     this.pointer.y = - ((e.clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
@@ -222,7 +240,7 @@ export class SceneService {
 
   }
 
-  onResize(e: UIEvent, w?: any, h?: any) {
+  onResize (e: UIEvent, w?: any, h?: any) {
 
     w = w || window.innerWidth;
     h = h || window.innerHeight;
@@ -242,5 +260,5 @@ export class SceneService {
   }
 
   // TODO: change the controls
-  onDeviceChange(e: Event) { }
+  onDeviceChange (e: Event) { }
 }

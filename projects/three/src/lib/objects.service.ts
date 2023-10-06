@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { BackSide, BoxGeometry, Color, EdgesGeometry, ExtrudeGeometry, Group, IcosahedronGeometry, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, PlaneGeometry, RingGeometry, ShaderMaterial, Shape, SphereGeometry } from 'three';
+import { BackSide, BoxGeometry, Color, CylinderGeometry, EdgesGeometry, ExtrudeGeometry, Group, IcosahedronGeometry, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, PlaneGeometry, RingGeometry, ShaderMaterial, Shape, SphereGeometry } from 'three';
 
 import { DebugService } from './debug.service';
 import { InteractionsService } from './interactions.service';
@@ -116,6 +116,13 @@ export class ObjectsService {
     }
 
     return sphere;
+  }
+
+  createFrame () {
+
+
+    const geometry = new CylinderGeometry(3, 3, 20, 32);
+
   }
 
   createHeart () {

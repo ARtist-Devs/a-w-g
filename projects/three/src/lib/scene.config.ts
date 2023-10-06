@@ -63,7 +63,7 @@ export const cameraDefaults = {
     type: 'Perspective',
     near: 0.1,
     far: 200,// TODO: lower for production
-    fov: 45,
+    fov: 30,
     width: window.innerWidth || 500,
     height: window.innerHeight || 700,
     position: { x: 0, y: 1.6, z: 0 },//important for xr

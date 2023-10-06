@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import gsap from 'gsap';
-import { BoxGeometry, Group, LinearFilter, MathUtils, Mesh, MeshPhongMaterial, MeshStandardMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
+import { BoxGeometry, CylinderGeometry, Group, LinearFilter, MathUtils, Mesh, MeshPhongMaterial, MeshStandardMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
 
 import { Artwork } from './artwork';
 import { DebugService } from './debug.service';
@@ -26,7 +26,6 @@ export class ArtworkFramesService {
   framesGroup = new Group();
   artworksWithLocation: Artwork[];
   frameButton = this.objectsService.createIcosahedron({ radius: 0.12, detail: 0 });
-  likeButton = this.objectsService.createHeart();
 
   constructor(
     private objectsService: ObjectsService,
@@ -75,6 +74,7 @@ export class ArtworkFramesService {
     light.name = `${frame.name} dir light`;
     light.target.position.set(x, 0, z);
     light.target.updateWorldMatrix();
+    // frame.add(light);
 
     return frame;
   }
@@ -91,9 +91,10 @@ export class ArtworkFramesService {
     //Use the componenet options or take the default values
 
     // Create the frame geometry & canvas geometry
-    const frameGeometry: any = new BoxGeometry(1.5, 2, 0.2);
-    // @ts-ignore
-    const canvasGeometry = new BoxGeometry(artwork?.width / 100, artwork?.height / 100, 0.3);
+    // radiusTop: Float, radiusBottom : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float
+    const frameGeometry: any = new CylinderGeometry(0.8, 0.7, 0.1, 36, 5);
+    frameGeometry.rotateX(Math.PI / 2);
+    const canvasGeometry = new BoxGeometry(artwork?.width / 100, artwork?.height / 100, 0.15);
 
     // Create the canvas material with the texture
     const texture = this.loadersService.loadTexture(artwork.textureUrl);
@@ -102,18 +103,18 @@ export class ArtworkFramesService {
     texture.mapping = UVMapping;
 
     const canvasMaterial = new MeshPhongMaterial({ map: texture, color: 0xffffff });
-    const frameMaterial = new MeshStandardMaterial({ color: 0xffffff });
+    const frameMaterial = new MeshPhongMaterial({ color: 0xffffff });
 
     // Create the frame & canvas mesh
-
     const frameMesh = new Mesh(frameGeometry, frameMaterial);
+    // this.animateFrameColors(frameMesh);
 
     const canvasMesh = new Mesh(canvasGeometry, canvasMaterial);
     frameMesh.name = ` ${artwork.title} frame mesh` || 'frame';
     canvasMesh.name = ` ${artwork.title} canvas mesh` || 'frame canvas';
 
     const l = this.lightsService.createSpotLight();
-    l[0].target = frameMesh;
+    l[0].target = canvasMesh;
     frameGroup.add(frameMesh, canvasMesh, ...l);
     frameGroup.rotateY(Math.PI);
 
@@ -142,14 +143,8 @@ export class ArtworkFramesService {
 
   createButton (ops: any, i: number) {
     let button;
-    if (ops.shape === 'heart')
-    {
-      button = this.likeButton.clone();
-      button.rotateZ(Math.PI / 4);
-    } else
-    {
-      button = this.frameButton.clone();
-    }
+
+    button = this.frameButton.clone();
 
     button.name = `Frame ${i} ${ops.name}`;
     button.position.set(ops.position.x, ops.position.y, ops.position.z);
@@ -177,6 +172,14 @@ export class ArtworkFramesService {
     const p = f.userData['originalPosition'];
     this.moveFrame(f, p);
 
+  }
+
+  animateFrameColors (f: any, colors?: any) {
+    console.log(f.material);
+
+    gsap.to(f.material.color, {
+      r: 144, g: 140, b: 209, duration: 2
+    });
   }
 
   // TODO: use Three animation system?

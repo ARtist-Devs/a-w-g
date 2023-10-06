@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Color, HemisphereLight, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
 import * as ThreeMeshUI from 'three-mesh-ui';
-// import { InteractionsService } from './interactions.service';
-// import { DebugService } from './debug.service';
+import { DebugService } from './debug.service';
 import { Colors } from './colors';
 import { InteractionsService } from './interactions.service';
 
@@ -20,54 +19,6 @@ export class UIService {
   votes: any;
   description: any;
   title: any;
-
-  private containerOptions: any = {
-    justifyContent: 'center',
-    contentDirection: 'row-reverse',
-    fontSize: 0.07,
-    padding: 0.02,
-    borderRadius: 0.11,
-    height: 0.5,
-    width: 1.3,
-    textAlign: 'left',
-    fontFamily: this.FontJSON,
-    fontTexture: this.FontImage,
-    backgroundColor: Colors.red,
-    rotations: { x: -0.55, y: 0, z: 0 },
-    position: { x: 0, y: 0, z: 3 },
-    name: 'ui panel container',
-    buttons: {
-      prev: {},
-      next: {},
-      upvote: {},
-      moreInfo: {},
-      tweet: {},
-      takePicture: {},
-    },
-    hoveredStateAttributes: {
-      state: 'hovered',
-      attributes: {
-        offset: 0.035,
-        backgroundColor: new Color(0x999999),
-        backgroundOpacity: 1,
-        fontColor: new Color(0xffffff)
-      },
-    },
-    idleStateAttributes: {
-      state: 'idle',
-      attributes: {
-        offset: 0.035,
-        backgroundColor: new Color(0x666666),
-        backgroundOpacity: 0.3,
-        fontColor: new Color(0xffffff)
-      },
-    },
-    selectedAttributes: {
-      offset: 0.02,
-      backgroundColor: Colors.buttonBackground,
-      fontColor: Colors.buttonFontColor,
-    }
-  };
 
   private buttonOptions = {
     width: 0.4,
@@ -134,7 +85,7 @@ export class UIService {
       fontColor: new Color(0xffffff)
     },
     onSet: (e: any) => {
-      // console.log('hovered state ', e) 
+      // console.log('hovered state ', e)
     }
   };
 
@@ -154,40 +105,36 @@ export class UIService {
 
   constructor(
     private interactions: InteractionsService,
-    // private debug: DebugService,
+    private debug: DebugService,
   ) { }
 
   // TODO: Needs to calculate position based on the artwork or the biggest width
-  createMoreInfoPanels(ops?: any) {
+  createMoreInfoPanels (ops?: any) {
 
     // Container
     const container = new ThreeMeshUI.Block({
       ref: "container",
-      padding: 0.025,
+      padding: 0.02,
       fontFamily: this.FontJSON,
       fontTexture: this.FontImage,
       fontColor: new Color(0xffffff),
+      fontSize: 0.3,
       backgroundOpacity: 0.5,
       width: 1,
-      height: 1
+      height: 2,
     });
 
     // Rotate container to towards the painting
-    // container.rotation.y = -0.5;
+    container.rotation.y = -0.5;
     container.name = `More Info Panel ${ops.id}`;
-    // this.debug.addToDebug({
-    //   obj: container, name: 'More info Panel', properties: {
-    //     'Position': { min: 0, max: 2, precision: 0.2 }
-    //   }
-    // })// - Container
 
     // Title
     const title = new ThreeMeshUI.Block({
       height: 0.2,
       width: 0.9,
-      margin: 0.025,
+      margin: 0.05,
       justifyContent: "center",
-      fontSize: 0.09,
+      fontSize: 0.15,
     });
 
     const titleText = new ThreeMeshUI.Text({
@@ -200,14 +147,13 @@ export class UIService {
     title.name = `Painting ${ops.id} title`;
     this.title = title;
     container.add(this.title); // - Title
-
     // Description
     const description = new ThreeMeshUI.Block({
-      height: 0.53,
+      height: 1.6,
       width: 0.9,
       margin: 0.01,
       padding: 0.02,
-      fontSize: 0.025,
+      fontSize: 0.15,
       alignItems: "start",
       textAlign: 'justify',
       backgroundOpacity: 0,
@@ -221,14 +167,15 @@ export class UIService {
     description.name = 'Artwork Description';
 
     const contentContainer = new ThreeMeshUI.Block({
-      contentDirection: "row",
+      // contentDirection: "row",
       padding: 0.02,
       margin: 0.025,
       backgroundOpacity: 0.2,
-      height: 0.65,
+      height: 1.6,
       width: 0.9,
       justifyContent: "center",
-      bestFit: 'auto'
+      bestFit: 'grow',
+      fontSize: 5,
     });
 
     contentContainer.name = 'Content Container';
@@ -241,18 +188,19 @@ export class UIService {
 
   }
 
-  updateInfoPanel(ops?: any) {
+  updateInfoPanel (ops?: any) {
     this.description.children[1].set({ content: String(ops.description) });
+    console.log("updating Panel title", ops.title, ops.votes);
     this.title.children[1].set({ content: String(`${ops.title}: ${ops.votes} likes`) });
   }
 
   //TODO: only update the vote onPanel
-  updateVote(ops?: any) {
-    const c = `${ops.text.content.split(':')[0]} : ${ops.votes}`;
+  updateVote (ops?: any) {
+    const c = `${ops.text.content.split(':')[0]} : ${ops.votes} likes`;
     ops.text.set({ content: c });
   }
 
-  createInteractiveButtons(options: any) {
+  createInteractiveButtons (options: any) {
 
     const ops = Object.assign({}, this.defaultOptions, options);
     const container = new ThreeMeshUI.Block(
@@ -261,7 +209,7 @@ export class UIService {
         contentDirection: 'row-reverse',
         fontFamily: this.FontJSON,
         fontTexture: this.FontImage,
-        fontSize: 0.07,
+        fontSize: 0.1,
         padding: 0.02,
         borderRadius: 0.11,
         height: 0.2,
@@ -280,7 +228,7 @@ export class UIService {
 
   };
 
-  createButton(id: number, ops?: any) {
+  createButton (id: number, ops?: any) {
     const btn = new ThreeMeshUI.Block(this.buttonOptions);
     btn.name = `Frame ${id} ${ops.name}`;
 
@@ -312,7 +260,7 @@ export class UIService {
     return btn;
   }
 
-  update() {
+  update () {
     ThreeMeshUI.update();
   }
 
