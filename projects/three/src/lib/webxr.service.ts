@@ -121,7 +121,6 @@ export class WebXRService {
   }
 
   onSessionStart (session: any) {
-    // console.log('Session start ', session);
     session.addEventListener('end', this.onSessionEnd);
     session.addEventListener('inputsourceschange', this.onInputSourcesChange);
 
@@ -251,8 +250,8 @@ export class WebXRService {
   onSelectStart (e: any) {
     console.log('Select Start VR event ', e);
     this.userData.isSelecting = true;
-    // this.interactions.intersectObjects({ controller: this.controllerLeft, scene: this.scene });
-    // this.interactions.intersectObjects({ controller: this.controllerRight, scene: this.scene });
+    this.interactions.intersectObjects({ controller: this.controllerLeft, scene: this.scene });
+    this.interactions.intersectObjects({ controller: this.controllerRight, scene: this.scene });
 
   };
 

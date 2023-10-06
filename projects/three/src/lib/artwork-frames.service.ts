@@ -88,7 +88,6 @@ export class ArtworkFramesService {
   createFrame (artwork: Artwork, btns: any[] = [], i: number): Group {
     const frameGroup = new Group();
     frameGroup.name = ` ${artwork.title} frame group`;
-    //Use the componenet options or take the default values
 
     // Create the frame geometry & canvas geometry
     // radiusTop: Float, radiusBottom : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float
@@ -143,9 +142,7 @@ export class ArtworkFramesService {
   }
 
   createButton (ops: any, i: number) {
-    let button;
-
-    button = this.frameButton.clone();
+    let button = this.frameButton.clone();
 
     button.name = `Frame ${i} ${ops.name}`;
     button.position.set(ops.position.x, ops.position.y, ops.position.z);
@@ -176,7 +173,6 @@ export class ArtworkFramesService {
   }
 
   animateFrameColors (f: any, colors?: any) {
-    console.log(f.material);
 
     gsap.to(f.material.color, {
       r: 144, g: 140, b: 209, duration: 2

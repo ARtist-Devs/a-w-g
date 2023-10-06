@@ -34,7 +34,6 @@ export class UIService {
     buttons: [{
       name: 'Next Button',
       text: 'Next',
-      onClick: (e: Event) => { console.log(`Next Button is clicked`); },
       onHover: (e: Event) => { console.log(`Next Button is hovered`); },
       buttonOptions: {
         width: 0.4,
@@ -47,7 +46,6 @@ export class UIService {
     }, {
       name: 'Prev Button',
       text: 'Previous',
-      onClick: (e: Event) => { console.log(`Previous Button is clicked`); },
       onHover: (e: Event) => { console.log(`Previous Button is hovered`); },
       buttonOptions: {
         width: 0.4,
@@ -85,7 +83,6 @@ export class UIService {
       fontColor: new Color(0xffffff)
     },
     onSet: (e: any) => {
-      // console.log('hovered state ', e)
     }
   };
 

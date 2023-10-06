@@ -256,9 +256,7 @@ export class SceneService {
 
   // TODO: change the controls
   onDeviceChange (e: Event) {
-    console.log(
-      "Device changed: ", e
-    );
+    console.log("Device changed: ", e);
     this.onResize();
   }
 }

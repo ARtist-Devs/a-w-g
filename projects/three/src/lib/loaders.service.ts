@@ -36,7 +36,6 @@ export class LoadersService {
       ops.path,
       (gltf) => {
 
-        // console.log('GLTF ', gltf);
         const model = gltf.scene;
         model.position.z = -0;
         model.scale.set(3, 3, 3); // TODO: scale on blender

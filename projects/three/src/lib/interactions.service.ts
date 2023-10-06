@@ -17,7 +17,6 @@ export class InteractionsService {
   colliderOptions: ColliderOptions = {
     name: 'object',
     mesh: null,
-    cb: (e: Event) => { console.log('Collided ', e); }
   };
   selectedObject: any;
   intersectedObjects: any[] = [];
@@ -72,7 +71,7 @@ export class InteractionsService {
 
   /**
  * TODO: Works only for UI now
- * @param ops 
+ * @param ops
  * @returns selected object
  */
   intersectObjects (ops: any) {
@@ -88,7 +87,6 @@ export class InteractionsService {
 
     } else
     {
-      console.log('setting the ray from controller');
       this.tempMatrix.identity().extractRotation(ops.controller.matrixWorld);
 
       this.raycaster.ray.origin.setFromMatrixPosition(ops.controller.matrixWorld);
