@@ -258,5 +258,6 @@ export class SceneService {
   onDeviceChange (e: Event) {
     console.log("Device changed: ", e);
     this.onResize();
+    // if(this.renderer.)
   }
 }

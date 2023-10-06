@@ -129,8 +129,8 @@ export class ArtworkFramesService {
     moreInfoPanel.quaternion.copy(frameMesh.quaternion);
 
     buttonsPanel.position.x = 0;
-    buttonsPanel.position.y = -0.8;
-    buttonsPanel.position.z = -0.25;
+    buttonsPanel.position.y = -0.7;
+    buttonsPanel.position.z = -0.2;
 
     buttonsPanel.rotateY(Math.PI);
     buttonsPanel.rotateX(-0.55);
