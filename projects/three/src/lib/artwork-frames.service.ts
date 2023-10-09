@@ -63,7 +63,7 @@ export class ArtworkFramesService {
   placeFrame (frame: Group, i: number = 0) {
     const alpha = i * this.angle;
     const x = Math.sin(alpha) * this.frameDistance;// 0 - 1
-    const z = -Math.cos(alpha) * this.frameDistance;// 0 - 0 
+    const z = -Math.cos(alpha) * this.frameDistance;// 0 - 0
     frame.position.set(x, 0, z);
     frame.scale.set(1.3, 1.3, 1.3);
     frame.rotation.y = alpha;
@@ -81,20 +81,19 @@ export class ArtworkFramesService {
 
   /**
    * Creates artframes with the textured canvas in the middle
-   * @param artwork 
-   * @param i 
-   * @returns 
+   * @param artwork
+   * @param i
+   * @returns
    */
   createFrame (artwork: Artwork, btns: any[] = [], i: number): Group {
     const frameGroup = new Group();
     frameGroup.name = ` ${artwork.title} frame group`;
-    //Use the componenet options or take the default values
 
     // Create the frame geometry & canvas geometry
     // radiusTop: Float, radiusBottom : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float
     const frameGeometry: any = new CylinderGeometry(0.8, 0.7, 0.1, 36, 5);
     frameGeometry.rotateX(Math.PI / 2);
-    const canvasGeometry = new BoxGeometry(artwork?.width / 100, artwork?.height / 100, 0.15);
+    const canvasGeometry = new BoxGeometry(artwork?.width / 100 * 1.12, artwork?.height / 100 * 1.12, 0.15);
 
     // Create the canvas material with the texture
     const texture = this.loadersService.loadTexture(artwork.textureUrl);
@@ -130,7 +129,8 @@ export class ArtworkFramesService {
     moreInfoPanel.quaternion.copy(frameMesh.quaternion);
 
     buttonsPanel.position.x = 0;
-    buttonsPanel.position.y = -1.2;
+    buttonsPanel.position.y = -0.7;
+    buttonsPanel.position.z = -0.2;
 
     buttonsPanel.rotateY(Math.PI);
     buttonsPanel.rotateX(-0.55);
@@ -142,9 +142,7 @@ export class ArtworkFramesService {
   }
 
   createButton (ops: any, i: number) {
-    let button;
-
-    button = this.frameButton.clone();
+    let button = this.frameButton.clone();
 
     button.name = `Frame ${i} ${ops.name}`;
     button.position.set(ops.position.x, ops.position.y, ops.position.z);
@@ -175,7 +173,6 @@ export class ArtworkFramesService {
   }
 
   animateFrameColors (f: any, colors?: any) {
-    console.log(f.material);
 
     gsap.to(f.material.color, {
       r: 144, g: 140, b: 209, duration: 2

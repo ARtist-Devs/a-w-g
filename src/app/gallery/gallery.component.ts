@@ -51,6 +51,7 @@ export class GalleryComponent {
     // Model //VRGalleryOriginal1509compressed1.glb",
     const model = this.loadersService.loadModel({
       path: "assets/models/VRGallery0110NoFloorTexture.glb",
+
       scene: this.sceneService.scene,
       onLoadProgress: this.onLoadProgress.bind(this),
       onLoadCB: () => {
@@ -68,9 +69,7 @@ export class GalleryComponent {
       onLoadCB: () => {
         afterSceneInitCB(start);
         this.sceneService.addToScene(this.frames);
-        const millis = Date.now() - start; console.log(`seconds elapsed = ${Math.floor(millis / 1000)}`);
       }
-
     });
 
     // Frames
@@ -160,25 +159,27 @@ export class GalleryComponent {
     this.ui.updateVote({ votes: votes, text: textMesh });
   };
 
-  onKeyDown (e: KeyboardEvent) { }
 
-  onPointerDown (e: Event) { }
+  onPointerDown (e: Event) { console.log('onPointerDown', e); }
 
-  onTouchStart (e: Event) { }
+  onTouchStart (e: Event) { console.log('onTouchStart', e); }
 
   onPointerMove (e: Event) {
+    console.log('onPointerMove', e);
   }
 
   onPointerUp (e: Event) {
+    console.log('onPointerUp', e);
   }
 
   onCanvasClick (e: Event) {
+    console.log('onCanvasClick', e);
   }
 
-  onObjectHover (e: Event) { }
+  onObjectHover (e: Event) { console.log('onObjectHover', e); }
 
-  onDeviceChange (e: Event) { }
+  onDeviceChange (e: Event) { console.log('onDeviceChange', e); }
 
-  onTouchEnd (e: Event) { }
+  onTouchEnd (e: Event) { console.log('onTouchEnd', e); }
 
 }

@@ -26,8 +26,8 @@ export class ControllerService {
 
   /**
    * TODO: Add hand controls and controllers. Push the update function to render functions
-   * @param ops 
-   * @returns 
+   * @param ops
+   * @returns
    */
   createControls (ops: any) {
     this.renderer = ops.renderer;
@@ -106,7 +106,8 @@ export class ControllerService {
   }
 
   createControllers () {
-    // disposes the orbit controls in VR. 
+    
+    // disposes the orbit controls in VR.
     this.controls.dispose();
 
   }
@@ -138,11 +139,9 @@ export class ControllerService {
   }
 
   // Controller Events
-  // TODO:intersection service is intersecting on pointer move
   getControllerIntersections (controller: any, objects: any) {
-    console.log('getIntersections controller ', controller);
-    controller.updateMatrixWorld();
 
+    controller.updateMatrixWorld();
     this.tempMatrix.identity().extractRotation(controller.matrixWorld);
 
     this.raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);

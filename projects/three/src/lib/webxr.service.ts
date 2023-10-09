@@ -32,7 +32,7 @@ export class WebXRService {
   controllerRight: any;
 
   constructor(
-    // private inlineViewerHelper: InlineViewerHelperService, 
+    // private inlineViewerHelper: InlineViewerHelperService,
     private interactions: InteractionsService) {
 
     // this.xrMode.set(this.appConfig.xrMode);
@@ -40,7 +40,7 @@ export class WebXRService {
   }
 
   checkXRSupport (ops?: any) {
-    // We check the navigator once. if 
+    // We check the navigator once. if
     if (this.vrSupported || this.arSupported) { return true; }
     if (navigator.xr)
     {
@@ -121,7 +121,6 @@ export class WebXRService {
   }
 
   onSessionStart (session: any) {
-    // console.log('Session start ', session);
     session.addEventListener('end', this.onSessionEnd);
     session.addEventListener('inputsourceschange', this.onInputSourcesChange);
 
@@ -251,8 +250,8 @@ export class WebXRService {
   onSelectStart (e: any) {
     console.log('Select Start VR event ', e);
     this.userData.isSelecting = true;
-    // this.interactions.intersectObjects({ controller: this.controllerLeft, scene: this.scene });
-    // this.interactions.intersectObjects({ controller: this.controllerRight, scene: this.scene });
+    this.interactions.intersectObjects({ controller: this.controllerLeft, scene: this.scene });
+    this.interactions.intersectObjects({ controller: this.controllerRight, scene: this.scene });
 
   };
 
