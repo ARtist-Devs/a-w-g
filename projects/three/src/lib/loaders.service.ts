@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { BufferGeometryLoader, Light, Material, Mesh, MeshStandardMaterial, Object3D, RepeatWrapping, SRGBColorSpace, Scene, TextureLoader, Vector2 } from 'three';
-
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
@@ -26,6 +25,7 @@ export class LoadersService {
     this.dracoLoader.setDecoderConfig({ type: 'js' });
     this.dracoLoader.preload();
     this.gltfLoader.setDRACOLoader(this.dracoLoader);
+    // this.floorTextureDefuse =
   }
 
   loadModel (ops: { path: string, scene: Scene; bump?: any, diffuse?: any, emission?: any, glossiness?: any, metalness?: any, normal?: any, onLoadCB: Function, onLoadProgress: Function; }) {
@@ -57,10 +57,21 @@ export class LoadersService {
             obj.receiveShadow = true;
             obj.castShadow = true;
             obj.receiveShadow = true;
+
             // @ts-ignore
             if (obj.material.map) { obj.material.map.anisotropy = 16; }
           }
+
+          // @ts-ignore
+          // this.debugService.addToDebug({ obj: obj.material, key: 'clearcoat', min: 0, max: 1 });
+          // @ts-ignore
+          // this.debugService.addToDebug({ obj: material, key: 'clearcoatRoughness', min: 0, max: 1, precision: 0.1 });
+          // // @ts-ignore
+          // this.debugService.addToDebug({ obj: material, key: 'metalness', min: 0, max: 1, precision: 0.1 });
+          // // @ts-ignore
+          // this.debugService.addToDebug({ obj: material, key: 'roughness', min: 0, max: 1, precision: 0.1 });
         });
+
         ops.scene.add(model);
         ops.onLoadCB();
       },

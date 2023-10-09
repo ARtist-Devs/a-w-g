@@ -68,7 +68,6 @@ export const cameraDefaults = {
   height: window.innerHeight || 700,
   position: { x: 0, y: 1.6, z: 0 },//important for xr
   rotation: { x: 0, y: 0, z: 0 },
-
 };
 
 export const lightDefaults = {

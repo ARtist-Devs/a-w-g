@@ -106,6 +106,7 @@ export class ControllerService {
   }
 
   createControllers () {
+    
     // disposes the orbit controls in VR.
     this.controls.dispose();
 
@@ -139,8 +140,8 @@ export class ControllerService {
 
   // Controller Events
   getControllerIntersections (controller: any, objects: any) {
-    controller.updateMatrixWorld();
 
+    controller.updateMatrixWorld();
     this.tempMatrix.identity().extractRotation(controller.matrixWorld);
 
     this.raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);

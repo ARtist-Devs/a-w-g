@@ -51,6 +51,7 @@ export class GalleryComponent {
     // Model //VRGalleryOriginal1509compressed1.glb",
     const model = this.loadersService.loadModel({
       path: "assets/models/VRGallery0110NoFloorTexture.glb",
+
       scene: this.sceneService.scene,
       onLoadProgress: this.onLoadProgress.bind(this),
       onLoadCB: () => {
@@ -158,7 +159,6 @@ export class GalleryComponent {
     this.ui.updateVote({ votes: votes, text: textMesh });
   };
 
-  onKeyDown (e: KeyboardEvent) { console.log('KeyDown', e); }
 
   onPointerDown (e: Event) { console.log('onPointerDown', e); }
 

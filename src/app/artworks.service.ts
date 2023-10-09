@@ -120,10 +120,12 @@ export class ArtworksService {
         artworks[i].votes += 1;
       });
       this.updateUpvote(i);
+
     } else
     {
       console.log('Upvoted already!');
     }
+
     return this.artworks()[i].votes;
   }
 
