@@ -159,6 +159,9 @@ export class GalleryComponent {
     this.ui.updateVote({ votes: votes, text: textMesh });
   };
 
+  onKeyDown (e: KeyboardEvent) {
+    console.log('onKeyDown', e);
+  }
 
   onPointerDown (e: Event) { console.log('onPointerDown', e); }
 
