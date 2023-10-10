@@ -151,7 +151,7 @@ export class SceneService {
     return this.afterSceneInit.bind(this);
 
   }
-  
+
   afterSceneInit (ops?: any) {
 
     this.createCornerLights();
@@ -221,7 +221,6 @@ export class SceneService {
 
   onTouchStart (e: TouchEvent) {
 
-    console.log('Toyuch Start', e);
     this.pointer.x = ((e.touches[0].clientX - this.rect.left) / (this.rect.right - this.rect.left)) * 2 - 1;
     this.pointer.y = - ((e.touches[0].clientY - this.rect.top) / (this.rect.bottom - this.rect.top)) * 2 + 1;
     this.interactionsService.intersectObjects({ pointer: this.pointer, camera: this.camera, scene: this.scene, select: true });
