@@ -56,7 +56,7 @@
     "@gltf-transform/cli": "^3.7.0",
     "@types/gtag.js": "^0.0.14",
     "@types/jasmine": "~4.3.6",
-    "@types/three": "^0.156.0",
+    "@types/three": "^0.157.0",
     "angular-cli-ghpages": "^1.0.7",
     "eslint": "^8.50.0",
     "gltf-pipeline": "^4.1.0",
