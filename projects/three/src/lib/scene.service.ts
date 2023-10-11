@@ -10,6 +10,7 @@ import { LightsService } from './lights.service';
 import { ObjectsService } from './objects.service';
 import { sceneDefaults } from './scene.config';
 import { XRButton } from 'three/examples/jsm/webxr/XRButton';
+import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
 
 @Injectable({
   providedIn: null,
@@ -51,6 +52,11 @@ export class SceneService {
   pointLight: any;
   icoLight2: any;
   canvas: HTMLCanvasElement;
+  webXRManager: any;
+  controller: any;
+  onConnected: any;
+  onDisconnected: any;
+  controllerGrip: any;
   constructor(
     private cameraService: CameraService,
     private controllerService: ControllerService,
@@ -72,6 +78,7 @@ export class SceneService {
     ops.camera.height = this.height;
     this.camera = this.cameraService.createCamera(ops.camera);
 
+    // Dolly to move the camera
     this.dolly = this.cameraService.addDolly();
     this.scene.add(this.dolly);
 
@@ -157,9 +164,42 @@ export class SceneService {
     this.createCornerLights();
     this.cameraService.moveCamera(0, 1.6, 0.001, 8);
     this.interactionsManager = this.interactionsService.initInteractionManager(this.renderer, this.camera, this.canvas);
-    window.addEventListener("resize", this.onResize.bind(this));
-    window.addEventListener("touchstart", this.onTouchStart.bind(this));
 
+  }
+
+  setupXR () {
+
+    this.renderer.xr.enabled = true;
+
+    // document.body.appendChild(XRButton.createButton(this.renderer));
+    this.webXRManager = this.renderer.xr;
+    console.log('this.webXRManager ', this.webXRManager);
+
+    const self = this;
+
+    this.controller = this.renderer.xr.getController(0);
+
+    if (this.controller)
+    {
+      // this.dolly.add(this.controller);
+      // this.controller.addEventListener('selectstart', this.onSelectStart);
+      // this.controller.addEventListener('selectend', this.onSelectEnd);
+      // this.controller.addEventListener('connected', this.onConnected.bind(this));
+      // this.controller.addEventListener('disconnected', this.onDisconnected.bind(this));
+      this.scene.add(this.controller);
+    }
+
+    const controllerModelFactory = new XRControllerModelFactory();
+
+    this.controllerGrip = this.renderer.xr.getControllerGrip(0);
+    this.controllerGrip.add(controllerModelFactory.createControllerModel(this.controllerGrip));
+    this.scene.add(this.controllerGrip);
+  }
+  onSelectStart (arg0: string, onSelectStart: any) {
+    throw new Error('Method not implemented.');
+  }
+  onSelectEnd (arg0: string, onSelectEnd: any) {
+    throw new Error('Method not implemented.');
   }
 
 
@@ -251,6 +291,7 @@ export class SceneService {
 
     // set the pixel ratio (for mobile devices)
     this.renderer.setPixelRatio(window.devicePixelRatio);
+    console.log("onResize ", e);
 
   }
 
