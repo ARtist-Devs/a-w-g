@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AdditiveBlending, BufferGeometry, Float32BufferAttribute, Line, LineBasicMaterial, MOUSE, Matrix4, Mesh, MeshBasicMaterial, Raycaster, RingGeometry, TOUCH, Vector3 } from 'three';
+import { MOUSE, Matrix4, Raycaster, TOUCH, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { DebugService } from './debug.service';
 
@@ -7,8 +7,7 @@ import { DebugService } from './debug.service';
   providedIn: 'platform'
 })
 export class ControllerService {
-  controller: any;
-  controllerGrip: any;
+
   private raycaster = new Raycaster();
   private tempMatrix = new Matrix4();
   intersectedObject: any;
@@ -39,47 +38,10 @@ export class ControllerService {
     }
     if (ops.xrMode === 'immersive-vr')
     {
-      this.buildControllers(ops);
-
+      this.createControllers();
     }
-    this.buildControllers(ops);
 
   }
-
-  buildControllers (ops: any) {
-    this.controllers[0] = this.renderer.xr.getController(0);
-    this.controllers[0].addEventListener('selectstart', this.onSelectStart);
-    this.controllers[0].addEventListener('selectend', this.onSelectEnd);
-    this.controllers[0].addEventListener('connected', (event: any) => {
-      // @ts-ignore
-      this.add(this.createController(event.data));
-      console.log('event.data ', event.data, this);
-
-    });
-    this.controllers[0].addEventListener('disconnected', () => {
-      // @ts-ignore
-      this.remove(this.controllers[0]);
-
-    });
-
-    this.controllers[1] = this.renderer.xr.getController(1);
-    this.controllers[1].addEventListener('selectstart', this.onSelectStart);
-    this.controllers[1].addEventListener('selectend', this.onSelectEnd);
-    this.controllers[1].addEventListener('connected', (event: any) => {
-      // @ts-ignore
-      this.add(this.createController(event.data));
-
-    });
-
-    this.controllers[1].addEventListener('disconnected', () => {
-
-      ops.scene.remove(this.controllers[1]);
-
-    });
-  }
-
-
-
 
   // TODO: Disable the orbit controllers on device change
 
@@ -140,72 +102,14 @@ export class ControllerService {
       }
     });
 
-    this.controls.addEventListener('change', (e: Event) => {
-      // console.log('Controls Changed', e);
-    });
-
     return this.controls;
   }
 
-  createController (data: any) {
-    let geometry, material;
-
-    switch (data.targetRayMode)
-    {
-
-      case 'tracked-pointer':
-
-        geometry = new BufferGeometry();
-        geometry.setAttribute('position', new Float32BufferAttribute([0, 0, 0, 0, 0, - 1], 3));
-        geometry.setAttribute('color', new Float32BufferAttribute([0.5, 0.5, 0.5, 0, 0, 0], 3));
-
-        material = new LineBasicMaterial({ vertexColors: true, blending: AdditiveBlending });
-
-        return new Line(geometry, material);
-
-      case 'gaze':
-
-        geometry = new RingGeometry(0.02, 0.04, 32).translate(0, 0, - 1);
-        material = new MeshBasicMaterial({ opacity: 0.5, transparent: true });
-        return new Mesh(geometry, material);
-
-      default:
-        return console.log('default', data);
-
-    }
-    // TODO: disposes the orbit controls in VR?
-    // this.controls.dispose();
+  createControllers () {
+    // disposes the orbit controls in VR.
+    this.controls.dispose();
 
   }
-
-  // setupXR () {
-
-  //   this.renderer.xr.enabled = true;
-
-  //   // document.body.appendChild(XRButton.createButton(this.renderer));
-  //   this.webXRManager = this.renderer.xr;
-  //   // console.log('this.webXRManager ', this.webXRManager);
-
-  //   const self = this;
-
-  //   this.controller = this.renderer.xr.getController(0);
-
-  //   if (this.controller)
-  //   {
-  //     this.dolly.add(this.controller);
-  //     this.controller.addEventListener('selectstart', this.onSelectStart);
-  //     this.controller.addEventListener('selectend', this.onSelectEnd);
-  //     this.controller.addEventListener('connected', this.onConnected.bind(this));
-  //     this.controller.addEventListener('disconnected', this.onDisconnected.bind(this));
-  //     this.scene.add(this.controller);
-  //   }
-
-  //   const controllerModelFactory = new XRControllerModelFactory();
-
-  //   this.controllerGrip = this.renderer.xr.getControllerGrip(0);
-  //   this.controllerGrip.add(controllerModelFactory.createControllerModel(this.controllerGrip));
-  //   this.scene.add(this.controllerGrip);
-  // }
 
   // TODO: fix the function arguments
   handleControllers (controller?: any, dt?: any) {
@@ -214,7 +118,6 @@ export class ControllerService {
       console.log('Select Pressed ');
     }
   }
-
 
   // TODO:
   updateControls (delta: any) {
@@ -259,32 +162,6 @@ export class ControllerService {
   }
   onPinchStartRight (e: Event) {
     console.log('Pinch start Right ', e);
-  }
-
-  onConnected (e: any) {
-    console.log('connected this, e ', this, e);
-    if (e.target)
-    {
-      const mesh = this.createController.call(this, e.data);
-      if (mesh) mesh.scale.z = 0;
-      e.target.add(mesh);
-    }
-  }
-
-  onDisconnected (e: any) {
-    const controller = e.target;
-    controller.remove(controller.children[0]);
-    this.controller = undefined;
-    this.controllerGrip = undefined;
-
-  }
-
-  onSessionStart (e: any) {
-    console.log('onSessionStart ', e);
-  }
-
-  onSessionEnd (e: any) {
-    console.log('onSessionEnd ', e);
   }
 
   onSelectStart (e: Event) {
