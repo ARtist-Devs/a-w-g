@@ -5,9 +5,10 @@ import { DirectionalLight, HemisphereLight, PointLight, SpotLight } from 'three'
   providedIn: 'platform'
 })
 export class LightsService {
-  private dirLight = new DirectionalLight(0xffffff, 4);
+  private intensity = Math.PI;
+  private dirLight = new DirectionalLight(0xffffff, this.intensity);
   // color : Integer, intensity : Float, distance : Float, angle : Radians, penumbra : Float, decay : Float
-  private spotLight = new SpotLight(0xffffff, 30, 30, Math.PI / 4, 0.5);
+  private spotLight = new SpotLight(0xffffff, 30, 30, this.intensity / 4, 0.5);
 
   constructor() { }
 
@@ -36,14 +37,14 @@ export class LightsService {
 
   createPointLight () {
     // Color, intensity, distance, decay
-    const l = new PointLight(0xffffff, 3, 13, 1);
+    const l = new PointLight(0xffffff, Math.PI, 13, 1);
     l.castShadow = true;
     l.shadow.bias = - 0.005;
     return l;
   }
 
   createDirLight (ops?: any): any[] {
-    const intensity = ops?.intensity || 2;
+    const intensity = ops?.intensity || this.intensity;
     const dirLight = new DirectionalLight(0xffffff, intensity);
     dirLight.castShadow = true;
     dirLight.color.setHSL(0.1, 1, 0.95);

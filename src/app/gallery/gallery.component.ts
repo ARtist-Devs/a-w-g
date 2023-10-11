@@ -48,7 +48,7 @@ export class GalleryComponent {
     this.artworks = this.artworksService.getArtworks();
     const afterSceneInitCB = this.sceneService.initScene(this.canvasEl);
 
-    // Model //VRGalleryOriginal1509compressed1.glb",
+    // Model for Floor
     const model = this.loadersService.loadModel({
       path: "assets/models/VRGallery0110NoFloorTexture.glb",
 
@@ -62,6 +62,7 @@ export class GalleryComponent {
 
     });
 
+    // Model for Walls
     const modelWalls = this.loadersService.loadModel({
       path: "assets/models/VRGalleryInnerWalls0110Merge.glb",
       scene: this.sceneService.scene,
@@ -73,6 +74,7 @@ export class GalleryComponent {
     });
 
     // Frames
+    // Buttons
     this.buttons = [
       {
         name: 'Next Button',
@@ -111,7 +113,6 @@ export class GalleryComponent {
   onLoadProgress (xhr: ProgressEvent) {
     console.log((xhr.loaded / xhr.total * 100) + '% loaded');
     this.loadingProgress.set(xhr.loaded / xhr.total);
-
   }
 
 
@@ -159,16 +160,16 @@ export class GalleryComponent {
     this.ui.updateVote({ votes: votes, text: textMesh });
   };
 
-  onKeyDown (e: KeyboardEvent) {
+  onKeyDown (e: Event) {
     console.log('onKeyDown', e);
   }
 
-  onPointerDown (e: Event) { console.log('onPointerDown', e); }
+  // onPointerDown (e: Event) { console.log('onPointerDown', e); }
 
-  onTouchStart (e: Event) { console.log('onTouchStart', e); }
+  // onTouchStart (e: Event) { console.log('onTouchStart', e); }
 
   onPointerMove (e: Event) {
-    console.log('onPointerMove', e);
+    // console.log('onPointerMove', e);
   }
 
   onPointerUp (e: Event) {
