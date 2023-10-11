@@ -79,10 +79,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "angular-webxr-gallery:build:production"
+              "buildTarget": "angular-webxr-gallery:build:production"
             },
             "development": {
-              "browserTarget": "angular-webxr-gallery:build:development"
+              "buildTarget": "angular-webxr-gallery:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -90,7 +90,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-webxr-gallery:build"
+            "buildTarget": "angular-webxr-gallery:build"
           }
         },
         "test": {

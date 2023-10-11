@@ -13,7 +13,7 @@ export class TweetComponent {
   baseUrl: string = 'https://twitter.com/intent/tweet';
   hashtags: string = 'Angular,WebXR,AngularSignals';
   text: string = 'Checkout Angular WebXR Art Gallery!';
-  imageUrl: string = 'https://github.com/ARtist-Devs/a-w-g/blob/main/src/assets/images/thumbnail.jpg?raw=true';
+  imageUrl: string = 'assets/images/thumbnail.jpg';
 
   public tweetHref: WritableSignal<string> = signal(`${this.baseUrl}?text=${encodeURIComponent(this.text)}&hashtags=${this.hashtags}&url=https://webxr.art&image=${this.imageUrl}`);
   constructor() { }
