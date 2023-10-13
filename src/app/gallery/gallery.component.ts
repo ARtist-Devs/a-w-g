@@ -180,10 +180,13 @@ export class GalleryComponent {
     console.log('onCanvasClick', e);
   }
 
-  onObjectHover (e: Event) { console.log('onObjectHover', e); }
+  onObjectHover (e: Event) { //console.log('onObjectHover', e);
+  }
 
-  onDeviceChange (e: Event) { console.log('onDeviceChange', e); }
+  onDeviceChange (e: Event) { //console.log('onDeviceChange', e);
+  }
 
-  onTouchEnd (e: Event) { console.log('onTouchEnd', e); }
+  onTouchEnd (e: Event) { //console.log('onTouchEnd', e);
+  }
 
 }

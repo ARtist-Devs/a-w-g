@@ -103,11 +103,13 @@ export class ArtworksService {
     let artList: DocumentData[] = [];
     getDocs(this.dbArtworks)
       .then((artSnaps) => {
-        this.artworks.mutate((artworks: Artwork[]) => {
+        // @ts-ignore
+        this.artworks.update((artworks: Artwork[]) => {
           artworks.forEach((artwork: Artwork, i: number) => {
             artwork.votes = artSnaps.docs[i].data()['votes'];
 
           });
+          return artworks;
         });
       });
   };
@@ -116,8 +118,9 @@ export class ArtworksService {
     if (this.upvoted.indexOf(i) === -1)
     {
       this.upvoted.push(i);
-      this.artworks.mutate((artworks: any[]): void => {
-        artworks[i].votes += 1;
+      //@ts-ignore
+      this.artworks.update((artworks: any[]) => {
+        artworks[i].votes = artworks[i].votes + 1;
       });
       this.updateUpvote(i);
 
@@ -126,7 +129,7 @@ export class ArtworksService {
       console.log('Upvoted already!');
     }
 
-    return this.artworks()[i].votes;
+    return this.artworks();
   }
 
   updateUpvote (i: number) {
