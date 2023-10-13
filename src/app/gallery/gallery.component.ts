@@ -154,10 +154,10 @@ export class GalleryComponent {
   }
 
   upvoteSelection (i: number): void {
+    const votes = this.artworksService.upvoteArtwork(i);
     const name = `${i} Text`;
     const textMesh = this.frames.children[i].getObjectByName(name);
-    const votes = this.artworksService.upvoteArtwork(i);
-    this.ui.updateVote({ votes: votes, text: textMesh });
+    this.ui.updateVote({ votes: this.artworks[i].votes, text: textMesh });
   };
 
   onKeyDown (e: Event) {
@@ -180,10 +180,13 @@ export class GalleryComponent {
     console.log('onCanvasClick', e);
   }
 
-  onObjectHover (e: Event) { console.log('onObjectHover', e); }
+  onObjectHover (e: Event) { //console.log('onObjectHover', e);
+  }
 
-  onDeviceChange (e: Event) { console.log('onDeviceChange', e); }
+  onDeviceChange (e: Event) { //console.log('onDeviceChange', e);
+  }
 
-  onTouchEnd (e: Event) { console.log('onTouchEnd', e); }
+  onTouchEnd (e: Event) { //console.log('onTouchEnd', e);
+  }
 
 }
