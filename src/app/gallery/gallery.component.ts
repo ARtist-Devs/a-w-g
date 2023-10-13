@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSign
 import { Artwork } from 'projects/three/src/lib/artwork';
 import { ArtworkFramesService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
 import { ArtworksService } from '../artworks.service';
-import { FirebaseService } from '../firebase.service';
 
 @Component({
   selector: 'art-gallery',
@@ -34,16 +33,17 @@ export class GalleryComponent {
     return this.canvas!.nativeElement;
   }
   constructor(
+    public sceneService: SceneService,
     private artworksService: ArtworksService,
     private framesService: ArtworkFramesService,
     private loadersService: LoadersService,
-    public sceneService: SceneService,
     private ui: UIService,
   ) {
   }
 
   // Init the WebXR scene with Artworks
   ngOnInit () {
+    console.log('Initializing Gallery');
     const start = Date.now();
     this.artworks = this.artworksService.getArtworks();
     const afterSceneInitCB = this.sceneService.initScene(this.canvasEl);
@@ -159,34 +159,5 @@ export class GalleryComponent {
     const textMesh = this.frames.children[i].getObjectByName(name);
     this.ui.updateVote({ votes: this.artworks[i].votes, text: textMesh });
   };
-
-  onKeyDown (e: Event) {
-    console.log('onKeyDown', e);
-  }
-
-  // onPointerDown (e: Event) { console.log('onPointerDown', e); }
-
-  // onTouchStart (e: Event) { console.log('onTouchStart', e); }
-
-  onPointerMove (e: Event) {
-    // console.log('onPointerMove', e);
-  }
-
-  onPointerUp (e: Event) {
-    console.log('onPointerUp', e);
-  }
-
-  onCanvasClick (e: Event) {
-    console.log('onCanvasClick', e);
-  }
-
-  onObjectHover (e: Event) { //console.log('onObjectHover', e);
-  }
-
-  onDeviceChange (e: Event) { //console.log('onDeviceChange', e);
-  }
-
-  onTouchEnd (e: Event) { //console.log('onTouchEnd', e);
-  }
 
 }
