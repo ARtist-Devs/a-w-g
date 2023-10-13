@@ -28,12 +28,9 @@ Apache-2.0
 @firebase/util
 Apache-2.0
 
-@firebase/webchannel-wrapper
-Apache-2.0
-
 firebase/app
 
-firebase/firestore
+firebase/firestore/lite
 
 gsap
 Standard 'no charge' license: https://greensock.com/standard-license. Club GreenSock members get more: https://greensock.com/licensing/. Why GreenSock doesn't employ an MIT license: https://greensock.com/why-license/
