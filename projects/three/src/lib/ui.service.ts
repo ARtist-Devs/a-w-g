@@ -187,7 +187,6 @@ export class UIService {
 
   updateInfoPanel (ops?: any) {
     this.description.children[1].set({ content: String(ops.description) });
-    console.log("updating Panel title", ops.title, ops.votes);
     this.title.children[1].set({ content: String(`${ops.title}: ${ops.votes} likes`) });
   }
 

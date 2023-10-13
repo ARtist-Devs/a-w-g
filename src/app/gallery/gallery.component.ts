@@ -154,10 +154,10 @@ export class GalleryComponent {
   }
 
   upvoteSelection (i: number): void {
+    const votes = this.artworksService.upvoteArtwork(i);
     const name = `${i} Text`;
     const textMesh = this.frames.children[i].getObjectByName(name);
-    const votes = this.artworksService.upvoteArtwork(i);
-    this.ui.updateVote({ votes: votes, text: textMesh });
+    this.ui.updateVote({ votes: this.artworks[i].votes, text: textMesh });
   };
 
   onKeyDown (e: Event) {

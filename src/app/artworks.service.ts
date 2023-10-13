@@ -1,11 +1,12 @@
 import {
   Injectable, signal
 } from '@angular/core';
-import { environment } from 'src/environments/environment.development';
-// import { Artwork } from 'projects/three/src/lib/artwork';
+
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, doc, increment, getDoc, setDoc, DocumentData } from 'firebase/firestore';
+import { collection, doc, getDocs, getFirestore, increment, updateDoc } from 'firebase/firestore/lite';
+
 import { Artwork } from 'projects/three/src/lib/artwork';
+import { environment } from 'src/environments/environment.development';
 
 /**
  * No three.js but only the database and app state.
@@ -14,7 +15,8 @@ import { Artwork } from 'projects/three/src/lib/artwork';
   providedIn: 'platform'
 })
 export class ArtworksService {
-  private artworks = signal([
+
+  private artworksArray = [
     {
       id: 0,
       title: "Self Portrait",
@@ -82,64 +84,53 @@ export class ArtworksService {
       width: 74,
       wiki: "https://en.wikipedia.org/wiki/Vase_with_Irises_Against_a_Yellow_Background",
     },
-  ]);
-  config = environment;
-  app = initializeApp(this.config);
-  db = getFirestore(this.app);
+  ];
 
-  upvoted: number[] = [];
-  artworksLength: number = this.artworks.length;
+  private artworks = signal(this.artworksArray);
+  private config = environment;
+
+  // Initialize Firebase
+  private app = initializeApp(this.config);
+  // Initialize Cloud Firestore and get a reference to the service
+  private db = getFirestore(this.app);
+
+  private upvoted: number[] = [];
   dbArtworks = collection(this.db, 'artworks');
 
   constructor() {
-    this.getArtworksFb();
+    this.getFirebaseData();
   }
 
   getArtworks (): Artwork[] {
     return this.artworks();
   }
 
-  getArtworksFb (): any {
-    let artList: DocumentData[] = [];
-    getDocs(this.dbArtworks)
-      .then((artSnaps) => {
-        // @ts-ignore
-        this.artworks.update((artworks: Artwork[]) => {
-          artworks.forEach((artwork: Artwork, i: number) => {
-            artwork.votes = artSnaps.docs[i].data()['votes'];
-
-          });
-          return artworks;
-        });
-      });
-  };
+  async getFirebaseData () {
+    const votesSnap = await getDocs(this.dbArtworks);
+    this.artworksArray.map((artwork, i) => {
+      artwork.votes = votesSnap.docs[i].data()['votes'];
+    });
+    this.artworks.set(this.artworksArray);
+  }
 
   upvoteArtwork (i: number) {
     if (this.upvoted.indexOf(i) === -1)
     {
       this.upvoted.push(i);
-      //@ts-ignore
-      this.artworks.update((artworks: any[]) => {
+      this.artworks.update((artworks) => {
         artworks[i].votes = artworks[i].votes + 1;
+        return artworks;
       });
-      this.updateUpvote(i);
+      this.updateFirebase(i);
 
     } else
     {
       console.log('Upvoted already!');
     }
-
-    return this.artworks();
   }
 
-  updateUpvote (i: number) {
-    let docDB = doc(this.db, "artworks", i.toString());
-    setDoc(docDB, { votes: increment(1) }, { merge: true })
-      .then(() => {
-        console.log('Incremented vote count field by 1.');
-      })
-      .catch((error) => {
-        console.error('Error incrementing count field:', error);
-      });
+  async updateFirebase (i: number) {
+    const docRef = doc(this.db, `artworks/${i}`);
+    await updateDoc(docRef, { votes: increment(1) });
   }
 };
