@@ -11,6 +11,7 @@ import { ObjectsService } from './objects.service';
 import { sceneDefaults } from './scene.config';
 import { XRButton } from 'three/examples/jsm/webxr/XRButton';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
+import { WebXRService } from './webxr.service';
 
 @Injectable({
   providedIn: null,
@@ -65,6 +66,7 @@ export class SceneService {
     private lightsService: LightsService,
     private objectsService: ObjectsService,
     private debug: DebugService,
+    private webXRService: WebXRService
 
   ) { }
 
@@ -145,12 +147,12 @@ export class SceneService {
     // --Lights
 
     // Controls
-    const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas });
+    const controls = this.controllerService.createControls({ type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas, scene: this.scene });
 
     // Interactions
     const interactionsUpdate = this.interactionsService.initInteractionManager(this.renderer, this.camera, canvas);
     this.renderFunctions.push(interactionsUpdate);
-    document.body.appendChild(XRButton.createButton(this.renderer));
+
 
     // Render loop
     this.ngZone.runOutsideAngular(() => this.renderer.setAnimationLoop(() => this.render()));
@@ -165,7 +167,16 @@ export class SceneService {
     this.cameraService.moveCamera(0, 1.6, 0.001, 8);
     this.interactionsManager = this.interactionsService.initInteractionManager(this.renderer, this.camera, this.canvas);
 
+    // XR
+    const xrButton = XRButton.createButton(this.renderer);
+    // console.log('xrButton ', xrButton);
+    xrButton.addEventListener('click', (e) => {
+      console.log('clicked xrButton ', e);
+    });
+    document.body.appendChild(xrButton);
+    this.webXRService.checkXRSupport({ renderer: this.renderer, camera: this.camera, scene: this.scene });
   }
+
 
   setupXR () {
 

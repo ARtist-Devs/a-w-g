@@ -5,6 +5,7 @@ import { LoadersService } from './loaders.service';
 import { SceneService } from './scene.service';
 import { ThreeComponent } from './three.component';
 import { UIService } from './ui.service';
+import { WebXRService } from './webxr.service';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,7 @@ import { UIService } from './ui.service';
   imports: [
   ],
   providers: [
-    ArtworkFramesService, CameraService, LoadersService, SceneService, UIService
+    ArtworkFramesService, CameraService, LoadersService, SceneService, UIService, WebXRService
   ],
   exports: [
     ThreeComponent,

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MOUSE, Matrix4, Raycaster, TOUCH, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 import { DebugService } from './debug.service';
 
 @Injectable({
@@ -12,7 +13,7 @@ export class ControllerService {
   private tempMatrix = new Matrix4();
   intersectedObject: any;
   private controls: any;
-  private controllers: any;
+  private controllers: any[] = [];
   workingMatrix = new Matrix4();
   workingVector = new Vector3();
   origin = new Vector3();
@@ -36,10 +37,10 @@ export class ControllerService {
     {
       return this.createOrbitControls(ops);
     }
-    if (ops.xrMode === 'immersive-vr')
-    {
-      this.createControllers();
-    }
+    // if (ops.xrMode === 'immersive-vr' && this.controllers.length === 0)
+    // {
+    //   this.createControllers();
+    // }
 
   }
 
@@ -101,11 +102,21 @@ export class ControllerService {
         'keyPanSpeed': { min: 0, max: 100, precision: 1 },
       }
     });
-
+    if (this.renderer.xr.enabled) { this.createControllers(); }
     return this.controls;
   }
 
   createControllers () {
+    this.controllers[0] = this.renderer.xr.getController(0);
+    this.controllers[0].addEventListener('selectstart', this.onSelectStart.bind(this));
+    this.controllers[0].addEventListener('selectend', this.onSelectEnd.bind(this));
+    // this.scene.add(this.controllers[0]);
+    // this.controllers[0].addEventListener('connected', function (event: any) {
+
+    //   this.add(buildController(event.data));
+
+    // });
+
     // disposes the orbit controls in VR.
     this.controls.dispose();
 
@@ -113,10 +124,10 @@ export class ControllerService {
 
   // TODO: fix the function arguments
   handleControllers (controller?: any, dt?: any) {
-    if (this.controllers?.userData.selectPressed)
-    {
-      console.log('Select Pressed ');
-    }
+    // if (this.controllers?.userData.selectPressed)
+    // {
+    //   console.log('Select Pressed ');
+    // }
   }
 
   // TODO:

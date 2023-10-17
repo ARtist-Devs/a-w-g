@@ -38,18 +38,17 @@ export class WebXRButtonComponent {
     this.text = 'XR NOT SUPPORTED';
   }
 
-  async onSessionStarted (session: XRSession) {
-    // session.addEventListener('end', this.onSessionEnded);TODO
-    await this.renderer.xr.setSession(session);
-    this.text = 'STOP XR';
-    this.currentSession = session;
-  }
-
   onSessionEnded (session: XRSession) {
     this.currentSession.removeEventListener('end', this.onSessionEnded);
     this.text = "START XR";
     this.currentSession = null;
+  }
 
+  onSessionStarted (session: XRSession) {
+    // session.addEventListener('end', this.onSessionEnded.bind(this)); //TODO;
+    this.renderer.xr.setSession(session);
+    this.text = 'STOP XR';
+    this.currentSession = session;
   }
   onMouseEnter (e: Event) {
 

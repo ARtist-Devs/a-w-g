@@ -43,7 +43,6 @@ export class GalleryComponent {
 
   // Init the WebXR scene with Artworks
   ngOnInit () {
-    console.log('Initializing Gallery');
     const start = Date.now();
     this.artworks = this.artworksService.getArtworks();
     const afterSceneInitCB = this.sceneService.initScene(this.canvasEl);

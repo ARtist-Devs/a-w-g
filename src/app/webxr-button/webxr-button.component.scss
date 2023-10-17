@@ -1,0 +1,21 @@
+:host {
+  position: absolute;
+  width: 150px;
+  left: calc(50% - 75px);
+  top: calc(100% - 40px);
+}
+
+button {
+  left: calc(50% - 50px);
+  color: "#ff0000";
+  width: 100px;
+  padding: "12px 6px";
+  border: "1px solid #fff";
+  border-radius: "4px";
+  background: "rgba(0,0,0,0.1)";
+  color: "#fff";
+  font: "normal 13px sans-serif";
+  text-align: "center";
+  opacity: "0.5";
+  outline: "none";
+}

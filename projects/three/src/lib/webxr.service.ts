@@ -39,22 +39,26 @@ export class WebXRService {
     // console.log('this.xrMode ', this.xrMode());
   }
 
-  checkXRSupport (ops?: any) {
+  checkXRSupport (ops: any) {
     // We check the navigator once. if
     if (this.vrSupported || this.arSupported) { return true; }
-    if (navigator.xr)
+    else if (navigator.xr)
     {
       // Starts the inline session and init AR/VR depending on xrMode
-      this.initXR(ops);
+      // this.initXR(ops);
 
       navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
         this.vrSupported = true;
         this.xrMode.set('immersive-vr');
+        console.log('VR supported ', supported);
       });
       navigator.xr.isSessionSupported('immersive-ar').then((supported) => {
         this.arSupported = true;
+        console.log('AR supported ', supported);
         // this.xrMode.set('immersive-ar');
       });
+
+      this.initXR(ops);
       return true;
     }
     return false;
@@ -89,7 +93,7 @@ export class WebXRService {
   }
 
   onDeviceChange (e: Event) {
-    this.checkXRSupport();
+    // this.checkXRSupport();
   }
 
   onSessionEnd (e: any) {
@@ -145,25 +149,26 @@ export class WebXRService {
   initXR (ops?: any) {
     this.renderer = ops.renderer;
     this.webXRManager = ops.renderer.xr;
+    console.log('webXRManager ', this.webXRManager);
     this.webXRManager.enabled = true;
     // @ts-ignore
-    navigator.xr.requestSession('inline').then((session) => {
-      this.inlineSession = session;
-      // this.webXRManager.setSession(session);
-      this.session = this.webXRManager.getSession();
-      console.log('Inline session starting ');
-      this.onSessionStart(session);
-    });
+    // navigator.xr.requestSession('inline').then((session) => {
+    //   this.inlineSession = session;
+    //   // this.webXRManager.setSession(session);
+    //   this.session = this.webXRManager.getSession();
+    //   console.log('Inline session starting ');
+    //   this.onSessionStart(session);
+    // });
 
     this.scene = ops.scene;
 
-    document.body.appendChild(XRButton.createButton(this.renderer));
+    // document.body.appendChild(XRButton.createButton(this.renderer));
 
     // this.inlineViewerHelper.init(ops.canvas, referenceSpace);
 
 
     this.session = this.webXRManager.getSession();
-    // console.log('xrSession ', this.session);
+    console.log('xrSession ', this.session);
     this.initVR();
     if (this.xrMode() === 'immersive-vr')
     {
@@ -270,11 +275,12 @@ export class WebXRService {
   }
 
   initAR () {
-    // console.log('Initializing AR')
+    console.log('Initializing AR');
 
   }
 
   updateInputSources (session = this.session, frame: any, refSpace: any, scene = this.scene) {
+    console.log('updateInputSources ', session, frame, refSpace, scene);
     let vec3 = m.vec3;
     for (let inputSource of session.inputSources)
     {
@@ -350,8 +356,4 @@ export class WebXRService {
 
   //   this.scene.endFrame();
   // }
-
-
-
-
 }
