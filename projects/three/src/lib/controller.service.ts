@@ -4,9 +4,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 import { DebugService } from './debug.service';
 
-@Injectable({
+@Injectable( {
   providedIn: 'platform'
-})
+} )
 export class ControllerService {
 
   private raycaster = new Raycaster();
@@ -30,12 +30,11 @@ export class ControllerService {
    * @param ops
    * @returns
    */
-  createControls (ops: any) {
+  createControls ( ops: any ) {
     this.renderer = ops.renderer;
 
-    if (ops.type === 'orbit')
-    {
-      return this.createOrbitControls(ops);
+    if ( ops.type === 'orbit' ) {
+      return this.createOrbitControls( ops );
     }
     // if (ops.xrMode === 'immersive-vr' && this.controllers.length === 0)
     // {
@@ -47,12 +46,12 @@ export class ControllerService {
   // TODO: Disable the orbit controllers on device change
 
   // TODO: Disable the orbit controllers on device change
-  createOrbitControls (ops: any) {
-    this.controls = new OrbitControls(ops.camera, ops.canvas);
-    this.controls.target.set(0, 1.6, 0);
+  createOrbitControls ( ops: any ) {
+    this.controls = new OrbitControls( ops.camera, ops.canvas );
+    this.controls.target.set( 0, 1.6, 0 );
 
     // Enable arrow keys
-    this.controls.listenToKeyEvents(window);
+    this.controls.listenToKeyEvents( window );
     this.controls.keys = {
       LEFT: 'ArrowLeft', //left arrow
       UP: 'ArrowUp', // up arrow
@@ -91,7 +90,7 @@ export class ControllerService {
     this.controls.maxPolarAngle = Math.PI / 2;
     this.controls.screenSpacePanning = false;
 
-    this.debug.addToDebug({
+    this.debug.addToDebug( {
       obj: this.controls, name: 'Orbit Controls', properties: {
         'panSpeed': { min: 0, max: 1, precision: 0.01 },
         'rotateSpeed': { min: 0, max: 1, precision: 0.01 },
@@ -101,15 +100,15 @@ export class ControllerService {
         'maxDistance': { min: 10, max: 500, precision: 1 },
         'keyPanSpeed': { min: 0, max: 100, precision: 1 },
       }
-    });
-    if (this.renderer.xr.enabled) { this.createControllers(); }
+    } );
+    if ( this.renderer.xr.enabled ) { this.createControllers(); }
     return this.controls;
   }
 
   createControllers () {
-    this.controllers[0] = this.renderer.xr.getController(0);
-    this.controllers[0].addEventListener('selectstart', this.onSelectStart.bind(this));
-    this.controllers[0].addEventListener('selectend', this.onSelectEnd.bind(this));
+    this.controllers[0] = this.renderer.xr.getController( 0 );
+    this.controllers[0].addEventListener( 'selectstart', this.onSelectStart.bind( this ) );
+    this.controllers[0].addEventListener( 'selectend', this.onSelectEnd.bind( this ) );
     // this.scene.add(this.controllers[0]);
     // this.controllers[0].addEventListener('connected', function (event: any) {
 
@@ -123,7 +122,7 @@ export class ControllerService {
   }
 
   // TODO: fix the function arguments
-  handleControllers (controller?: any, dt?: any) {
+  handleControllers ( controller?: any, dt?: any ) {
     // if (this.controllers?.userData.selectPressed)
     // {
     //   console.log('Select Pressed ');
@@ -131,13 +130,12 @@ export class ControllerService {
   }
 
   // TODO:
-  updateControls (delta: any) {
-    if (this.renderer.xr && this.renderer.xr?.isPresenting)
-    {
+  updateControls ( delta: any ) {
+    if ( this.renderer.xr && this.renderer.xr?.isPresenting ) {
       this.controls.enabled = false;
       return this.handleControllers();
     }
-    return this.controls.update(delta);
+    return this.controls.update( delta );
   }
 
   /**
@@ -145,44 +143,44 @@ export class ControllerService {
    * Assumes userData.selectPressed, not implemented yet
    */
   get selectPressed () {
-    return (this.controllers !== undefined && this.controllers[0].userData.selectPressed || this.controllers[1].userData.selectPressed);
+    return ( this.controllers !== undefined && this.controllers[0].userData.selectPressed || this.controllers[1].userData.selectPressed );
   }
 
   // Controller Events
-  getControllerIntersections (controller: any, objects: any) {
+  getControllerIntersections ( controller: any, objects: any ) {
     controller.updateMatrixWorld();
 
-    this.tempMatrix.identity().extractRotation(controller.matrixWorld);
+    this.tempMatrix.identity().extractRotation( controller.matrixWorld );
 
-    this.raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
-    this.raycaster.ray.direction.set(0, 0, - 1).applyMatrix4(this.tempMatrix);
-
-    return this.raycaster.intersectObjects(objects, false);//obj, recursive
-
+    this.raycaster.ray.origin.setFromMatrixPosition( controller.matrixWorld );
+    this.raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( this.tempMatrix );
+    const intersectedObjects = this.raycaster.intersectObjects( objects, false );//obj, recursive
+    console.log( 'intersectedObjects ', intersectedObjects );
+    //return this.raycaster.intersectObjects( objects, false );//obj, recursive
+    return intersectedObjects;
   }
 
   // Touch Events
-  onPinchEndLeft (e: Event) {
-    console.log('Pinch end Left ', e);
+  onPinchEndLeft ( e: Event ) {
+    console.log( 'Pinch end Left ', e );
   }
-  onPinchEndRight (e: Event) {
-    console.log('Pinch end Right ', e);
+  onPinchEndRight ( e: Event ) {
+    console.log( 'Pinch end Right ', e );
   }
-  onPinchStartLeft (e: Event) {
-    console.log('Pinch start Left ', e);
+  onPinchStartLeft ( e: Event ) {
+    console.log( 'Pinch start Left ', e );
   }
-  onPinchStartRight (e: Event) {
-    console.log('Pinch start Right ', e);
+  onPinchStartRight ( e: Event ) {
+    console.log( 'Pinch start Right ', e );
   }
 
-  onSelectStart (e: Event) {
-    console.log('SelectStart controller service  ', e);
-
+  onSelectStart ( e: Event ) {
+    console.log( 'SelectStart controller service  ', e );
     this.userData.selectPressed = true;
   }
 
-  onSelectEnd (e: Event) {
-    console.log('SelectEnd controller service  ', e);
+  onSelectEnd ( e: Event ) {
+    console.log( 'SelectEnd controller service  ', e );
     this.userData.selectPressed = false;
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, WritableSignal, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, WritableSignal, computed, signal } from '@angular/core';
 
 import { Artwork } from 'projects/three/src/lib/artwork';
 import { ArtworkFramesService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
@@ -10,7 +10,7 @@ import { ArtworksService } from '../artworks.service';
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss']
 } )
-export class GalleryComponent {
+export class GalleryComponent implements OnInit {
 
   private artworks: Artwork[] = [];
   private artworksLength = 0;
@@ -23,21 +23,21 @@ export class GalleryComponent {
     this.artworks[this.selectedIndex()];
   } );
 
-  selectedArtwork: WritableSignal<Artwork>;
+  private selectedArtwork: WritableSignal<Artwork>;
   @ViewChild( 'canvas', { static: true } )
   canvas!: ElementRef<HTMLCanvasElement>;
 
   private get canvasEl (): HTMLCanvasElement {
     return this.canvas?.nativeElement;
   }
+
   constructor(
     public sceneService: SceneService,
     private artworksService: ArtworksService,
     private framesService: ArtworkFramesService,
     private loadersService: LoadersService,
     private ui: UIService,
-  ) {
-  }
+  ) { }
 
   // Init the WebXR scene with Artworks
   ngOnInit () {
