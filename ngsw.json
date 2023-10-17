@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1697541578112,
+  "timestamp": 1697543356916,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main.b0c15e309a5400ae.js",
+        "/main.82e557fb17229dbc.js",
         "/manifest.webmanifest",
         "/polyfills.75e2dd78af232163.js",
         "/runtime.09456bb83f48fdea.js",
@@ -29,6 +29,7 @@
         "ignoreVary": true
       },
       "urls": [
+        "/assets/artworks/Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project.jpg",
         "/assets/artworks/almond_blossom.webp",
         "/assets/artworks/bedroom.webp",
         "/assets/artworks/irises.webp",
@@ -83,6 +84,7 @@
   ],
   "dataGroups": [],
   "hashTable": {
+    "/assets/artworks/Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project.jpg": "0a410763ff25dc8e66db8169e417b3c4f09afb41",
     "/assets/artworks/almond_blossom.webp": "96d36dc3c7819c67d14dead34835cfab99a48831",
     "/assets/artworks/bedroom.webp": "93ab7fc92df35a2fdb9f473714a896bd72228393",
     "/assets/artworks/irises.webp": "b8bbbbcb71b2c046e20a919cfbaf165164bc96c6",
@@ -132,8 +134,8 @@
     "/assets/textures/hardwood_diffuse.jpg": "b4defe3ea389f51154e2174ae7842b2d54338db7",
     "/assets/textures/hardwood_roughness.jpg": "f70c7f8f262b08448e075771256588e8c9f2cb88",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/index.html": "158b5720438751f0b32bc80630e3fab8b5cf4bbe",
-    "/main.b0c15e309a5400ae.js": "c9aa238995b9bf84519abee9868c35107f59811a",
+    "/index.html": "2606e66fd300efa81f674ccfc4b3eab78f169852",
+    "/main.82e557fb17229dbc.js": "fc4379747b477699774a61fbadeb323016f4d40e",
     "/manifest.webmanifest": "4d2816d4adf3ce689ba4c3e3c3d7d97d927dcf3d",
     "/polyfills.75e2dd78af232163.js": "d649fd62b7046a14a4cbd6438e11a8bc35909bd5",
     "/runtime.09456bb83f48fdea.js": "cbed1900af94cf8ec64462fb9b9b5e4b2f029081",
