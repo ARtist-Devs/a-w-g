@@ -98,7 +98,6 @@ export class ArtworkFramesService {
     // Create the canvas material with the texture
     const texture = this.loadersService.loadTexture(artwork.textureUrl);
     texture.colorSpace = SRGBColorSpace;
-    texture.minFilter = texture.magFilter = LinearFilter;
     texture.mapping = UVMapping;
 
     const canvasMaterial = new MeshPhongMaterial({ map: texture, color: 0xffffff });
