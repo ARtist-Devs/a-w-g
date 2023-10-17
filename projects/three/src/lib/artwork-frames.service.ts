@@ -16,7 +16,7 @@ import { UIService } from './ui.service';
   providedIn: 'platform'
 })
 export class ArtworkFramesService {
-  frameDistance = 7;
+  frameDistance = 4;
   angle = 0;
   frames: Group[] = [];
   focusPosition: any;

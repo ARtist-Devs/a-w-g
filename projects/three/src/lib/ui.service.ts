@@ -164,7 +164,6 @@ export class UIService {
     description.name = 'Artwork Description';
 
     const contentContainer = new ThreeMeshUI.Block({
-      // contentDirection: "row",
       padding: 0.02,
       margin: 0.025,
       backgroundOpacity: 0.2,
