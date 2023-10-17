@@ -133,4 +133,4 @@ export class ArtworksService {
     const docRef = doc(this.db, `artworks/${i}`);
     await updateDoc(docRef, { votes: increment(1) });
   }
-};
+}

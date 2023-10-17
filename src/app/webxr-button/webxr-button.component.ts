@@ -28,7 +28,6 @@ export class WebXRButtonComponent {
       navigator.xr?.requestSession(this.sessionMode, sessionInit).then((session) => this.onSessionStarted);
     } else
     {
-      // @ts-ignore
       this.currentSession.end();
     }
 
@@ -50,14 +49,4 @@ export class WebXRButtonComponent {
     this.text = 'STOP XR';
     this.currentSession = session;
   }
-  onMouseEnter (e: Event) {
-
-  }
-
-  onMouseLeave (e: Event) {
-
-  }
-
-
-
 }

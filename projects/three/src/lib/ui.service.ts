@@ -12,9 +12,10 @@ import { InteractionsService } from './interactions.service';
 })
 export class UIService {
 
-  FontJSON = 'assets/fonts/Roboto-msdf.json';
-  FontImage = 'assets/fonts/Roboto-msdf.png';
+
   public selectState = false;
+  private FontJSON = 'assets/fonts/Roboto-msdf.json';
+  private FontImage = 'assets/fonts/Roboto-msdf.png';
   private container: any;
   votes: any;
   description: any;
@@ -143,7 +144,9 @@ export class UIService {
     title.add(titleText);
     title.name = `Painting ${ops.id} title`;
     this.title = title;
-    container.add(this.title); // - Title
+    container.add(this.title);
+    // - Title
+
     // Description
     const description = new ThreeMeshUI.Block({
       height: 1.6,
