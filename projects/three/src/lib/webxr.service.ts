@@ -144,11 +144,9 @@ export class WebXRService {
   initVR () {
     this.controllerLeft = this.initController( this.renderer.xr.getController( 0 ), 0 );
     this.controllerRight = this.initController( this.renderer.xr.getController( 1 ), 1 );
-
   }
 
   initController ( controller: any, i: number ) {
-    // TODO: set controllers...
 
     controller.addEventListener( 'selectstart', this.onSelectStart.bind( this ) );
     controller.addEventListener( 'select', this.onSelect.bind( this ) );

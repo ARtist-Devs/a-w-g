@@ -189,7 +189,8 @@ export class ArtworkFramesService {
   }
 
   rotateFrames ( angle: number = 72 ) {
-
+    console.log( 'MathUtils.degToRad( angle ) + this.framesGroup.rotation.y', MathUtils.degToRad( angle ), this.framesGroup.rotation.y );
+    // angle between frames and the current group rotation
     const y = MathUtils.degToRad( angle ) + this.framesGroup.rotation.y;
     gsap.to( this.framesGroup.rotation, { y: y, duration: 1 } );
 

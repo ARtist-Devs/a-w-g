@@ -127,7 +127,7 @@ export class GalleryComponent implements OnInit {
    * @param e
    */
   changeSelection ( ind: any, n: number ) {
-
+    console.log( "Selection is changing", ind, n );
     this.framesService.resetPosition( this.focused );
     let i;
     if ( n === 1 )// Next
