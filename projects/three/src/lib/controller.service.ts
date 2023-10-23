@@ -109,6 +109,7 @@ export class ControllerService {
     this.controllers[0] = this.renderer.xr.getController( 0 );
     this.controllers[0].addEventListener( 'selectstart', this.onSelectStart.bind( this ) );
     this.controllers[0].addEventListener( 'selectend', this.onSelectEnd.bind( this ) );
+    this.controllers[0].addEventListener( 'select', this.onSelect.bind( this ) );
     // this.scene.add(this.controllers[0]);
     // this.controllers[0].addEventListener('connected', function (event: any) {
 
@@ -172,6 +173,10 @@ export class ControllerService {
   }
   onPinchStartRight ( e: Event ) {
     console.log( 'Pinch start Right ', e );
+  }
+
+  onSelect ( e: Event ) {
+    console.log( 'Select controller service  ', e );
   }
 
   onSelectStart ( e: Event ) {

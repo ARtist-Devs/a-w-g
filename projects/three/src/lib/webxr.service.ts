@@ -225,7 +225,6 @@ export class WebXRService {
     console.log( 'Select VR event ', e );
     this.interactions.intersectObjects( { controller: this.controllerLeft, scene: this.scene, select: true } );
     this.interactions.intersectObjects( { controller: this.controllerRight, scene: this.scene, select: true } );
-
   }
 
   onSelectEnd ( e: any ) {
