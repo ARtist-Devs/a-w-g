@@ -10,13 +10,12 @@ export class TweetComponent {
   // onTweet (e: Event) {
   // }
 
-  baseUrl: string = 'https://twitter.com/intent/tweet';
-  hashtags: string = 'Angular,WebXR,AngularSignals';
-  text: string = 'Checkout Angular WebXR Art Gallery!';
-  imageUrl: string = 'assets/images/thumbnail.jpg';
+  baseUrl = 'https://twitter.com/intent/tweet';
+  hashtags = 'Angular,WebXR,AngularSignals';
+  text = 'Checkout Angular WebXR Art Gallery!';
+  imageUrl = 'assets/images/thumbnail.jpg';
 
   public tweetHref: WritableSignal<string> = signal(`${this.baseUrl}?text=${encodeURIComponent(this.text)}&hashtags=${this.hashtags}&url=https://webxr.art&image=${this.imageUrl}`);
-  constructor() { }
 
   onTweet (ops?: any) {
     this.tweetHref.set(`${this.baseUrl}?text=${encodeURIComponent(this.text)}&hashtags=${this.hashtags}`);

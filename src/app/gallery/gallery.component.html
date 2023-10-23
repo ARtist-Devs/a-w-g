@@ -1,8 +1,4 @@
 <art-tweet></art-tweet>
-<canvas #canvas (click)="onCanvasClick($event)" (pointermove)="onPointerMove($event)" (pointerup)="onPointerUp($event)"
-  (pointerdown)="sceneService.onPointerDown($event)" (mousemove)="onPointerMove($event)"
-  (mouseenter)="onObjectHover($event)" (touchstart)="sceneService.onTouchStart($event)" (touchend)="onTouchEnd($event)"
-  (ondevicechange)="onDeviceChange($event)" (window:resize)="sceneService.onResize($event)"
-  (window:keydown)="onKeyDown($event)" [attr.aria-label]="canvas"></canvas>
-<!-- <art-loading [delta]="loadingProgress()"></art-loading> -->
+
+<canvas #canvas (window:resize)="sceneService.onResize($event)" [attr.aria-label]="canvas"></canvas>
 <!-- <art-webxr-button></art-webxr-button> -->
