@@ -101,7 +101,6 @@ export class ControllerService {
         'keyPanSpeed': { min: 0, max: 100, precision: 1 },
       }
     } );
-    if ( this.renderer.xr.enabled ) { this.createControllers(); }
     return this.controls;
   }
 
