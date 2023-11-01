@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 
-import { BufferGeometryLoader, Light, LoadingManager, Material, Mesh, MeshStandardMaterial, Object3D, RepeatWrapping, SRGBColorSpace, Scene, TextureLoader, UnsignedByteType, Vector2 } from 'three';
+import { LoadingManager, Material, Mesh, MeshStandardMaterial, Object3D, RepeatWrapping, SRGBColorSpace, Scene, TextureLoader, Vector2 } from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
@@ -11,12 +11,13 @@ import { MaterialsService } from './materials.service';
   providedIn: 'root'
 } )
 export class LoadersService {
+  public loadingProgress: WritableSignal<number> = signal( 0 );
   private loadingManager = new LoadingManager();
   private gltfLoader = new GLTFLoader( this.loadingManager );
-  // private bufferLoader: BufferGeometryLoader = new BufferGeometryLoader( this.loadingManager );
   private textureLoader: TextureLoader = new TextureLoader( this.loadingManager );
   private dracoLoader = new DRACOLoader( this.loadingManager );
   floorTexture: any;
+
 
   constructor(
     private debugService: DebugService,
@@ -27,9 +28,12 @@ export class LoadersService {
     };
     this.loadingManager.onProgress = ( url: string, itemsLoaded: number, itemsTotal: number ) => {
       console.log( `Loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.` );
+
     };
     this.loadingManager.onLoad = () => {
+
       console.log( 'Loading complete!' );
+      this.loadingProgress.set( 100 );
     };
 
     this.loadingManager.onError = ( url: string ) => {
