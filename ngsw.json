@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1698878126545,
+  "timestamp": 1698878884268,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main.35485dd96eb4fcc4.js",
+        "/main.69c1c2ed008e23dc.js",
         "/manifest.webmanifest",
         "/polyfills.599030688041ea81.js",
         "/runtime.09456bb83f48fdea.js",
@@ -56,7 +56,6 @@
         "/assets/fonts/msdf/roboto/regular.ttf",
         "/assets/fonts/msdf/rye/regular.json",
         "/assets/fonts/msdf/rye/regular.png",
-        "/assets/fonts/optimer_bold.typeface.json",
         "/assets/fonts/svg/BadComic.svg",
         "/assets/fonts/svg/flux/bold-italic.svg",
         "/assets/fonts/svg/flux/bold.svg",
@@ -111,7 +110,6 @@
     "/assets/fonts/msdf/roboto/regular.ttf": "84d102488738b0ebbc7a5087973effbd54c95bd5",
     "/assets/fonts/msdf/rye/regular.json": "e9be443a145f961485beba6a9a6a0f8262648d8f",
     "/assets/fonts/msdf/rye/regular.png": "00733a4d8761cb0d54c10e0bd45f515db3f9af3f",
-    "/assets/fonts/optimer_bold.typeface.json": "3cec107a79505013a0145d269e2d2ae465b8f13d",
     "/assets/fonts/svg/BadComic.svg": "2e04317ca3a84dc00c3f20fade0122e05ab3a105",
     "/assets/fonts/svg/flux/bold-italic.svg": "944d50ae662b87b1fc4fef5ba521cd7f2ce41d57",
     "/assets/fonts/svg/flux/bold.svg": "613fec025f7379460e13b6f1f58f51ea910aa3ac",
@@ -134,8 +132,8 @@
     "/assets/textures/hardwood_diffuse.jpg": "b4defe3ea389f51154e2174ae7842b2d54338db7",
     "/assets/textures/hardwood_roughness.jpg": "f70c7f8f262b08448e075771256588e8c9f2cb88",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/index.html": "755e419a321ca24247c3cfdf2a976236e4eafc33",
-    "/main.35485dd96eb4fcc4.js": "89f190914d48684d2e8d309a3fd61bdc1f0ba130",
+    "/index.html": "ca1658c4901668ab845ca04e096edb1d9039637a",
+    "/main.69c1c2ed008e23dc.js": "1a42c9ca1423d1b3a4edd5de4873fbb591dc4f0c",
     "/manifest.webmanifest": "4d2816d4adf3ce689ba4c3e3c3d7d97d927dcf3d",
     "/polyfills.599030688041ea81.js": "71fafbd2905ab04c69e960067409c81f751cf2b9",
     "/runtime.09456bb83f48fdea.js": "cbed1900af94cf8ec64462fb9b9b5e4b2f029081",
