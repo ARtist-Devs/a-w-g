@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, WritableSignal, computed, signal } from '@angular/core';
 
 import { Artwork } from 'projects/three/src/lib/artwork';
@@ -11,7 +12,8 @@ import { ArtworksService } from '../artworks.service';
   styleUrls: ['./gallery.component.scss']
 } )
 export class GalleryComponent implements OnInit {
-
+  loadingBar = true;
+  loadingClass = 'loading';
   private artworks: Artwork[] = [];
   private artworksLength = 0;
   private selectedIndex: WritableSignal<number> = signal( 0 );
@@ -54,6 +56,8 @@ export class GalleryComponent implements OnInit {
       onLoadCB: () => {
         afterSceneInitCB( start );
         this.sceneService.addToScene( this.frames );
+        // this.loadingClass = 'loaded';
+        this.loadingBar = false;
         const millis = Date.now() - start; console.log( `seconds elapsed = ${Math.floor( millis / 1000 )}` );
       }
 
@@ -108,6 +112,7 @@ export class GalleryComponent implements OnInit {
   }
 
   onLoadProgress ( xhr: ProgressEvent ) {
+    console.log( 'OnProgress is running loaded ', xhr );
     console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
     this.loadingProgress.set( xhr.loaded / xhr.total );
   }

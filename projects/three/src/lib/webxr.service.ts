@@ -113,7 +113,7 @@ export class WebXRService {
   initXR ( ops?: any ) {
     this.renderer = ops.renderer;
     this.webXRManager = ops.renderer.xr;
-    console.log( 'webXRManager ', this.webXRManager );
+    // console.log( 'webXRManager ', this.webXRManager );
     this.webXRManager.enabled = true;
     // @ts-ignore
     // navigator.xr.requestSession('inline').then((session) => {

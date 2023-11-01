@@ -4,6 +4,14 @@
   display: block;
 }
 
+.loaded {
+  display: none;
+}
+
+.loading {
+  display: block;
+}
+
 mat-progress-bar {
   height: 40px;
 }
