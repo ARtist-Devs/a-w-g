@@ -142,7 +142,7 @@ export class SceneService {
     icoLight.add( this.pointLight );
     this.icoLight = icoLight;
 
-    this.scene.add( this.icoLight );
+    this.scene.add( this.icoLight ); //this.pointLight );
     // --Lights
 
     // Controls
@@ -257,7 +257,6 @@ export class SceneService {
     this.icoLight1.position.set( -10, 1, 7.6 );
 
     this.icoLight2 = this.icoLight.clone();
-
     this.icoLight2.add( spotlight );
     this.icoLight2.position.set( 10, 1, 7.6 );
 

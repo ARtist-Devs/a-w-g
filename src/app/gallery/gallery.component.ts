@@ -54,9 +54,7 @@ export class GalleryComponent implements OnInit {
       scene: this.sceneService.scene,
       onLoadProgress: this.onLoadProgress.bind( this ),
       onLoadCB: () => {
-        afterSceneInitCB( start );
         this.sceneService.addToScene( this.frames );
-        // this.loadingClass = 'loaded';
         this.loadingBar = false;
         const millis = Date.now() - start; console.log( `seconds elapsed = ${Math.floor( millis / 1000 )}` );
       }

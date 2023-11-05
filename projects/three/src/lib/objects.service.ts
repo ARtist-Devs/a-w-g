@@ -6,13 +6,13 @@ import { DebugService } from './debug.service';
 import { InteractionsService } from './interactions.service';
 import { MaterialsService } from './materials.service';
 
-@Injectable({
+@Injectable( {
   providedIn: 'platform'
-})
+} )
 export class ObjectsService {
-  private boxGeometry = new BoxGeometry(1, 1, 1);
-  private sphereGeometry = new SphereGeometry(15, 32, 16);
-  private basicMaterial = new MeshBasicMaterial({ color: 0xffff00 });
+  private boxGeometry = new BoxGeometry( 1, 1, 1 );
+  private sphereGeometry = new SphereGeometry( 15, 32, 16 );
+  private basicMaterial = new MeshBasicMaterial( { color: 0xffff00 } );
   private material = this.materials.getRandomColoredMaterial();
   private reticle: Mesh;
   boxDefaultOptions = {
@@ -20,7 +20,7 @@ export class ObjectsService {
     position: { x: 0, y: 1.6, z: 2 },
     name: 'box',
     material: this.material,
-    cb: (e: Event) => { console.log('Collided with a box ', e); }
+    cb: ( e: Event ) => { console.log( 'Collided with a box ', e ); }
   };
 
   sphereDefaultOptions = {
@@ -37,7 +37,7 @@ export class ObjectsService {
 
   createReticle () {
     const reticle = new Mesh(
-      new RingGeometry(0.15, 0.2, 32).rotateX(- Math.PI / 2),
+      new RingGeometry( 0.15, 0.2, 32 ).rotateX( - Math.PI / 2 ),
       new MeshBasicMaterial()
     );
     reticle.matrixAutoUpdate = false;
@@ -46,29 +46,27 @@ export class ObjectsService {
     return this.reticle;
   }
 
-  createIcosahedron (options?: any) {
-    const ops = Object.assign({ radius: 1.5, detail: 0 }, options);
+  createIcosahedron ( options?: any ) {
+    const ops = Object.assign( { radius: 1.5, detail: 0 }, options );
     let material = this.materials.getRandomColoredMaterial();
-    if (ops.material)
-    {
-      this.materials.getMaterial(ops.material);
+    if ( ops.material ) {
+      this.materials.getMaterial( ops.material );
     }
     const shape = new Mesh(
-      new IcosahedronGeometry(ops.radius, ops.detail),
+      new IcosahedronGeometry( ops.radius, ops.detail ),
       this.materials.getRandomColoredMaterial()
     );
-
 
     shape.scale.x = 1.3;
     return shape;
   }
 
   createGround () {
-    const groundGeo = new PlaneGeometry(10000, 10000);
-    const groundMat = new MeshLambertMaterial({ color: 0xffffff });
-    groundMat.color.setHSL(0.095, 1, 0.75);
+    const groundGeo = new PlaneGeometry( 10000, 10000 );
+    const groundMat = new MeshLambertMaterial( { color: 0xffffff } );
+    groundMat.color.setHSL( 0.095, 1, 0.75 );
 
-    const ground = new Mesh(groundGeo, groundMat);
+    const ground = new Mesh( groundGeo, groundMat );
     ground.position.y = - 33;
     ground.rotation.x = - Math.PI / 2;
     ground.receiveShadow = true;
@@ -76,42 +74,41 @@ export class ObjectsService {
 
   }
 
-  createSkyDom (ops?: any) {
+  createSkyDom ( ops?: any ) {
 
 
-    const vertexShader = document.getElementById('vertexShader').textContent;
-    const fragmentShader = document.getElementById('fragmentShader').textContent;
+    const vertexShader = document.getElementById( 'vertexShader' ).textContent;
+    const fragmentShader = document.getElementById( 'fragmentShader' ).textContent;
     const uniforms = {
-      'topColor': { value: new Color(0x0077ff) },
-      'bottomColor': { value: new Color(0xffffff) },
+      'topColor': { value: new Color( 0x0077ff ) },
+      'bottomColor': { value: new Color( 0xffffff ) },
       'offset': { value: 33 },
       'exponent': { value: 0.6 }
     };
-    uniforms['topColor'].value.copy(ops.color);
+    uniforms['topColor'].value.copy( ops.color );
 
     // scene.fog.color.copy(uniforms['bottomColor'].value);
 
-    const skyGeo = new SphereGeometry(4000, 32, 15);
-    const skyMat = new ShaderMaterial({
+    const skyGeo = new SphereGeometry( 4000, 32, 15 );
+    const skyMat = new ShaderMaterial( {
       uniforms: uniforms,
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       side: BackSide
-    });
+    } );
 
-    const sky = new Mesh(skyGeo, skyMat);
+    const sky = new Mesh( skyGeo, skyMat );
     return sky;
   }
 
-  createBackground (ops?: any) { }
+  createBackground ( ops?: any ) { }
 
-  createSphere (options?: any) {
-    const ops = Object.assign({}, this.sphereDefaultOptions, options);
-    const sphere = new Mesh(this.sphereGeometry, ops.material || this.materials.getRandomColoredMaterial());
+  createSphere ( options?: any ) {
+    const ops = Object.assign( {}, this.sphereDefaultOptions, options );
+    const sphere = new Mesh( this.sphereGeometry, ops.material || this.materials.getRandomColoredMaterial() );
     sphere.name = ops.name;
 
-    if (ops.interactive)
-    {
+    if ( ops.interactive ) {
       // this.interactions.addToColliders({ name: ops.name, mesh: sphere, cb: ops.cb });
     }
 
@@ -121,7 +118,7 @@ export class ObjectsService {
   createFrame () {
 
 
-    const geometry = new CylinderGeometry(3, 3, 20, 32);
+    const geometry = new CylinderGeometry( 3, 3, 20, 32 );
 
   }
 
@@ -130,31 +127,31 @@ export class ObjectsService {
     const x = 0, y = 0;
 
     const heartShape = new Shape()
-      .moveTo(x + 25, y + 25)
-      .bezierCurveTo(x + 25, y + 25, x + 20, y, x, y)
-      .bezierCurveTo(x - 30, y, x - 30, y + 35, x - 30, y + 35)
-      .bezierCurveTo(x - 30, y + 55, x - 10, y + 77, x + 25, y + 95)
-      .bezierCurveTo(x + 60, y + 77, x + 80, y + 55, x + 80, y + 35)
-      .bezierCurveTo(x + 80, y + 35, x + 80, y, x + 50, y)
-      .bezierCurveTo(x + 35, y, x + 25, y + 25, x + 25, y + 25);
-    const heartMesh = this.addShape(heartShape, extrudeSettings, 0xf00000, 60, 100, 0, 0, 0, Math.PI, 0.003);
+      .moveTo( x + 25, y + 25 )
+      .bezierCurveTo( x + 25, y + 25, x + 20, y, x, y )
+      .bezierCurveTo( x - 30, y, x - 30, y + 35, x - 30, y + 35 )
+      .bezierCurveTo( x - 30, y + 55, x - 10, y + 77, x + 25, y + 95 )
+      .bezierCurveTo( x + 60, y + 77, x + 80, y + 55, x + 80, y + 35 )
+      .bezierCurveTo( x + 80, y + 35, x + 80, y, x + 50, y )
+      .bezierCurveTo( x + 35, y, x + 25, y + 25, x + 25, y + 25 );
+    const heartMesh = this.addShape( heartShape, extrudeSettings, 0xf00000, 60, 100, 0, 0, 0, Math.PI, 0.003 );
     return heartMesh;
 
   }
 
-  createRoundedRect (ops: { x: number, y: number, width: number, height: number, radius: number, }) {
+  createRoundedRect ( ops: { x: number, y: number, width: number, height: number, radius: number, } ) {
     const extrudeSettings = { depth: 1, bevelEnabled: true, bevelSegments: 3, steps: 3, bevelSize: 2, bevelThickness: 0.5 };
     const roundedRectShape = new Shape();
-    roundedRectShape.moveTo(ops.x, ops.y + ops.radius);
-    roundedRectShape.lineTo(ops.x, ops.y + ops.height - ops.radius);
-    roundedRectShape.quadraticCurveTo(ops.x, ops.y + ops.height, ops.x + ops.radius, ops.y + ops.height);
-    roundedRectShape.lineTo(ops.x + ops.width - ops.radius, ops.y + ops.height);
-    roundedRectShape.quadraticCurveTo(ops.x + ops.width, ops.y + ops.height, ops.x + ops.width, ops.y + ops.height - ops.radius);
-    roundedRectShape.lineTo(ops.x + ops.width, ops.y + ops.radius);
-    roundedRectShape.quadraticCurveTo(ops.x + ops.width, ops.y, ops.x + ops.width - ops.radius, ops.y);
-    roundedRectShape.lineTo(ops.x + ops.radius, ops.y);
-    roundedRectShape.quadraticCurveTo(ops.x, ops.y, ops.x, ops.y + ops.radius);
-    const rectMesh = this.addShape(roundedRectShape, extrudeSettings, 0xffffff, ops.width / 2, 0, 0, 0, 0, 0, 1);
+    roundedRectShape.moveTo( ops.x, ops.y + ops.radius );
+    roundedRectShape.lineTo( ops.x, ops.y + ops.height - ops.radius );
+    roundedRectShape.quadraticCurveTo( ops.x, ops.y + ops.height, ops.x + ops.radius, ops.y + ops.height );
+    roundedRectShape.lineTo( ops.x + ops.width - ops.radius, ops.y + ops.height );
+    roundedRectShape.quadraticCurveTo( ops.x + ops.width, ops.y + ops.height, ops.x + ops.width, ops.y + ops.height - ops.radius );
+    roundedRectShape.lineTo( ops.x + ops.width, ops.y + ops.radius );
+    roundedRectShape.quadraticCurveTo( ops.x + ops.width, ops.y, ops.x + ops.width - ops.radius, ops.y );
+    roundedRectShape.lineTo( ops.x + ops.radius, ops.y );
+    roundedRectShape.quadraticCurveTo( ops.x, ops.y, ops.x, ops.y + ops.radius );
+    const rectMesh = this.addShape( roundedRectShape, extrudeSettings, 0xffffff, ops.width / 2, 0, 0, 0, 0, 0, 1 );
 
 
     return rectMesh;
@@ -162,23 +159,23 @@ export class ObjectsService {
   }
 
   // @ts-ignore
-  addShape (shape, extrudeSettings, color, x, y, z, rx, ry, rz, s) {
+  addShape ( shape, extrudeSettings, color, x, y, z, rx, ry, rz, s ) {
 
-    let geometry = new ExtrudeGeometry(shape, extrudeSettings);
+    let geometry = new ExtrudeGeometry( shape, extrudeSettings );
 
-    let mesh = new Mesh(geometry, new MeshPhongMaterial({ color: color }));
-    mesh.position.set(x, y, z);
-    mesh.rotation.set(rx, ry, rz);
-    mesh.scale.set(s, s, s);
+    let mesh = new Mesh( geometry, new MeshPhongMaterial( { color: color } ) );
+    mesh.position.set( x, y, z );
+    mesh.rotation.set( rx, ry, rz );
+    mesh.scale.set( s, s, s );
     return mesh;
 
   }
 
-  createBox (options?: any) {
-    const ops = Object.assign({}, this.boxDefaultOptions, options);
-    const object = new Mesh(this.boxGeometry, ops.material || this.materials.getRandomColoredMaterial());
+  createBox ( options?: any ) {
+    const ops = Object.assign( {}, this.boxDefaultOptions, options );
+    const object = new Mesh( this.boxGeometry, ops.material || this.materials.getRandomColoredMaterial() );
 
-    object.position.set(ops.position.x, ops.position.y, ops.position.z);
+    object.position.set( ops.position.x, ops.position.y, ops.position.z );
     object.name = ops.name;
     // this.interactions.addToColliders({ name: ops.name, mesh: object, cb: ops.cb });
     return object;
@@ -195,23 +192,21 @@ export class ObjectsService {
 
   // }
 
-  createNav (ops?: any) {
+  createNav ( ops?: any ) {
     const nav = new Group();
-    const geometry = new BoxGeometry(5, 5, 5);
-    const material = new MeshPhongMaterial({ color: 0xAAAA22 });
-    const edges = new EdgesGeometry(geometry);
-    const line = new LineSegments(edges, new LineBasicMaterial({ color: 0x000000, linewidth: 2 }));
-    for (let x = -100;x < 100;x += 10)
-    {
-      for (let z = -100;z < 100;z += 10)
-      {
-        if (x == 0 && z == 0) continue;
-        const box = new Mesh(geometry, material);
-        box.position.set(x, 2.5, z);
+    const geometry = new BoxGeometry( 5, 5, 5 );
+    const material = new MeshPhongMaterial( { color: 0xAAAA22 } );
+    const edges = new EdgesGeometry( geometry );
+    const line = new LineSegments( edges, new LineBasicMaterial( { color: 0x000000, linewidth: 2 } ) );
+    for ( let x = -100; x < 100; x += 10 ) {
+      for ( let z = -100; z < 100; z += 10 ) {
+        if ( x == 0 && z == 0 ) continue;
+        const box = new Mesh( geometry, material );
+        box.position.set( x, 2.5, z );
         const edge = line.clone();
-        edge.position.copy(box.position);
-        nav.add(box);
-        nav.add(edge);
+        edge.position.copy( box.position );
+        nav.add( box );
+        nav.add( edge );
         // this.colliders.push(box);
       }
     }
@@ -220,14 +215,13 @@ export class ObjectsService {
     return nav;
   }
 
-  createBoxes (ops?: any) {
+  createBoxes ( ops?: any ) {
     const length = ops.number || 1000;
     const position = ops.position || 40;
     const boxes = [];
-    for (let i = 0;i < length;i++)
-    {
+    for ( let i = 0; i < length; i++ ) {
 
-      const object = new Mesh(this.boxGeometry, this.materials.getRandomColoredMaterial());
+      const object = new Mesh( this.boxGeometry, this.materials.getRandomColoredMaterial() );
 
       object.position.x = Math.random() * 40 - 20;
       object.position.y = Math.random() * 1.6;
@@ -245,7 +239,7 @@ export class ObjectsService {
       object.name = 'box' + i;
       // TODO: add interactions
       // this.interactions.addToColliders({ name: object.name, mesh: object, cb: (e: Event) => { console.log('Collided with a box ', e); } });
-      boxes.push(object);
+      boxes.push( object );
     }
     return boxes;
   }

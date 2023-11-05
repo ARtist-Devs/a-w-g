@@ -25,7 +25,7 @@ export class ArtworkFramesService {
 
   framesGroup = new Group();
   artworksWithLocation: Artwork[];
-  frameButton = this.objectsService.createIcosahedron( { radius: 0.12, detail: 0 } );
+  // frameButton = this.objectsService.createIcosahedron( { radius: 0.12, detail: 0 } );
 
   constructor(
     private objectsService: ObjectsService,
@@ -140,18 +140,18 @@ export class ArtworkFramesService {
     return frameGroup;
   }
 
-  createButton ( ops: any, i: number ) {
-    let button = this.frameButton.clone();
+  // createButton ( ops: any, i: number ) {
+  //   let button = this.frameButton.clone();
 
-    button.name = `Frame ${i} ${ops.name}`;
-    button.position.set( ops.position.x, ops.position.y, ops.position.z );
-    this.interactionsService.addToInteractions( button );
-    this.interactionsService.addToColliders( { mesh: button, name: ops.name, cb: () => { ops.onClick( i ); } } );
-    // @ts-ignore
-    button.addEventListener( 'click', ( e ) => { ops.onClick( i ); } );
+  //   button.name = `Frame ${i} ${ops.name}`;
+  //   button.position.set( ops.position.x, ops.position.y, ops.position.z );
+  //   this.interactionsService.addToInteractions( button );
+  //   this.interactionsService.addToColliders( { mesh: button, name: ops.name, cb: () => { ops.onClick( i ); } } );
+  //   // @ts-ignore
+  //   button.addEventListener( 'click', ( e ) => { ops.onClick( i ); } );
 
-    return button;
-  }
+  //   return button;
+  // }
 
   focusFrame ( i: number ) {
 
