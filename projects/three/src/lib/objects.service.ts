@@ -12,7 +12,6 @@ import { MaterialsService } from './materials.service';
 export class ObjectsService {
   private boxGeometry = new BoxGeometry( 1, 1, 1 );
   private sphereGeometry = new SphereGeometry( 15, 32, 16 );
-  private basicMaterial = new MeshBasicMaterial( { color: 0xffff00 } );
   private material = this.materials.getRandomColoredMaterial();
   private reticle: Mesh;
   boxDefaultOptions = {
