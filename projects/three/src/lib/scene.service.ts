@@ -133,16 +133,7 @@ export class SceneService {
     } );
     this.scene.add( ...hemLight );
 
-    const icoLight = this.objectsService.createIcosahedron( { radius: 0.3, detail: 0, material: 'MeshPhysicalMaterial' } );
-    icoLight.position.set( 0, 1, -10 );
-    icoLight.material.opacity = 0.6;
-    this.pointLight = this.lightsService.createPointLight();
-    this.pointLight.position.y = 2.2;
-
-    icoLight.add( this.pointLight );
-    this.icoLight = icoLight;
-
-    this.scene.add( this.icoLight ); //this.pointLight );
+    //this.pointLight );
     // --Lights
 
     // Controls
@@ -161,11 +152,9 @@ export class SceneService {
   }
 
   afterSceneInit ( ops?: any ) {
-
-    this.createCornerLights();
     this.cameraService.moveCamera( 0, 1.6, 0.001, 8 );
+    this.createCornerLights();
     this.interactionsManager = this.interactionsService.initInteractionManager( this.renderer, this.camera, this.canvas );
-
     // XR
     const xrButton = XRButton.createButton( this.renderer );
     // console.log('xrButton ', xrButton);
@@ -174,6 +163,7 @@ export class SceneService {
     } );
     document.body.appendChild( xrButton );
     this.webXRService.checkXRSupport( { renderer: this.renderer, camera: this.camera, scene: this.scene } );
+
   }
 
 
@@ -250,6 +240,17 @@ export class SceneService {
   }
 
   createCornerLights () {
+
+    const icoLight = this.objectsService.createIcosahedron( { radius: 0.3, detail: 0, material: 'MeshPhysicalMaterial' } );
+    icoLight.position.set( 0, 1, -10 );
+    icoLight.material.opacity = 0.6;
+    this.pointLight = this.lightsService.createPointLight();
+    this.pointLight.position.y = 2.2;
+
+    icoLight.add( this.pointLight );
+    this.icoLight = icoLight;
+
+    this.scene.add( this.icoLight );
 
     this.icoLight1 = this.icoLight.clone();
     const spotlight = this.lightsService.createPointLight();

@@ -28,12 +28,13 @@ export class LoadersService {
     };
     this.loadingManager.onProgress = ( url: string, itemsLoaded: number, itemsTotal: number ) => {
       console.log( `Loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.` );
-
+      this.loadingProgress.set( itemsLoaded * 100 / itemsTotal );
     };
     this.loadingManager.onLoad = () => {
 
       console.log( 'Loading complete!' );
-      this.loadingProgress.set( 100 );
+      setTimeout( () => { this.loadingProgress.set( 100 ); }, 200 );
+      // this.loadingProgress.set( 100 );
     };
 
     this.loadingManager.onError = ( url: string ) => {
@@ -138,19 +139,6 @@ export class LoadersService {
 
     } );
     return floorMat;
-
-  }
-
-  createScene ( geometry: any, scale: number, material: any ) {
-
-    const mesh = new Mesh( geometry, material );
-
-    mesh.position.y = - 0.5;
-    mesh.scale.set( scale, scale, scale );
-
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    return mesh;
 
   }
 

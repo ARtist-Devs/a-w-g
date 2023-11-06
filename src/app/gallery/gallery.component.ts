@@ -37,7 +37,7 @@ export class GalleryComponent implements OnInit {
     public sceneService: SceneService,
     private artworksService: ArtworksService,
     private framesService: ArtworkFramesService,
-    private loadersService: LoadersService,
+    public loadersService: LoadersService,
     private ui: UIService,
   ) { }
 
@@ -112,7 +112,6 @@ export class GalleryComponent implements OnInit {
   onLoadProgress ( xhr: ProgressEvent ) {
     console.log( 'OnProgress is running loaded ', xhr );
     console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-    this.loadingProgress.set( xhr.loaded / xhr.total );
   }
 
 
