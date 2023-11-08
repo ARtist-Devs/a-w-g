@@ -1,6 +1,6 @@
 <art-tweet></art-tweet>
-@if(loadersService.loadingProgress()<100){ <div>Currently loading {{loadersService.loadingProgress()}}</div>
-    <art-loading [delta]="loadersService.loadingProgress()"></art-loading>
+<!-- <art-loading [delta]="loadersService.loadingProgress()"></art-loading> -->
+@if(loadersService.loadingProgress()<100){ <art-loading [delta]="loadersService.loadingProgress()"></art-loading>
     }
     <canvas #canvas (window:resize)="sceneService.onResize($event)" [attr.aria-label]="canvas"></canvas>
     <!-- <art-webxr-button></art-webxr-button> -->
