@@ -152,18 +152,24 @@ export class SceneService {
   }
 
   afterSceneInit ( ops?: any ) {
+
+
+    // Animate camera
     this.cameraService.moveCamera( 0, 1.6, 0.001, 8 );
-    this.createCornerLights();
+
+    // Interactions
     this.interactionsManager = this.interactionsService.initInteractionManager( this.renderer, this.camera, this.canvas );
+
     // XR
     const xrButton = XRButton.createButton( this.renderer );
-    // console.log('xrButton ', xrButton);
     xrButton.addEventListener( 'click', ( e ) => {
       console.log( 'clicked xrButton ', e );
     } );
     document.body.appendChild( xrButton );
     this.webXRService.checkXRSupport( { renderer: this.renderer, camera: this.camera, scene: this.scene } );
 
+    // Lights
+    this.createCornerLights();
   }
 
 

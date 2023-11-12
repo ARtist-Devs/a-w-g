@@ -21,8 +21,7 @@ export class LoadersService {
 
   constructor(
     private debugService: DebugService,
-    private materialsService: MaterialsService
-  ) {
+    private materialsService: MaterialsService ) {
     this.loadingManager.onStart = ( url: string, itemsLoaded: number, itemsTotal: number ) => {
       this.onStart( url, itemsLoaded, itemsTotal );
     };
@@ -30,11 +29,12 @@ export class LoadersService {
       console.log( `Loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.` );
       this.loadingProgress.set( itemsLoaded * 100 / itemsTotal );
     };
+
     this.loadingManager.onLoad = () => {
 
       console.log( 'Loading complete!' );
-      setTimeout( () => { this.loadingProgress.set( 100 ); }, 200 );
-      // this.loadingProgress.set( 100 );
+      this.loadingProgress.set( 100 );
+
     };
 
     this.loadingManager.onError = ( url: string ) => {
