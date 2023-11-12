@@ -127,10 +127,10 @@
     ora "5.4.1"
     rxjs "7.8.1"
 
-"@angular/animations@^17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-17.0.1.tgz#40a9d5642d7923153d7405027147600c09f9ee9a"
-  integrity sha512-Uee6E8zyU6XjDfKFozybcf+JZy0nUFQ1bUEmRwFP5HvYJSSJ5YiUDokNiVxyn9znwZ7zKHlM6Bq9ZY9cCmeKKQ==
+"@angular/animations@^17.0.2":
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-17.0.2.tgz#37cb7876e6043e2c04084ed4f1fc6698cad95bc4"
+  integrity sha512-32RHWhTgFLMonI3kRdstACay/nvetfxXjdwcTtABjcvBoND7nD9GMhkISQdgS+hcR/IhgXxaPidq8f2UAY5DBw==
   dependencies:
     tslib "^2.3.0"
 
@@ -158,10 +158,10 @@
     symbol-observable "4.0.0"
     yargs "17.7.2"
 
-"@angular/common@^17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@angular/common/-/common-17.0.1.tgz#fe85545facb404c1d1a6f2d1171e68ae2b9ae791"
-  integrity sha512-AvvhZc+PhX5lVEW/Vorxe3Zf1rIEJJvfduRuRv+nsjijo3ZGjdgYjTYEx4ighZgH60RLIAuwyBE24gPkT2Pm7g==
+"@angular/common@^17.0.2":
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/@angular/common/-/common-17.0.2.tgz#0194e5b16346e6cf4816318fabd73d84fff5e836"
+  integrity sha512-hCW0njHgrcwTWNoKZDwf02DnhYLVWNXM2FMw66MKpfxTp7McSyaXjGBU9/hchW3dZJ0xTwyxoyoqJFoHYvg0yg==
   dependencies:
     tslib "^2.3.0"
 
@@ -179,60 +179,60 @@
     tslib "^2.3.0"
     yargs "^17.2.1"
 
-"@angular/compiler@^17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-17.0.1.tgz#9049a650b47e9be4187073b0b868720a7608ae8a"
-  integrity sha512-qlKqCvjoxPHJ1e8+UMaBl/n9zzrmGXI5eWMVhULSvQnQvPWkwNlUh5XFeoSFcTEQxORjaO2/08Z31DmTJAqlPA==
+"@angular/compiler@^17.0.2":
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-17.0.2.tgz#ee5b72d7f3ce68c87e1d25ee2eef63a12c222623"
+  integrity sha512-ewUFbKhMEhAmw2dGfk0ImhTlyrO2y4pJSKIZdFrkR1d0HiJX8bCHUdTiiR/2jeP7w2eamjXj15Rptb+iZZes2Q==
   dependencies:
     tslib "^2.3.0"
 
-"@angular/core@^17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-17.0.1.tgz#a508a293eb3d4b99fd7c703754b1f41ab9552993"
-  integrity sha512-yVwU+oz0G8g6Q5ORyOCpgqMPdSiCdfW+uQhjI37WROnXHja3jY843AqrYTKE6mMx1r6q9h1wbDy+x2E61OWP7A==
+"@angular/core@^17.0.2":
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-17.0.2.tgz#25ffd19bbca4771a42097ae2cf859d44a3c2d14e"
+  integrity sha512-MjDxWeyn3Txi0qo/V/I+B/gndh0uptQ0XWgBRwOx6Wcr5zRGeZIFlXBxPpyXnGTlJkeyErsTN7FfFCZ4C3kCPA==
   dependencies:
     tslib "^2.3.0"
 
-"@angular/forms@^17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-17.0.1.tgz#2bd4f61f6bf0858c3ef93d048ec7d315d0bb4506"
-  integrity sha512-FpmUf2kgzwZXVbFB4VrwbnrO0m88QLUBsDsbLfQVQQwb7KxwSaftUu/aIrjst1gFCdl9k0Vqtrq2gwLZKzdSGQ==
+"@angular/forms@^17.0.2":
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-17.0.2.tgz#b910b67e5acb5b9e862adf18a0b92ed16978c18a"
+  integrity sha512-w1QKifaVG4daxUktcBNZqBtOH1vn8t0YiwDR3woEdUYt0XYKMipfDzQfyIK+6fIVPOJUd42pRns1nbWJQHOInA==
   dependencies:
     tslib "^2.3.0"
 
-"@angular/platform-browser-dynamic@^17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-17.0.1.tgz#1dc47cda6cfde1c96c5eea2cbde77f3cde3ecbae"
-  integrity sha512-xEcbB/ukXc65LaX4JBQYEM7D5Z8LcUIZniSJFneY7deZt3wNiKgmPZrPoXUyDV26QULh7N0IADEzvbcMF60AFQ==
+"@angular/platform-browser-dynamic@^17.0.2":
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-17.0.2.tgz#14ddb03a969cdf437002da78e325b6beec4fc9a6"
+  integrity sha512-clcHqHcfD00/TlTixDbJ3q4EQxpm0t2ZFG76rRFmGrmE5tKYUPfaofIa3hQCxy3q269MAYuF16wALhUtrEWyUA==
   dependencies:
     tslib "^2.3.0"
 
-"@angular/platform-browser@^17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-17.0.1.tgz#e25bc4fbfb3aee1f9c58a311037f43f324805a9d"
-  integrity sha512-JpvU0YDEM5KYdHtxC0Kdzk/hdwvZPq5vju5lTmIjTVa2OOabApOrQ6cq1MpKlrvjv1rw8MClHIM0l5Y0g9KH5g==
+"@angular/platform-browser@^17.0.2":
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-17.0.2.tgz#21c5319534220799941591582dd0381df5b320e6"
+  integrity sha512-eTnPILEA/eAMkVUR/+g6fWhhMTmnmOzcZSGX/bBgQcvOhayZrDDxA6/Qf+jIB4RwC0wd3KA9zT5BCMmNojoUsg==
   dependencies:
     tslib "^2.3.0"
 
-"@angular/platform-server@^17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-17.0.1.tgz#a44ac1bee8939e281586e07827007daf9d316270"
-  integrity sha512-PSicqgmW5c+EEXlMy7/LsTUdpQUuIhEt/5HJkyNQMX8up5Ry3F9XKYAX9FE38D0B03IUQsyhEersPka6qbh6Gw==
+"@angular/platform-server@^17.0.2":
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-17.0.2.tgz#1055867181b84ab3e6119a3587f90dff4b4dbb92"
+  integrity sha512-+1uCnAw7Ql2r4BDnfaRvQrXI1H5qUB/1f8CwCjaVoIn7kLJs/ps4I0WbOVtujJ2VPnxIggfVtenXRRMlungZlg==
   dependencies:
     tslib "^2.3.0"
     xhr2 "^0.2.0"
 
-"@angular/router@^17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@angular/router/-/router-17.0.1.tgz#c9807df1f705bc48b7ef4d9bd0801f45f59ed082"
-  integrity sha512-73PCDDsRAjemODMRndZhwEN6Tb9rVVbDfMWgLQ4HgfgKnjek8P9BoYf8rOf3qV5fXf3c1Sm9MmKtaPv+l5lU9Q==
+"@angular/router@^17.0.2":
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-17.0.2.tgz#f4a743087b7ca62a7b36c0a00285f69f783ea3ac"
+  integrity sha512-A1Ulv4qBAtJyK5g1yBlK1qZHe+KaaL5vMPAaPWUxICH8lHEodDkJlbYAUI2e4VL2BN7zBmdOep6tlBKPmHY3mw==
   dependencies:
     tslib "^2.3.0"
 
-"@angular/service-worker@^17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@angular/service-worker/-/service-worker-17.0.1.tgz#f52504c1e356d1726a96298efea34a7537cc0696"
-  integrity sha512-KkMa2pOT8W9xiCs/aXn6MpkzRahygHEHG20PNreg3PCBIg/4UAlvTNlI+cecbVyc4FEAinl0GAOGZs0P0ux3gA==
+"@angular/service-worker@^17.0.2":
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/@angular/service-worker/-/service-worker-17.0.2.tgz#14a0e091a83e1f9b1986ca229f3e96d6e0280a1b"
+  integrity sha512-DI/nitqTbj8DT9ifrRALgHKnaZQXvnkj3XDjt56rOWs8BW1Mp2c+KGV4BMNeNSzL7jutLoz18quTW2rQwXFH6Q==
   dependencies:
     tslib "^2.3.0"
 
@@ -1784,12 +1784,12 @@
     "@firebase/util" "1.9.3"
     tslib "^2.1.0"
 
-"@firebase/app-compat@0.2.22":
-  version "0.2.22"
-  resolved "https://registry.yarnpkg.com/@firebase/app-compat/-/app-compat-0.2.22.tgz#34316e56d43c76537de0f887ad8928a2a3a27803"
-  integrity sha512-kyksJFA19Oz5HZmR56s/ziOM6ivDBF9JYwC0ufacooYNd2sQ3pRsi5MZAYb1FR9hCE7MgoHuPmTtBHA7S/Cv8g==
+"@firebase/app-compat@0.2.23":
+  version "0.2.23"
+  resolved "https://registry.yarnpkg.com/@firebase/app-compat/-/app-compat-0.2.23.tgz#c173aaf6a53d94e3805efce15b55c40b1246fbd8"
+  integrity sha512-UCv0LEzcoqAgY+sLsau7aOZz0CJNLN2gESY68bHKmukNXEN6onLPxBKJzn68CsZZGcdiIEXwvrum1riWNPe9Gw==
   dependencies:
-    "@firebase/app" "0.9.22"
+    "@firebase/app" "0.9.23"
     "@firebase/component" "0.6.4"
     "@firebase/logger" "0.4.0"
     "@firebase/util" "1.9.3"
@@ -1800,10 +1800,10 @@
   resolved "https://registry.yarnpkg.com/@firebase/app-types/-/app-types-0.9.0.tgz#35b5c568341e9e263b29b3d2ba0e9cfc9ec7f01e"
   integrity sha512-AeweANOIo0Mb8GiYm3xhTEBVCmPwTYAu9Hcd2qSkLuga/6+j9b1Jskl5bpiSQWy9eJ/j5pavxj6eYogmnuzm+Q==
 
-"@firebase/app@0.9.22":
-  version "0.9.22"
-  resolved "https://registry.yarnpkg.com/@firebase/app/-/app-0.9.22.tgz#a3232d5bffde8ad4b0c81e23f7fd5e5f7718702e"
-  integrity sha512-4hbUg9ojPbn4Gj21Z/GnJbiLQYOzkwBDFT5vBkQgUJJGS28qQLG6eZZ1DwLKh8lcrNJc4MR90OPaJWhSzJCR2w==
+"@firebase/app@0.9.23":
+  version "0.9.23"
+  resolved "https://registry.yarnpkg.com/@firebase/app/-/app-0.9.23.tgz#4efaf2b2e3c0c1e7985b8cf7c4aa93169dd198af"
+  integrity sha512-CA5pQ88We3FhyuesGKn1thaPBsJSGJGm6AlFToOmEJagWqBeDoNJqBkry/BsHnCs9xeYWWIprKxvuFmAFkdqoA==
   dependencies:
     "@firebase/component" "0.6.4"
     "@firebase/logger" "0.4.0"
@@ -1811,12 +1811,12 @@
     idb "7.1.1"
     tslib "^2.1.0"
 
-"@firebase/auth-compat@0.4.8":
-  version "0.4.8"
-  resolved "https://registry.yarnpkg.com/@firebase/auth-compat/-/auth-compat-0.4.8.tgz#f78207b49d9baa5e6a8a28eb5029ea6503371d1c"
-  integrity sha512-qKX8BOl1qewBzpfAXl6/lKPW7fjnY8/3umiSFIGO8SHwLQ3LsAdNFPdwafouwMiKLo5MXxW4XdxNSI4ilt0Z5w==
+"@firebase/auth-compat@0.4.9":
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/@firebase/auth-compat/-/auth-compat-0.4.9.tgz#a0549c519763e884da44f19b3fcb30ed409ec468"
+  integrity sha512-Fw03i7vduIciEBG4imLtA1duJbljgkfbxiBo/EuekcB+BnPxHp+e8OGMUfemPYeO7Munj6kUC9gr5DelsQkiNA==
   dependencies:
-    "@firebase/auth" "1.3.2"
+    "@firebase/auth" "1.4.0"
     "@firebase/auth-types" "0.12.0"
     "@firebase/component" "0.6.4"
     "@firebase/util" "1.9.3"
@@ -1833,10 +1833,10 @@
   resolved "https://registry.yarnpkg.com/@firebase/auth-types/-/auth-types-0.12.0.tgz#f28e1b68ac3b208ad02a15854c585be6da3e8e79"
   integrity sha512-pPwaZt+SPOshK8xNoiQlK5XIrS97kFYc3Rc7xmy373QsOJ9MmqXxLaYssP5Kcds4wd2qK//amx/c+A8O2fVeZA==
 
-"@firebase/auth@1.3.2":
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-1.3.2.tgz#e39576e49c949b0339467b8a839809cec7208eaa"
-  integrity sha512-ksYpeRACL8INRpFZzbCLLnI9NP+L3UH/+ebKo4oBjhc/dSwPbpw6E1wjdm0odB1U5xHhXD/5lpyeFQZ+jXyBxA==
+"@firebase/auth@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-1.4.0.tgz#c3163184aa75041d77f11ed1ca5a7938fd4ac90f"
+  integrity sha512-SfFXZCHDbY+7oSR52NSwx0U7LjYiA+N8imloxphCf3/F+MFty/+mhdjSXGtrJYd0Gbud/qcyedfn2XnWJeIB/g==
   dependencies:
     "@firebase/component" "0.6.4"
     "@firebase/logger" "0.4.0"
@@ -1884,10 +1884,10 @@
     faye-websocket "0.11.4"
     tslib "^2.1.0"
 
-"@firebase/firestore-compat@0.3.21":
-  version "0.3.21"
-  resolved "https://registry.yarnpkg.com/@firebase/firestore-compat/-/firestore-compat-0.3.21.tgz#6e516c6a76393b89352f9eca0f9f12884265acb1"
-  integrity sha512-u17so8cP4FQBEJyivAbZc0kW09YBXBvhSmUXiB7swkOLemfZUmmPZQGJxZGa9y/M02euU1y4EzvWN/h/bkx8pg==
+"@firebase/firestore-compat@0.3.22":
+  version "0.3.22"
+  resolved "https://registry.yarnpkg.com/@firebase/firestore-compat/-/firestore-compat-0.3.22.tgz#409c70648a9de33a6810f189bc259a2b75a50bfd"
+  integrity sha512-M166UvFvRri0CK/+5N0MIeXJVxR6BsX0/96xFT506DxRPIFezLjLcvfddtyFgfe0CtyQWoxBXt060uWUg3d/sw==
   dependencies:
     "@firebase/component" "0.6.4"
     "@firebase/firestore" "4.3.2"
@@ -6343,24 +6343,24 @@ firebase-tools@^12.8.1:
     winston-transport "^4.4.0"
     ws "^7.2.3"
 
-firebase@^10.5.2:
-  version "10.5.2"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-10.5.2.tgz#c50d3c1e9026cad517913666eea8def2d25d4587"
-  integrity sha512-LLCig21TBYdByMbGJt5YmUzzk2HpsFCsIUTvOteQjW9BUh40IrSP2+dZi9IvT8RlztM3zcH+TNZ0jOsOaa7GMQ==
+firebase@^10.6.0:
+  version "10.6.0"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-10.6.0.tgz#cee12b311dbf79d3958e8dd8b12fd335521997eb"
+  integrity sha512-bnYwHwZ6zB+dM6mGQPEXcFHtAT2WoVzG6H4SIR8HzURVGKJxBW+TqfP3qcJQjTZV3tDqDTo/XZkVmoU/SovV8A==
   dependencies:
     "@firebase/analytics" "0.10.0"
     "@firebase/analytics-compat" "0.2.6"
-    "@firebase/app" "0.9.22"
+    "@firebase/app" "0.9.23"
     "@firebase/app-check" "0.8.0"
     "@firebase/app-check-compat" "0.3.7"
-    "@firebase/app-compat" "0.2.22"
+    "@firebase/app-compat" "0.2.23"
     "@firebase/app-types" "0.9.0"
-    "@firebase/auth" "1.3.2"
-    "@firebase/auth-compat" "0.4.8"
+    "@firebase/auth" "1.4.0"
+    "@firebase/auth-compat" "0.4.9"
     "@firebase/database" "1.0.1"
     "@firebase/database-compat" "1.0.1"
     "@firebase/firestore" "4.3.2"
-    "@firebase/firestore-compat" "0.3.21"
+    "@firebase/firestore-compat" "0.3.22"
     "@firebase/functions" "0.10.0"
     "@firebase/functions-compat" "0.3.5"
     "@firebase/installations" "0.6.4"
