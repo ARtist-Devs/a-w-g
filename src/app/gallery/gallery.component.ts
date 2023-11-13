@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, WritableSignal, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, NgZone, OnInit, ViewChild, WritableSignal, computed, signal } from '@angular/core';
 
 import { Artwork } from 'projects/three/src/lib/artwork';
 import { ArtworkFramesService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
@@ -39,6 +39,7 @@ export class GalleryComponent implements OnInit {
     private framesService: ArtworkFramesService,
     public loadersService: LoadersService,
     private ui: UIService,
+    private ngZone: NgZone,
   ) { }
 
   // Init the WebXR scene with Artworks

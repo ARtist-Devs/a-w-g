@@ -12,7 +12,10 @@ import { sceneDefaults } from './scene.config';
 import { XRButton } from 'three/examples/jsm/webxr/XRButton';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
 import { WebXRService } from './webxr.service';
-
+import Stats from 'three/examples/jsm/libs/stats.module';
+import { GPUStatsPanel } from 'three/examples/jsm/utils/GPUStatsPanel';
+// import * as Stats from 'stats.js';
+const stats = new Stats();
 @Injectable( {
   providedIn: null,
 
@@ -133,9 +136,6 @@ export class SceneService {
     } );
     this.scene.add( ...hemLight );
 
-    //this.pointLight );
-    // --Lights
-
     // Controls
     const controls = this.controllerService.createControls( { type: 'orbit', camera: this.camera, renderer: this.renderer, canvas: canvas, scene: this.scene } );
 
@@ -143,19 +143,12 @@ export class SceneService {
     const interactionsUpdate = this.interactionsService.initInteractionManager( this.renderer, this.camera, canvas );
     this.renderFunctions.push( interactionsUpdate );
 
-
-    // Render loop
-    this.ngZone.runOutsideAngular( () => this.renderer.setAnimationLoop( () => this.render() ) );
-
     return this.afterSceneInit.bind( this );
 
   }
 
-  afterSceneInit ( ops?: any ) {
+  afterSceneInit ( start?: any, ) {
 
-
-    // Animate camera
-    this.cameraService.moveCamera( 0, 1.6, 0.001, 8 );
 
     // Interactions
     this.interactionsManager = this.interactionsService.initInteractionManager( this.renderer, this.camera, this.canvas );
@@ -166,10 +159,21 @@ export class SceneService {
       console.log( 'clicked xrButton ', e );
     } );
     document.body.appendChild( xrButton );
+    document.body.appendChild( stats.dom );
+
+    const gpuPanel = new GPUStatsPanel( this.renderer.getContext() );
+    stats.addPanel( gpuPanel );
+    stats.showPanel( 0 );
     this.webXRService.checkXRSupport( { renderer: this.renderer, camera: this.camera, scene: this.scene } );
 
     // Lights
     this.createCornerLights();
+
+    // Render loop
+    this.ngZone.runOutsideAngular( () => this.renderer.setAnimationLoop( () => this.render() ) );
+
+    // Animate camera
+    this.cameraService.moveCamera( 0, 1.6, 0.001, 10 );
   }
 
 
@@ -209,7 +213,7 @@ export class SceneService {
 
 
   render () {
-
+    stats.update();
     // time elapsed since last frame
     const delta = this.clock.getDelta();
 
