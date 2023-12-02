@@ -132,7 +132,7 @@ export class WebXRService {
 
 
     this.session = this.webXRManager.getSession();
-    console.log( 'xrSession ', this.session );
+    // console.log( 'xrSession ', this.session );
     this.initVR();
     if ( this.xrMode() === 'immersive-vr' ) {
       this.initVR();

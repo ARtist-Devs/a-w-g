@@ -26,7 +26,7 @@ export class LoadersService {
       this.onStart( url, itemsLoaded, itemsTotal );
     };
     this.loadingManager.onProgress = ( url: string, itemsLoaded: number, itemsTotal: number ) => {
-      console.log( `Loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.` );
+      // console.log( `Loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.` );
       this.loadingProgress.set( itemsLoaded * 100 / itemsTotal );
     };
 
@@ -57,7 +57,7 @@ export class LoadersService {
         // console.log( 'Mesh Count: ', gltf.meshes?.length );
 
         const model = gltf.scene;
-        console.log( 'Material Count: ', model );
+        // console.log( 'Material Count: ', model );
         model.position.z = -0;
         model.scale.set( 3, 3, 3 ); // TODO: scale on blender
         let material: Material = this.materialsService.getMeshPhysicalMaterial();
@@ -94,7 +94,7 @@ export class LoadersService {
 
         ops.scene.add( model );
         ops.onLoadCB();
-        console.log( 'Meshes Count: ', meshesCount );
+        // console.log( 'Meshes Count: ', meshesCount );
       },
       ( xhr: any ) => { ops.onLoadProgress( xhr ); },
       ( err ) => {
@@ -152,6 +152,6 @@ export class LoadersService {
   }
 
   onStart ( url: string, item: any, total: any ) {
-    console.log( `Started loading file: ${url}. Now loading item ${item} of ${total}.` );
+    // console.log( `Started loading file: ${url}. Now loading item ${item} of ${total}.` );
   }
 }

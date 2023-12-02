@@ -57,9 +57,7 @@ export class GalleryComponent implements OnInit {
       onLoadCB: () => {
         this.sceneService.addToScene( this.frames );
         this.loadingBar = false;
-        const millis = Date.now() - start; console.log( `seconds elapsed = ${Math.floor( millis / 1000 )}` );
       }
-
     } );
 
     // Model for Walls
@@ -110,8 +108,8 @@ export class GalleryComponent implements OnInit {
   }
 
   onLoadProgress ( xhr: ProgressEvent ) {
-    console.log( 'OnProgress is running loaded ', xhr );
-    console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+    // console.log( 'OnProgress is running loaded ', xhr );
+    // console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
   }
 
 
