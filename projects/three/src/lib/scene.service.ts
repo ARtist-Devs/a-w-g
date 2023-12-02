@@ -233,16 +233,8 @@ export class SceneService {
     this.renderer.render( this.scene, this.camera );
     let endTime = performance.now();
     let time = endTime - startTime;
-    console.log( 'timePassed, delta ', time, delta );
-    console.log( 'Render Draw Calls ', this.renderer.info.render.calls );
-
-  }
-
-  animateLights ( delta: any ) {
-
-    // this.icoLight.rotation.y += 0.01;
-    // this.icoLight1.rotation.y += 0.01;
-    // this.icoLight2.rotation.y += 0.01;
+    // console.log( 'timePassed, delta ', time, delta );
+    // console.log( 'Render Draw Calls ', this.renderer.info.render.calls );
 
   }
 
@@ -279,7 +271,6 @@ export class SceneService {
     this.icoLight2.position.set( 10, 1, 7.6 );
 
     this.scene.add( this.icoLight1, this.icoLight2 );
-    this.renderFunctions.push( this.animateLights.bind( this ) );
 
   }
 
