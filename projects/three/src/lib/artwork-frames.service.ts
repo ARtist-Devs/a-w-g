@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import gsap from 'gsap';
-import { BoxGeometry, CylinderGeometry, Group, MathUtils, Mesh, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
+import { BoxGeometry, CylinderGeometry, Group, InstancedMesh, MathUtils, Matrix4, Mesh, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
 
 import { Artwork } from './artwork';
 import { DebugService } from './debug.service';
@@ -22,10 +22,12 @@ export class ArtworkFramesService {
   focusPosition: any;
   locations: any[] = [];
   focusFactor = 4;
-
+  // radiusTop: Float, radiusBottom : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float
+  frameGeometry: any = new CylinderGeometry( 0.8, 0.7, 0.1, 36, 5 );
+  matrix = new Matrix4();
+  frameMaterial = new MeshPhongMaterial( { color: 0xffffff } );
   framesGroup = new Group();
   artworksWithLocation: Artwork[];
-  // frameButton = this.objectsService.createIcosahedron( { radius: 0.12, detail: 0 } );
 
   constructor(
     private objectsService: ObjectsService,
@@ -68,13 +70,6 @@ export class ArtworkFramesService {
     frame.scale.set( 1.3, 1.3, 1.3 );
     frame.rotation.y = alpha;
     frame.userData['originalPosition'] = frame.position.clone();
-    const light = this.lightsService.createDirLight( { intensity: 0.4 } )[0];
-    light.castShadow = true;
-    light.position.set( Math.sin( alpha ), 2, Math.cos( alpha ) );
-    light.name = `${frame.name} dir light`;
-    light.target.position.set( x, 0, z );
-    light.target.updateWorldMatrix();
-    // frame.add(light);
 
     return frame;
   }
@@ -90,24 +85,20 @@ export class ArtworkFramesService {
     frameGroup.name = ` ${artwork.title} frame group`;
 
     // Create the frame geometry & canvas geometry
-    // radiusTop: Float, radiusBottom : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float
-    const frameGeometry: any = new CylinderGeometry( 0.8, 0.7, 0.1, 36, 5 );
-    frameGeometry.rotateX( Math.PI / 2 );
+    this.frameGeometry.rotateX( Math.PI / 2 );
     const canvasGeometry = new BoxGeometry( artwork?.width / 100 * 1.12, artwork?.height / 100 * 1.12, 0.15 );
 
     // Create the canvas material with the texture
     const texture = this.loadersService.loadTexture( artwork.textureUrl );
     texture.colorSpace = SRGBColorSpace;
     texture.mapping = UVMapping;
-
     const canvasMaterial = new MeshPhongMaterial( { map: texture, color: 0xffffff } );
-    const frameMaterial = new MeshPhongMaterial( { color: 0xffffff } );
 
     // Create the frame & canvas mesh
-    const frameMesh = new Mesh( frameGeometry, frameMaterial );
-    // this.animateFrameColors(frameMesh);
+    const frameMesh = new InstancedMesh( this.frameGeometry, this.frameMaterial, 5 );
+    // TODO: this.animateFrameColors(frameMesh);
 
-    const canvasMesh = new Mesh( canvasGeometry, canvasMaterial );
+    const canvasMesh = new InstancedMesh( canvasGeometry, canvasMaterial, 5 );
     frameMesh.name = ` ${artwork.title} frame mesh` || 'frame';
     canvasMesh.name = ` ${artwork.title} canvas mesh` || 'frame canvas';
 
@@ -140,19 +131,6 @@ export class ArtworkFramesService {
     return frameGroup;
   }
 
-  // createButton ( ops: any, i: number ) {
-  //   let button = this.frameButton.clone();
-
-  //   button.name = `Frame ${i} ${ops.name}`;
-  //   button.position.set( ops.position.x, ops.position.y, ops.position.z );
-  //   this.interactionsService.addToInteractions( button );
-  //   this.interactionsService.addToColliders( { mesh: button, name: ops.name, cb: () => { ops.onClick( i ); } } );
-  //   // @ts-ignore
-  //   button.addEventListener( 'click', ( e ) => { ops.onClick( i ); } );
-
-  //   return button;
-  // }
-
   focusFrame ( i: number ) {
 
     const f = this.frames[i];
@@ -173,9 +151,9 @@ export class ArtworkFramesService {
 
   animateFrameColors ( f: any, colors?: any ) {
 
-    gsap.to( f.material.color, {
-      r: 144, g: 140, b: 209, duration: 2
-    } );
+    //TODO: gsap.to( f.material.color, {
+    //   r: 144, g: 140, b: 209, duration: 2
+    // } );
   }
 
   // TODO: use Three animation system?

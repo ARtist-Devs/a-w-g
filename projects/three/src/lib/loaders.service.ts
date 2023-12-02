@@ -53,8 +53,11 @@ export class LoadersService {
     this.gltfLoader.load(
       ops.path,
       ( gltf ) => {
+        let meshesCount = 0;
+        // console.log( 'Mesh Count: ', gltf.meshes?.length );
 
         const model = gltf.scene;
+        console.log( 'Material Count: ', model );
         model.position.z = -0;
         model.scale.set( 3, 3, 3 ); // TODO: scale on blender
         let material: Material = this.materialsService.getMeshPhysicalMaterial();
@@ -62,6 +65,7 @@ export class LoadersService {
 
           // @ts-ignore
           if ( obj.isMesh ) {
+            meshesCount += 1;
             if ( obj.name == 'Floor' ) {
               material = this.createFloor();
             }
@@ -90,6 +94,7 @@ export class LoadersService {
 
         ops.scene.add( model );
         ops.onLoadCB();
+        console.log( 'Meshes Count: ', meshesCount );
       },
       ( xhr: any ) => { ops.onLoadProgress( xhr ); },
       ( err ) => {
