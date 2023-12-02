@@ -100,11 +100,11 @@ export class SceneService {
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( this.width, this.height );
     this.renderer.shadowMap.enabled = true;
+
     this.renderer.shadowMap.type = PCFSoftShadowMap;
     this.renderer.toneMapping = ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.5;
     this.renderer.xr.enabled = true;
-
 
     this.scene.backgroundBlurriness = 0.3;
 
@@ -171,6 +171,7 @@ export class SceneService {
 
     // Render loop
     this.ngZone.runOutsideAngular( () => this.renderer.setAnimationLoop( () => this.render() ) );
+    // this.renderer.shadowMap.autoUpdate = false;
 
     // Animate camera
     this.cameraService.moveCamera( 0, 1.6, 0.001, 10 );
@@ -213,6 +214,7 @@ export class SceneService {
 
 
   render () {
+    let startTime = performance.now();
     stats.update();
     // time elapsed since last frame
     const delta = this.clock.getDelta();
@@ -226,15 +228,21 @@ export class SceneService {
     // run renderFunctions
     this.renderFunctions.forEach( func => func( delta ) );
 
+
     // render
     this.renderer.render( this.scene, this.camera );
+    let endTime = performance.now();
+    let time = endTime - startTime;
+    console.log( 'timePassed, delta ', time, delta );
+    console.log( 'Render Draw Calls ', this.renderer.info.render.calls );
+
   }
 
   animateLights ( delta: any ) {
 
-    this.icoLight.rotation.y += 0.01;
-    this.icoLight1.rotation.y += 0.01;
-    this.icoLight2.rotation.y += 0.01;
+    // this.icoLight.rotation.y += 0.01;
+    // this.icoLight1.rotation.y += 0.01;
+    // this.icoLight2.rotation.y += 0.01;
 
   }
 

@@ -69,7 +69,6 @@ export class GalleryComponent implements OnInit {
       onLoadProgress: this.onLoadProgress.bind( this ),
       onLoadCB: () => {
         afterSceneInitCB( start );
-        this.sceneService.addToScene( this.frames );
       }
     } );
 
