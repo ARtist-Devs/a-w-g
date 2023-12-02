@@ -26,7 +26,8 @@
     "update-next": "ng update @angular/cli@next @angular/core@next",
     "compress": "gltf-transform optimize src/assets/models/_VRGalleryOriginal1509comp2.glb src/assets/models/VRGalleryOriginal1509compressed1.glb --texture-compress webp",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "docs": "typedoc --out docs projects/three"
   },
   "private": true,
   "dependencies": {
@@ -82,7 +83,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^17.0.0",
     "require": "^2.4.20",
-    "stats.js": "^0.17.0",
+    "typedoc": "^0.25.4",
     "typescript": "~5.2.2"
   }
 }

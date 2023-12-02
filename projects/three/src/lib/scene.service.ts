@@ -93,8 +93,8 @@ export class SceneService {
       this.scene.fog = new Fog( ops.fog.color, ops.fog.near, ops.fog.far );
     }
 
-    // Renderer powerPreference: "high-performance", preserveDrawingBuffer: true
-    this.renderer = new WebGLRenderer( { canvas: canvas, antialias: true } );
+    // Renderer 
+    this.renderer = new WebGLRenderer( { canvas: canvas, antialias: true, powerPreference: "high-performance" } );
 
     // TODO: this.renderer = new WebGPURenderer();
     this.renderer.setPixelRatio( window.devicePixelRatio );
@@ -216,7 +216,7 @@ export class SceneService {
     stats.update();
     // time elapsed since last frame
     const delta = this.clock.getDelta();
-
+    // console.log( 'delta ', delta );
     // update controls
     this.controllerService.updateControls( delta );
 
@@ -228,7 +228,6 @@ export class SceneService {
 
     // render
     this.renderer.render( this.scene, this.camera );
-
   }
 
   animateLights ( delta: any ) {
