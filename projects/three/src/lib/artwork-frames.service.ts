@@ -1,44 +1,37 @@
 import { Injectable } from '@angular/core';
 
 import gsap from 'gsap';
-import { BoxGeometry, CylinderGeometry, Group, InstancedMesh, MathUtils, Matrix4, Mesh, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
-
+import { BoxGeometry, Color, CylinderGeometry, Group, InstancedMesh, MathUtils, Matrix4, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3, Material } from 'three';
+import * as  TWEEN from 'three/examples/jsm/libs/tween.module';
 import { Artwork } from './artwork';
-import { DebugService } from './debug.service';
-import { InteractionsService } from './interactions.service';
 import { LightsService } from './lights.service';
 import { LoadersService } from './loaders.service';
-import { MaterialsService } from './materials.service';
-import { ObjectsService } from './objects.service';
 import { UIService } from './ui.service';
 
 @Injectable( {
   providedIn: 'platform'
 } )
 export class ArtworkFramesService {
-  frameDistance = 7;
+
   angle = 0;
+  artworksWithLocation: Artwork[];
+  frameDistance = 7;
   frames: Group[] = [];
   focusPosition: any;
-  locations: any[] = [];
   focusFactor = 4;
   // radiusTop: Float, radiusBottom : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float
   frameGeometry: any = new CylinderGeometry( 0.8, 0.7, 0.1, 36, 5 );
-  matrix = new Matrix4();
   frameMaterial = new MeshPhongMaterial( { color: 0xffffff } );
   framesGroup = new Group();
-  artworksWithLocation: Artwork[];
+
+  locations: any[] = [];
+  matrix = new Matrix4();
+
 
   constructor(
-    private objectsService: ObjectsService,
-    private interactionsService: InteractionsService,
     private lightsService: LightsService,
     private loadersService: LoadersService,
-
-    private materialsService: MaterialsService,
     private uiService: UIService,
-    private debug: DebugService,
-
   ) { }
 
   createFrames ( artworks: Artwork[] = [], btns: any[] = [], cb?: Function ): Group {
@@ -95,12 +88,14 @@ export class ArtworkFramesService {
     const canvasMaterial = new MeshPhongMaterial( { map: texture, color: 0xffffff } );
 
     // Create the frame & canvas mesh
+    this.frameMaterial.needsUpdate = true;
     const frameMesh = new InstancedMesh( this.frameGeometry, this.frameMaterial, 5 );
-    // TODO: this.animateFrameColors(frameMesh);
+    // TODO: 
+    this.animateFrameColors( frameMesh );
 
     const canvasMesh = new InstancedMesh( canvasGeometry, canvasMaterial, 5 );
-    frameMesh.name = ` ${artwork.title} frame mesh` || 'frame';
-    canvasMesh.name = ` ${artwork.title} canvas mesh` || 'frame canvas';
+    frameMesh.name = `${artwork.title} frame mesh` || 'frame';
+    canvasMesh.name = `${artwork.title} canvas mesh` || 'frame canvas';
 
     const l = this.lightsService.createSpotLight();
     l[0].target = canvasMesh;
@@ -151,9 +146,29 @@ export class ArtworkFramesService {
 
   animateFrameColors ( f: any, colors?: any ) {
 
-    //TODO: gsap.to( f.material.color, {
-    //   r: 144, g: 140, b: 209, duration: 2
+    // TODO: 
+    // console.log( 'f ', f );
+
+
+    // gsap.to( f.children[0].material.color, {
+    //   r: 255, g: 0, b: 0, duration: 8
     // } );
+    // const c = new Color(  );
+    if ( f.material ) {
+      console.log( 'f.material ', f.material );
+
+      new TWEEN.Tween( f.material.color )
+        .to(
+          {
+            r: 255,
+            g: 0,
+            b: 0,
+          },
+          1000
+        )
+        .start();
+
+    }
   }
 
   // TODO: use Three animation system?
@@ -167,7 +182,7 @@ export class ArtworkFramesService {
   }
 
   rotateFrames ( angle: number = 72 ) {
-    console.log( 'MathUtils.degToRad( angle ) + this.framesGroup.rotation.y', MathUtils.degToRad( angle ), this.framesGroup.rotation.y );
+
     // angle between frames and the current group rotation
     const y = MathUtils.degToRad( angle ) + this.framesGroup.rotation.y;
     gsap.to( this.framesGroup.rotation, { y: y, duration: 1 } );

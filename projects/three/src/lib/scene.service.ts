@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 
 import { ACESFilmicToneMapping, CineonToneMapping, Clock, Color, CustomToneMapping, Fog, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, Scene, SpotLight, Vector2, WebGLRenderer } from 'three';
+import * as  TWEEN from 'three/examples/jsm/libs/tween.module';
 
 import { CameraService } from './camera.service';
 import { ControllerService } from './controller.service';
@@ -57,6 +58,7 @@ export class SceneService {
   onConnected: any;
   onDisconnected: any;
   controllerGrip: any;
+
   constructor(
     private cameraService: CameraService,
     private controllerService: ControllerService,
@@ -185,6 +187,10 @@ export class SceneService {
     throw new Error( 'Method not implemented.' );
   }
 
+  addToRender ( f: any ) {
+    this.renderFunctions.push( f );
+  };
+
 
   render () {
     let startTime = performance.now();
@@ -199,6 +205,8 @@ export class SceneService {
 
     // run renderFunctions
     this.renderFunctions.forEach( func => func( delta ) );
+
+    TWEEN.update();
 
     // render
     this.renderer.render( this.scene, this.camera );

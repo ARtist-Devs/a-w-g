@@ -4,6 +4,8 @@ import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, Writ
 import { Artwork } from 'projects/three/src/lib/artwork';
 import { ArtworkFramesService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
 import { ArtworksService } from '../artworks.service';
+import * as  TWEEN from 'three/examples/jsm/libs/tween.module';
+import { Color } from 'three';
 
 @Component( {
   selector: 'art-gallery',
@@ -22,6 +24,7 @@ export class GalleryComponent implements OnInit {
 
   private buttons: any[];
   private focused = 0;
+  tweens: any[] = [];
 
   private selectedArtwork: WritableSignal<Artwork>;
   @ViewChild( 'canvas', { static: true } )
@@ -94,6 +97,24 @@ export class GalleryComponent implements OnInit {
     ];
 
     this.frames = this.framesService.createFrames( this.artworks, this.buttons, afterSceneInitCB );
+    console.log( this.frames.children );
+
+    this.frames.children.forEach( ( frame: any ) => {
+      const col = new Color( Math.random() * 0xffffff );
+      const tween = new TWEEN.Tween( frame.children[0].material.color )
+        .to(
+          col,
+          1000
+        );
+      this.tweens.push( tween );
+      this.sceneService.renderFunctions.push( () => tween.update() );
+
+      // Target color
+      // easing: TWEEN.Easing.Cubic.In, // Easing function
+      // duration: 1000 // Duration in milliseconds
+
+      // this.sceneService.renderFunctions.push( this.ui.update );
+    } );
 
     // UI
     this.sceneService.renderFunctions.push( this.ui.update );
@@ -135,6 +156,7 @@ export class GalleryComponent implements OnInit {
       this.framesService.rotateFrames( -72 );
     }
     this.focused = i;
+    this.tweens[ind].start();
     this.framesService.focusFrame( i );
 
   }
