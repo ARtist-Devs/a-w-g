@@ -170,32 +170,34 @@ export class ArtworkFramesService {
     // let tween = new TWEEN.Tween( f.material.color );
 
     console.log( 'Colors ', colors );
+    // const tween = new TWEEN.Tween( f.material.color );
+    // tween.repeat( Infinity );
+    // tween.interpolation( TWEEN.Interpolation.Bezier );
+    // tween.to(
+    //   colors,
+    //   3000
+    // ).delay( 3000 );
+    //   tween.repeat( Infinity );
+    //   tween.easing( TWEEN.Easing.Quadratic.InOut );
+    //   tween.interpolation( TWEEN.Interpolation.Bezier );
+    //   tween.to(
+    //     colors[i],
+    //     3000
+    //   ).delay( ( i + 1 ) * 3000 );
     // if ( colors.length ) {
     colors.forEach( ( color: Color, i: number ) => {
       const tween = new TWEEN.Tween( f.material.color );
       tween.repeat( Infinity );
-      tween.easing( TWEEN.Easing.Quadratic.InOut );
-
+      // tween.easing( TWEEN.Easing.Linear.None );
+      tween.interpolation( TWEEN.Interpolation.Bezier );
       tween.to(
         colors[i],
-        10000
-      );
+        3000
+      ).delay( ( i + 1 ) * 3000 );
 
-      tween.repeatDelay( colors.length * 1000 );
+      tween.repeatDelay( colors.length * 3000 );
       tween.repeat( Infinity );
       tween.start( undefined, true );
-
-      // .onStart( () => {
-      //   console.log( 'onStart' );
-      // } )
-      // .onRepeat( () => {
-      //   console.log( 'onRepeat' );
-      // } )
-      // .onEveryStart( () => {
-      //   console.log( 'onEveryStart' );
-      // } )
-      // .start();
-      // tween.start();
     } );
 
     // tween.start( undefined, true );

@@ -31,7 +31,7 @@ export class ArtworksService {
       votes: 0,
       width: 54,
       wiki: "https://wikipedia.org/wiki/Van_Gogh_self-portrait_(1889)",
-      colors: [new Color( 'rgb(165, 187, 206)' ), new Color( 'rgb(67, 87, 103)' ), new Color( 'rgb(131, 162, 181)' ), new Color( 'rgb(154, 191, 176)' ), new Color( 'rgb(191, 154, 154)' ), new Color( 'rgb(109, 134, 119)' ), new Color( 'rgb(170, 198, 177)' ), new Color( 'rgb(81, 108, 119)' ), new Color( 'rgb(133, 99, 31)' ), new Color( 'rgb(102, 102, 144)' ), new Color( 'rgb(99, 61, 99)' ), new Color( 'rgb(81, 108, 119)' ), new Color( 'rgb(142, 182, 198)' )]
+      colors: [new Color( 'rgb(165, 187, 206)' ), new Color( 'rgb(67, 87, 103)' ), new Color( 'rgb(131, 162, 181)' ), new Color( 'rgb(154, 191, 176)' ), new Color( 'rgb(191, 154, 154)' ), new Color( 'rgb(109, 134, 119)' ), new Color( 'rgb(170, 198, 177)' ), new Color( 'rgb(81, 108, 119)' ), new Color( 'rgb(247, 186, 143)' ), new Color( 'rgb(102, 102, 144)' ), new Color( 'rgb(99, 61, 99)' ), new Color( 'rgb(81, 108, 119)' ), new Color( 'rgb(142, 182, 198)' )]
     },
     {
       id: 1,
