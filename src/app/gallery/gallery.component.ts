@@ -99,22 +99,26 @@ export class GalleryComponent implements OnInit {
     this.frames = this.framesService.createFrames( this.artworks, this.buttons, afterSceneInitCB );
     console.log( this.frames.children );
 
-    this.frames.children.forEach( ( frame: any ) => {
-      const col = new Color( Math.random() * 0xffffff );
-      const tween = new TWEEN.Tween( frame.children[0].material.color )
-        .to(
-          col,
-          1000
-        );
-      this.tweens.push( tween );
-      this.sceneService.renderFunctions.push( () => tween.update() );
+    // this.frames.children.forEach( ( frame: any, i: number ) => {
+    //   const n = Math.round( Math.random() * this.artworks[i].colors.length );
+    //   const ranCol = new Color( 0xffffff );
+    //   const col = this.artworks[i].colors[n] || ranCol;
+    //   console.log( 'Color ', col, n );
+    //   const tween = new TWEEN.Tween( frame.children[0].material.color );
+    //   // .to(
+    //   //   // @ts-ignore
+    //   //   col,
+    //   //   1000
+    //   // );
+    //   this.tweens.push( tween );
+    //   // this.sceneService.renderFunctions.push( () => tween.update() );
 
-      // Target color
-      // easing: TWEEN.Easing.Cubic.In, // Easing function
-      // duration: 1000 // Duration in milliseconds
+    //   // Target color
+    //   // easing: TWEEN.Easing.Cubic.In, // Easing function
+    //   // duration: 1000 // Duration in milliseconds
 
-      // this.sceneService.renderFunctions.push( this.ui.update );
-    } );
+    //   // this.sceneService.renderFunctions.push( this.ui.update );
+    // } );
 
     // UI
     this.sceneService.renderFunctions.push( this.ui.update );
@@ -156,7 +160,6 @@ export class GalleryComponent implements OnInit {
       this.framesService.rotateFrames( -72 );
     }
     this.focused = i;
-    this.tweens[ind].start();
     this.framesService.focusFrame( i );
 
   }

@@ -202,11 +202,12 @@ export class SceneService {
 
     // update camera
     this.cameraService.updateCamera( { camera: this.camera, scene: this.scene } );
+    TWEEN.update();
 
     // run renderFunctions
     this.renderFunctions.forEach( func => func( delta ) );
 
-    TWEEN.update();
+    TWEEN.update( delta );
 
     // render
     this.renderer.render( this.scene, this.camera );

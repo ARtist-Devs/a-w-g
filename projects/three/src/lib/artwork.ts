@@ -11,4 +11,5 @@ export interface Artwork {
     votes: number;
     width: number;
     wiki?: string;
+    colors?: string[];
 }

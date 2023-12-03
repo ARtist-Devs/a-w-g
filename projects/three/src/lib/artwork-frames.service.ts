@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import gsap from 'gsap';
-import { BoxGeometry, Color, CylinderGeometry, Group, InstancedMesh, MathUtils, Matrix4, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3, Material } from 'three';
+import { BoxGeometry, Color, CylinderGeometry, Group, InstancedMesh, MathUtils, Matrix4, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3, Material, Mesh } from 'three';
 import * as  TWEEN from 'three/examples/jsm/libs/tween.module';
 import { Artwork } from './artwork';
 import { LightsService } from './lights.service';
@@ -21,7 +21,7 @@ export class ArtworkFramesService {
   focusFactor = 4;
   // radiusTop: Float, radiusBottom : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float
   frameGeometry: any = new CylinderGeometry( 0.8, 0.7, 0.1, 36, 5 );
-  frameMaterial = new MeshPhongMaterial( { color: 0xffffff } );
+
   framesGroup = new Group();
 
   locations: any[] = [];
@@ -88,10 +88,10 @@ export class ArtworkFramesService {
     const canvasMaterial = new MeshPhongMaterial( { map: texture, color: 0xffffff } );
 
     // Create the frame & canvas mesh
-    this.frameMaterial.needsUpdate = true;
-    const frameMesh = new InstancedMesh( this.frameGeometry, this.frameMaterial, 5 );
+    const frameMaterial = new MeshPhongMaterial( { color: artwork.colors[0] } );
+    frameMaterial.needsUpdate = true;
+    const frameMesh = new Mesh( this.frameGeometry, frameMaterial );
     // TODO: 
-    this.animateFrameColors( frameMesh );
 
     const canvasMesh = new InstancedMesh( canvasGeometry, canvasMaterial, 5 );
     frameMesh.name = `${artwork.title} frame mesh` || 'frame';
@@ -123,6 +123,27 @@ export class ArtworkFramesService {
     moreInfoPanel.rotateY( -72 );//TODO: look at the angle it is created
     frameGroup.add( moreInfoPanel, buttonsPanel );
 
+    // this.frames.children.forEach( ( frame: any, i: number ) => {
+    //   const n = Math.round( Math.random() * this.artworks[i].colors.length );
+    //   const ranCol = new Color( 0xffffff );
+    //   const col = this.artworks[i].colors[n] || ranCol;
+    //   console.log( 'Color ', col, n );
+    //   const tween = new TWEEN.Tween( frame.children[0].material.color );
+    //   // .to(
+    //   //   // @ts-ignore
+    //   //   col,
+    //   //   1000
+    //   // );
+    //   this.tweens.push( tween );
+    //   // this.sceneService.renderFunctions.push( () => tween.update() );
+
+    //   // Target color
+    //   // easing: TWEEN.Easing.Cubic.In, // Easing function
+    //   // duration: 1000 // Duration in milliseconds
+
+    //   // this.sceneService.renderFunctions.push( this.ui.update );
+    // } );
+    this.animateFrameColors( frameMesh, artwork.colors );
     return frameGroup;
   }
 
@@ -146,6 +167,43 @@ export class ArtworkFramesService {
 
   animateFrameColors ( f: any, colors?: any ) {
 
+    // let tween = new TWEEN.Tween( f.material.color );
+
+    console.log( 'Colors ', colors );
+    // if ( colors.length ) {
+    colors.forEach( ( color: Color, i: number ) => {
+      const tween = new TWEEN.Tween( f.material.color );
+      tween.repeat( Infinity );
+      tween.easing( TWEEN.Easing.Quadratic.InOut );
+
+      tween.to(
+        colors[i],
+        10000
+      );
+
+      tween.repeatDelay( colors.length * 1000 );
+      tween.repeat( Infinity );
+      tween.start( undefined, true );
+
+      // .onStart( () => {
+      //   console.log( 'onStart' );
+      // } )
+      // .onRepeat( () => {
+      //   console.log( 'onRepeat' );
+      // } )
+      // .onEveryStart( () => {
+      //   console.log( 'onEveryStart' );
+      // } )
+      // .start();
+      // tween.start();
+    } );
+
+    // tween.start( undefined, true );
+
+    // }
+
+
+
     // TODO: 
     // console.log( 'f ', f );
 
@@ -154,21 +212,21 @@ export class ArtworkFramesService {
     //   r: 255, g: 0, b: 0, duration: 8
     // } );
     // const c = new Color(  );
-    if ( f.material ) {
-      console.log( 'f.material ', f.material );
+    // if ( f.material ) {
+    //   console.log( 'f.material ', f.material );
 
-      new TWEEN.Tween( f.material.color )
-        .to(
-          {
-            r: 255,
-            g: 0,
-            b: 0,
-          },
-          1000
-        )
-        .start();
+    //   new TWEEN.Tween( f.material.color )
+    //     .to(
+    //       {
+    //         r: 255,
+    //         g: 0,
+    //         b: 0,
+    //       },
+    //       1000
+    //     )
+    //     .start();
 
-    }
+    // }
   }
 
   // TODO: use Three animation system?

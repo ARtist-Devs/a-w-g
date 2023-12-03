@@ -7,6 +7,7 @@ import { collection, doc, getDocs, getFirestore, increment, updateDoc } from 'fi
 
 import { Artwork } from 'projects/three/src/lib/artwork';
 import { environment } from 'src/environments/environment.development';
+import { Color } from 'three';
 
 /**
  * No three.js but only the database and app state.
@@ -30,6 +31,7 @@ export class ArtworksService {
       votes: 0,
       width: 54,
       wiki: "https://wikipedia.org/wiki/Van_Gogh_self-portrait_(1889)",
+      colors: [new Color( 'rgb(165, 187, 206)' ), new Color( 'rgb(67, 87, 103)' ), new Color( 'rgb(131, 162, 181)' ), new Color( 'rgb(154, 191, 176)' ), new Color( 'rgb(191, 154, 154)' ), new Color( 'rgb(109, 134, 119)' ), new Color( 'rgb(170, 198, 177)' ), new Color( 'rgb(81, 108, 119)' ), new Color( 'rgb(133, 99, 31)' ), new Color( 'rgb(102, 102, 144)' ), new Color( 'rgb(99, 61, 99)' ), new Color( 'rgb(81, 108, 119)' ), new Color( 'rgb(142, 182, 198)' )]
     },
     {
       id: 1,
@@ -41,6 +43,7 @@ export class ArtworksService {
       textureUrl: "assets/artworks/almond_blossom.webp",
       votes: 34,
       width: 92,
+      colors: [new Color( 'rgb(158, 176, 150)' ), new Color( 'rgb(112, 148, 138)' ), new Color( 'rgb(186, 198, 169)' ), new Color( 'rgb(100, 146, 158)' ), new Color( 'rgb(85, 124, 150)' ), new Color( 'rgb(173, 183, 148)' ), new Color( 'rgb(46, 59, 48)' ), new Color( 'rgb(112, 113, 65)' ), new Color( 'rgb(117, 154, 96)' ), new Color( 'rgb(53, 89, 109)' ), new Color( 'rgb(255, 189, 152)' )],
       wiki: "https://en.wikipedia.org/wiki/Almond_Blossoms",
     },
     {
@@ -53,7 +56,7 @@ export class ArtworksService {
       textureUrl: "assets/artworks/bedroom.webp",
       votes: 65,
       width: 91.3,
-
+      colors: [new Color( 'rgb(194, 52, 41)' ), new Color( 'rgb(142, 189, 155)' ), new Color( 'rgb(171, 156, 63)' ), new Color( 'rgb(141, 174, 204)' ), new Color( 'rgb(69, 114, 142)' ), new Color( 'rgb(31, 74, 59)' ), new Color( 'rgb(210, 204, 143)' ), new Color( 'rgb(159, 182, 197)' ), new Color( 'rgb(156, 128, 48)' ), new Color( 'rgb(204, 141, 141)' )],
       wiki: "https://wikipedia.org/wiki/Bedroom_in_Arles",
     },
     {
@@ -70,6 +73,7 @@ export class ArtworksService {
       download:
         "https://en.wikipedia.org/wiki/File:Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
       wiki: "https://wikipedia.org/wiki/Sunflowers_(Van_Gogh_series)",
+      colors: [new Color( 'rgb(197, 188, 46)' ), new Color( 'rgb(166, 169, 22)' ), new Color( 'rgb(62, 84, 8)' ), new Color( 'rgb(120, 138, 139)' ), new Color( 'rgb(146, 171, 42)' ), new Color( 'rgb(65, 87, 66)' ), new Color( 'rgb(154, 172, 59)' ), new Color( 'rgb(172, 59, 136)' ), new Color( 'rgb(197, 155, 218)' )]
     },
     {
       id: 4,
@@ -83,6 +87,7 @@ export class ArtworksService {
       votes: 56,
       width: 74,
       wiki: "https://en.wikipedia.org/wiki/Vase_with_Irises_Against_a_Yellow_Background",
+      colors: [new Color( 'rgb(16, 96, 139)' ), new Color( 'rgb(92, 139, 148)' ), new Color( 'rgb(63, 107, 72)' ), new Color( 'rgb(12, 46, 87)' ), new Color( 'rgb(200, 154, 40)' ), new Color( 'rgb(200, 101, 227)' ), new Color( 'rgb(184, 154, 43)' ), new Color( 'rgb(227, 208, 101)' ), new Color( 'rgb(168, 128, 183)' )]
     },
   ];
 
@@ -101,7 +106,7 @@ export class ArtworksService {
     this.getFirebaseData();
   }
 
-  getArtworks (): Artwork[] {
+  getArtworks (): any[] {
     return this.artworks();
   }
 
