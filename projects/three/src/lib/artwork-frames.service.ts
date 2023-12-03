@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import gsap from 'gsap';
-import { BoxGeometry, CylinderGeometry, Group, InstancedMesh, MathUtils, Matrix4, Mesh, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
+import { BoxGeometry, CylinderGeometry, Group, InstancedMesh, MathUtils, Matrix4, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
 
 import { Artwork } from './artwork';
-import { DebugService } from './debug.service';
-import { InteractionsService } from './interactions.service';
 import { LightsService } from './lights.service';
 import { LoadersService } from './loaders.service';
-import { MaterialsService } from './materials.service';
-import { ObjectsService } from './objects.service';
 import { UIService } from './ui.service';
 
 @Injectable( {
@@ -30,15 +26,9 @@ export class ArtworkFramesService {
   artworksWithLocation: Artwork[];
 
   constructor(
-    private objectsService: ObjectsService,
-    private interactionsService: InteractionsService,
     private lightsService: LightsService,
     private loadersService: LoadersService,
-
-    private materialsService: MaterialsService,
     private uiService: UIService,
-    private debug: DebugService,
-
   ) { }
 
   createFrames ( artworks: Artwork[] = [], btns: any[] = [], cb?: Function ): Group {
@@ -96,7 +86,6 @@ export class ArtworkFramesService {
 
     // Create the frame & canvas mesh
     const frameMesh = new InstancedMesh( this.frameGeometry, this.frameMaterial, 5 );
-    // TODO: this.animateFrameColors(frameMesh);
 
     const canvasMesh = new InstancedMesh( canvasGeometry, canvasMaterial, 5 );
     frameMesh.name = ` ${artwork.title} frame mesh` || 'frame';
@@ -147,13 +136,6 @@ export class ArtworkFramesService {
     const p = f.userData['originalPosition'];
     this.moveFrame( f, p );
 
-  }
-
-  animateFrameColors ( f: any, colors?: any ) {
-
-    //TODO: gsap.to( f.material.color, {
-    //   r: 144, g: 140, b: 209, duration: 2
-    // } );
   }
 
   // TODO: use Three animation system?

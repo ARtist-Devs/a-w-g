@@ -1,20 +1,17 @@
 import { Injectable, NgZone } from '@angular/core';
 
-import { ACESFilmicToneMapping, Camera, CineonToneMapping, Clock, Color, CustomToneMapping, Fog, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, Scene, SpotLight, Vector2, WebGLRenderer } from 'three';
+import { ACESFilmicToneMapping, CineonToneMapping, Clock, Color, CustomToneMapping, Fog, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, Scene, SpotLight, Vector2, WebGLRenderer } from 'three';
 
-import { CameraService } from './camera.service';
-import { ControllerService } from './controller.service';
-// import { DebugService } from './debug.service';
-import { InteractionsService } from './interactions.service';
-import { LightsService } from './lights.service';
-import { ObjectsService } from './objects.service';
-import { sceneDefaults } from './scene.config';
-import { XRButton } from 'three/examples/jsm/webxr/XRButton';
-import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
-// import { WebXRService } from './webxr.service';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import { GPUStatsPanel } from 'three/examples/jsm/utils/GPUStatsPanel';
-// import * as Stats from 'stats.js';
+import { XRButton } from 'three/examples/jsm/webxr/XRButton';
+import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
+import { CameraService } from './camera.service';
+import { ControllerService } from './controller.service';
+import { InteractionsService } from './interactions.service';
+import { LightsService } from './lights.service';
+import { sceneDefaults } from './scene.config';
+
 const stats = new Stats();
 @Injectable( {
   providedIn: null,
@@ -63,13 +60,9 @@ export class SceneService {
   constructor(
     private cameraService: CameraService,
     private controllerService: ControllerService,
-    private ngZone: NgZone,
     private interactionsService: InteractionsService,
     private lightsService: LightsService,
-    private objectsService: ObjectsService,
-    // private debug: DebugService,
-    // private webXRService: WebXRService
-
+    private ngZone: NgZone,
   ) { }
 
   initScene ( canvas: HTMLCanvasElement, options?: any ) {
