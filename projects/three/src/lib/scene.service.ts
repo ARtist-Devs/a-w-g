@@ -53,7 +53,6 @@ export class SceneService {
   };
   icoLight: any;
   icoLight1: any;
-  pointLight: any;
   icoLight2: any;
   canvas: HTMLCanvasElement;
   webXRManager: any;
@@ -250,27 +249,16 @@ export class SceneService {
 
   createCornerLights () {
 
-    const icoLight = this.objectsService.createIcosahedron( { radius: 0.3, detail: 0, material: 'MeshPhysicalMaterial' } );
-    icoLight.position.set( 0, 1, -10 );
-    icoLight.material.opacity = 0.6;
-    this.pointLight = this.lightsService.createPointLight();
-    this.pointLight.position.y = 2.2;
+    const pointLight = this.lightsService.createPointLight();
+    pointLight.position.y = 3.2;
+    pointLight.position.z = -10;
 
-    icoLight.add( this.pointLight );
-    this.icoLight = icoLight;
+    const pointLight1 = this.lightsService.createPointLight();
+    pointLight1.position.set( 10, 3.2, 7.6 );
 
-    this.scene.add( this.icoLight );
-
-    this.icoLight1 = this.icoLight.clone();
-    const spotlight = this.lightsService.createPointLight();
-    this.icoLight1.add( spotlight );
-    this.icoLight1.position.set( -10, 1, 7.6 );
-
-    this.icoLight2 = this.icoLight.clone();
-    this.icoLight2.add( spotlight );
-    this.icoLight2.position.set( 10, 1, 7.6 );
-
-    this.scene.add( this.icoLight1, this.icoLight2 );
+    const pointLight2 = this.lightsService.createPointLight();
+    pointLight2.position.set( -10, 3.2, 7.6 );
+    this.scene.add( pointLight, pointLight1, pointLight2 );
 
   }
 
