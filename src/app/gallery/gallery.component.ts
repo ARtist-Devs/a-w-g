@@ -12,12 +12,14 @@ import { ArtworksService } from '../artworks.service';
   styleUrls: ['./gallery.component.scss']
 } )
 export class GalleryComponent implements OnInit {
-  loadingBar = true;
-  loadingClass = 'loading';
-  private artworks: Artwork[] = [];
-  private artworksLength = 0;
+
+  public loadingBar = true;
+  public loadingClass = 'loading';
   public loadingProgress: WritableSignal<number> = signal( 0 );
   public frames: any;
+  private artworks: Artwork[] = [];
+  private artworksLength = 0;
+
   private buttons: any[];
   private focused = 0;
 
@@ -30,10 +32,10 @@ export class GalleryComponent implements OnInit {
   }
 
   constructor(
+    public loadersService: LoadersService,
     public sceneService: SceneService,
     private artworksService: ArtworksService,
     private framesService: ArtworkFramesService,
-    public loadersService: LoadersService,
     private ui: UIService,
   ) { }
 
@@ -46,7 +48,6 @@ export class GalleryComponent implements OnInit {
     // Model for Floor
     const model = this.loadersService.loadModel( {
       path: "assets/models/VRGallery0110NoFloorTexture.glb",
-
       scene: this.sceneService.scene,
       onLoadProgress: this.onLoadProgress.bind( this ),
       onLoadCB: () => {
