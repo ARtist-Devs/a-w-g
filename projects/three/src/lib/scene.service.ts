@@ -1,20 +1,17 @@
 import { Injectable, NgZone } from '@angular/core';
 
-import { ACESFilmicToneMapping, Camera, CineonToneMapping, Clock, Color, CustomToneMapping, Fog, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, Scene, SpotLight, Vector2, WebGLRenderer } from 'three';
+import { ACESFilmicToneMapping, CineonToneMapping, Clock, Color, CustomToneMapping, Fog, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, Scene, SpotLight, Vector2, WebGLRenderer } from 'three';
 
 import { CameraService } from './camera.service';
 import { ControllerService } from './controller.service';
-// import { DebugService } from './debug.service';
-import { InteractionsService } from './interactions.service';
-import { LightsService } from './lights.service';
-import { ObjectsService } from './objects.service';
-import { sceneDefaults } from './scene.config';
 import { XRButton } from 'three/examples/jsm/webxr/XRButton';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
-// import { WebXRService } from './webxr.service';
+import { InteractionsService } from './interactions.service';
+import { LightsService } from './lights.service';
+import { sceneDefaults } from './scene.config';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import { GPUStatsPanel } from 'three/examples/jsm/utils/GPUStatsPanel';
-// import * as Stats from 'stats.js';
+
 const stats = new Stats();
 @Injectable( {
   providedIn: null,
@@ -66,10 +63,6 @@ export class SceneService {
     private ngZone: NgZone,
     private interactionsService: InteractionsService,
     private lightsService: LightsService,
-    private objectsService: ObjectsService,
-    // private debug: DebugService,
-    // private webXRService: WebXRService
-
   ) { }
 
   initScene ( canvas: HTMLCanvasElement, options?: any ) {
@@ -122,16 +115,6 @@ export class SceneService {
     cameraLight[0].position.set( 0, -2, 0.64 );
     this.camera.add( cameraLight[0] );
 
-    // this.debug.addToDebug( {
-    //   obj: cameraLight[0], name: 'Camera Light', properties: {
-    //     'Position': {},
-    //     'intensity': { min: 0, max: 20, precision: 1 },
-    //     'distance': { min: 0, max: 10, precision: 1 },
-    //     'angle': { min: 0, max: Math.PI, precision: Math.PI / 36 },
-    //     'penumbra': { min: 0, max: 1, precision: 0.01 },
-    //     'decay': { min: 0, max: 10, precision: 1 },
-    //   }
-    // } );
     this.scene.add( ...hemLight );
 
     // Controls
@@ -147,7 +130,6 @@ export class SceneService {
 
   afterSceneInit ( start?: any, ) {
 
-
     // Interactions
     this.interactionsManager = this.interactionsService.initInteractionManager( this.renderer, this.camera, this.canvas );
 
@@ -162,14 +144,12 @@ export class SceneService {
     const gpuPanel = new GPUStatsPanel( this.renderer.getContext() );
     stats.addPanel( gpuPanel );
     stats.showPanel( 0 );
-    // this.webXRService.checkXRSupport( { renderer: this.renderer, camera: this.camera, scene: this.scene } );
 
     // Lights
     this.createCornerLights();
 
     // Render loop
     this.ngZone.runOutsideAngular( () => this.renderer.setAnimationLoop( () => this.render() ) );
-    // this.renderer.shadowMap.autoUpdate = false;
 
     // Animate camera
     this.cameraService.moveCamera( 0, 1.6, 0.001, 10 );
@@ -189,11 +169,6 @@ export class SceneService {
     this.controller = this.renderer.xr.getController( 0 );
 
     if ( this.controller ) {
-      // this.dolly.add(this.controller);
-      // this.controller.addEventListener('selectstart', this.onSelectStart);
-      // this.controller.addEventListener('selectend', this.onSelectEnd);
-      // this.controller.addEventListener('connected', this.onConnected.bind(this));
-      // this.controller.addEventListener('disconnected', this.onDisconnected.bind(this));
       this.scene.add( this.controller );
     }
 
@@ -216,7 +191,6 @@ export class SceneService {
     stats.update();
     // time elapsed since last frame
     const delta = this.clock.getDelta();
-    // console.log( 'delta ', delta );
     // update controls
     this.controllerService.updateControls( delta );
 
@@ -225,7 +199,6 @@ export class SceneService {
 
     // run renderFunctions
     this.renderFunctions.forEach( func => func( delta ) );
-
 
     // render
     this.renderer.render( this.scene, this.camera );
@@ -301,6 +274,5 @@ export class SceneService {
   onDeviceChange ( e: Event ) {
     console.log( "Device changed: ", e );
     this.onResize();
-    // if(this.renderer.)
   }
 }
