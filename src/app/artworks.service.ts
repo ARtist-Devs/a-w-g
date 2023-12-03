@@ -11,9 +11,9 @@ import { environment } from 'src/environments/environment.development';
 /**
  * No three.js but only the database and app state.
  */
-@Injectable({
+@Injectable( {
   providedIn: 'platform'
-})
+} )
 export class ArtworksService {
 
   private artworksArray = [
@@ -86,16 +86,16 @@ export class ArtworksService {
     },
   ];
 
-  private artworks = signal(this.artworksArray);
+  private artworks = signal( this.artworksArray );
   private config = environment;
 
   // Initialize Firebase
-  private app = initializeApp(this.config);
+  private app = initializeApp( this.config );
   // Initialize Cloud Firestore and get a reference to the service
-  private db = getFirestore(this.app);
+  private db = getFirestore( this.app );
 
   private upvoted: number[] = [];
-  dbArtworks = collection(this.db, 'artworks');
+  dbArtworks = collection( this.db, 'artworks' );
 
   constructor() {
     this.getFirebaseData();
@@ -106,31 +106,29 @@ export class ArtworksService {
   }
 
   async getFirebaseData () {
-    const votesSnap = await getDocs(this.dbArtworks);
-    this.artworksArray.map((artwork, i) => {
+    const votesSnap = await getDocs( this.dbArtworks );
+    this.artworksArray.map( ( artwork, i ) => {
       artwork.votes = votesSnap.docs[i].data()['votes'];
-    });
-    this.artworks.set(this.artworksArray);
+    } );
+    this.artworks.set( this.artworksArray );
   }
 
-  upvoteArtwork (i: number) {
-    if (this.upvoted.indexOf(i) === -1)
-    {
-      this.upvoted.push(i);
-      this.artworks.update((artworks) => {
+  upvoteArtwork ( i: number ) {
+    if ( this.upvoted.indexOf( i ) === -1 ) {
+      this.upvoted.push( i );
+      this.artworks.update( ( artworks ) => {
         artworks[i].votes = artworks[i].votes + 1;
         return artworks;
-      });
-      this.updateFirebase(i);
+      } );
+      this.updateFirebase( i );
 
-    } else
-    {
-      console.log('Upvoted already!');
+    } else {
+      console.log( 'Upvoted already!' );
     }
   }
 
-  async updateFirebase (i: number) {
-    const docRef = doc(this.db, `artworks/${i}`);
-    await updateDoc(docRef, { votes: increment(1) });
+  async updateFirebase ( i: number ) {
+    const docRef = doc( this.db, `artworks/${i}` );
+    await updateDoc( docRef, { votes: increment( 1 ) } );
   }
 }

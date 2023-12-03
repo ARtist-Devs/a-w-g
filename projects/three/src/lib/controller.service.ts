@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MOUSE, Matrix4, Raycaster, TOUCH, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
-import { DebugService } from './debug.service';
+// import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
+// import { DebugService } from './debug.service';
 
 @Injectable( {
   providedIn: 'platform'
@@ -22,7 +22,7 @@ export class ControllerService {
   };
   renderer: any;
   constructor(
-    private debug: DebugService
+    // private debug: DebugService
   ) { }
 
   /**
@@ -90,17 +90,17 @@ export class ControllerService {
     this.controls.maxPolarAngle = Math.PI / 2;
     this.controls.screenSpacePanning = false;
 
-    this.debug.addToDebug( {
-      obj: this.controls, name: 'Orbit Controls', properties: {
-        'panSpeed': { min: 0, max: 1, precision: 0.01 },
-        'rotateSpeed': { min: 0, max: 1, precision: 0.01 },
-        'zoomSpeed': { min: 0, max: 1, precision: 0.01 },
-        'dampingFactor': { min: 0, max: 1, precision: 0.01 },
-        'minDistance': { min: 0, max: 5, precision: 0.01 },
-        'maxDistance': { min: 10, max: 500, precision: 1 },
-        'keyPanSpeed': { min: 0, max: 100, precision: 1 },
-      }
-    } );
+    // this.debug.addToDebug( {
+    //   obj: this.controls, name: 'Orbit Controls', properties: {
+    //     'panSpeed': { min: 0, max: 1, precision: 0.01 },
+    //     'rotateSpeed': { min: 0, max: 1, precision: 0.01 },
+    //     'zoomSpeed': { min: 0, max: 1, precision: 0.01 },
+    //     'dampingFactor': { min: 0, max: 1, precision: 0.01 },
+    //     'minDistance': { min: 0, max: 5, precision: 0.01 },
+    //     'maxDistance': { min: 10, max: 500, precision: 1 },
+    //     'keyPanSpeed': { min: 0, max: 100, precision: 1 },
+    //   }
+    // } );
     return this.controls;
   }
 

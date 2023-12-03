@@ -4,14 +4,14 @@ import { ACESFilmicToneMapping, Camera, CineonToneMapping, Clock, Color, CustomT
 
 import { CameraService } from './camera.service';
 import { ControllerService } from './controller.service';
-import { DebugService } from './debug.service';
+// import { DebugService } from './debug.service';
 import { InteractionsService } from './interactions.service';
 import { LightsService } from './lights.service';
 import { ObjectsService } from './objects.service';
 import { sceneDefaults } from './scene.config';
 import { XRButton } from 'three/examples/jsm/webxr/XRButton';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
-import { WebXRService } from './webxr.service';
+// import { WebXRService } from './webxr.service';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import { GPUStatsPanel } from 'three/examples/jsm/utils/GPUStatsPanel';
 // import * as Stats from 'stats.js';
@@ -53,7 +53,6 @@ export class SceneService {
   };
   icoLight: any;
   icoLight1: any;
-  pointLight: any;
   icoLight2: any;
   canvas: HTMLCanvasElement;
   webXRManager: any;
@@ -68,8 +67,8 @@ export class SceneService {
     private interactionsService: InteractionsService,
     private lightsService: LightsService,
     private objectsService: ObjectsService,
-    private debug: DebugService,
-    private webXRService: WebXRService
+    // private debug: DebugService,
+    // private webXRService: WebXRService
 
   ) { }
 
@@ -100,11 +99,11 @@ export class SceneService {
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( this.width, this.height );
     this.renderer.shadowMap.enabled = true;
+
     this.renderer.shadowMap.type = PCFSoftShadowMap;
     this.renderer.toneMapping = ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.5;
     this.renderer.xr.enabled = true;
-
 
     this.scene.backgroundBlurriness = 0.3;
 
@@ -112,7 +111,6 @@ export class SceneService {
 
     // Lights
     const hemLight = this.lightsService.createHemLight( { intensity: 0.5 } );
-    // const dirLights = this.lightsService.createDirLight({ intensity: 1.2 });
 
     this.spotLights = this.lightsService.createSpotLight();
     this.spotlight = this.spotLights[0];
@@ -124,16 +122,16 @@ export class SceneService {
     cameraLight[0].position.set( 0, -2, 0.64 );
     this.camera.add( cameraLight[0] );
 
-    this.debug.addToDebug( {
-      obj: cameraLight[0], name: 'Camera Light', properties: {
-        'Position': {},
-        'intensity': { min: 0, max: 20, precision: 1 },
-        'distance': { min: 0, max: 10, precision: 1 },
-        'angle': { min: 0, max: Math.PI, precision: Math.PI / 36 },
-        'penumbra': { min: 0, max: 1, precision: 0.01 },
-        'decay': { min: 0, max: 10, precision: 1 },
-      }
-    } );
+    // this.debug.addToDebug( {
+    //   obj: cameraLight[0], name: 'Camera Light', properties: {
+    //     'Position': {},
+    //     'intensity': { min: 0, max: 20, precision: 1 },
+    //     'distance': { min: 0, max: 10, precision: 1 },
+    //     'angle': { min: 0, max: Math.PI, precision: Math.PI / 36 },
+    //     'penumbra': { min: 0, max: 1, precision: 0.01 },
+    //     'decay': { min: 0, max: 10, precision: 1 },
+    //   }
+    // } );
     this.scene.add( ...hemLight );
 
     // Controls
@@ -164,13 +162,14 @@ export class SceneService {
     const gpuPanel = new GPUStatsPanel( this.renderer.getContext() );
     stats.addPanel( gpuPanel );
     stats.showPanel( 0 );
-    this.webXRService.checkXRSupport( { renderer: this.renderer, camera: this.camera, scene: this.scene } );
+    // this.webXRService.checkXRSupport( { renderer: this.renderer, camera: this.camera, scene: this.scene } );
 
     // Lights
     this.createCornerLights();
 
     // Render loop
     this.ngZone.runOutsideAngular( () => this.renderer.setAnimationLoop( () => this.render() ) );
+    // this.renderer.shadowMap.autoUpdate = false;
 
     // Animate camera
     this.cameraService.moveCamera( 0, 1.6, 0.001, 10 );
@@ -213,6 +212,7 @@ export class SceneService {
 
 
   render () {
+    let startTime = performance.now();
     stats.update();
     // time elapsed since last frame
     const delta = this.clock.getDelta();
@@ -226,15 +226,13 @@ export class SceneService {
     // run renderFunctions
     this.renderFunctions.forEach( func => func( delta ) );
 
+
     // render
     this.renderer.render( this.scene, this.camera );
-  }
-
-  animateLights ( delta: any ) {
-
-    this.icoLight.rotation.y += 0.01;
-    this.icoLight1.rotation.y += 0.01;
-    this.icoLight2.rotation.y += 0.01;
+    let endTime = performance.now();
+    let time = endTime - startTime;
+    // console.log( 'timePassed, delta ', time, delta );
+    // console.log( 'Render Draw Calls ', this.renderer.info.render.calls );
 
   }
 
@@ -250,28 +248,16 @@ export class SceneService {
 
   createCornerLights () {
 
-    const icoLight = this.objectsService.createIcosahedron( { radius: 0.3, detail: 0, material: 'MeshPhysicalMaterial' } );
-    icoLight.position.set( 0, 1, -10 );
-    icoLight.material.opacity = 0.6;
-    this.pointLight = this.lightsService.createPointLight();
-    this.pointLight.position.y = 2.2;
+    const pointLight = this.lightsService.createPointLight();
+    pointLight.position.y = 3.2;
+    pointLight.position.z = -10;
 
-    icoLight.add( this.pointLight );
-    this.icoLight = icoLight;
+    const pointLight1 = this.lightsService.createPointLight();
+    pointLight1.position.set( 10, 3.2, 7.6 );
 
-    this.scene.add( this.icoLight );
-
-    this.icoLight1 = this.icoLight.clone();
-    const spotlight = this.lightsService.createPointLight();
-    this.icoLight1.add( spotlight );
-    this.icoLight1.position.set( -10, 1, 7.6 );
-
-    this.icoLight2 = this.icoLight.clone();
-    this.icoLight2.add( spotlight );
-    this.icoLight2.position.set( 10, 1, 7.6 );
-
-    this.scene.add( this.icoLight1, this.icoLight2 );
-    this.renderFunctions.push( this.animateLights.bind( this ) );
+    const pointLight2 = this.lightsService.createPointLight();
+    pointLight2.position.set( -10, 3.2, 7.6 );
+    this.scene.add( pointLight, pointLight1, pointLight2 );
 
   }
 
