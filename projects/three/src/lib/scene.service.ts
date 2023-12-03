@@ -4,14 +4,14 @@ import { ACESFilmicToneMapping, Camera, CineonToneMapping, Clock, Color, CustomT
 
 import { CameraService } from './camera.service';
 import { ControllerService } from './controller.service';
-import { DebugService } from './debug.service';
+// import { DebugService } from './debug.service';
 import { InteractionsService } from './interactions.service';
 import { LightsService } from './lights.service';
 import { ObjectsService } from './objects.service';
 import { sceneDefaults } from './scene.config';
 import { XRButton } from 'three/examples/jsm/webxr/XRButton';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
-import { WebXRService } from './webxr.service';
+// import { WebXRService } from './webxr.service';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import { GPUStatsPanel } from 'three/examples/jsm/utils/GPUStatsPanel';
 // import * as Stats from 'stats.js';
@@ -67,8 +67,8 @@ export class SceneService {
     private interactionsService: InteractionsService,
     private lightsService: LightsService,
     private objectsService: ObjectsService,
-    private debug: DebugService,
-    private webXRService: WebXRService
+    // private debug: DebugService,
+    // private webXRService: WebXRService
 
   ) { }
 
@@ -111,7 +111,6 @@ export class SceneService {
 
     // Lights
     const hemLight = this.lightsService.createHemLight( { intensity: 0.5 } );
-    // const dirLights = this.lightsService.createDirLight({ intensity: 1.2 });
 
     this.spotLights = this.lightsService.createSpotLight();
     this.spotlight = this.spotLights[0];
@@ -123,16 +122,16 @@ export class SceneService {
     cameraLight[0].position.set( 0, -2, 0.64 );
     this.camera.add( cameraLight[0] );
 
-    this.debug.addToDebug( {
-      obj: cameraLight[0], name: 'Camera Light', properties: {
-        'Position': {},
-        'intensity': { min: 0, max: 20, precision: 1 },
-        'distance': { min: 0, max: 10, precision: 1 },
-        'angle': { min: 0, max: Math.PI, precision: Math.PI / 36 },
-        'penumbra': { min: 0, max: 1, precision: 0.01 },
-        'decay': { min: 0, max: 10, precision: 1 },
-      }
-    } );
+    // this.debug.addToDebug( {
+    //   obj: cameraLight[0], name: 'Camera Light', properties: {
+    //     'Position': {},
+    //     'intensity': { min: 0, max: 20, precision: 1 },
+    //     'distance': { min: 0, max: 10, precision: 1 },
+    //     'angle': { min: 0, max: Math.PI, precision: Math.PI / 36 },
+    //     'penumbra': { min: 0, max: 1, precision: 0.01 },
+    //     'decay': { min: 0, max: 10, precision: 1 },
+    //   }
+    // } );
     this.scene.add( ...hemLight );
 
     // Controls
@@ -163,7 +162,7 @@ export class SceneService {
     const gpuPanel = new GPUStatsPanel( this.renderer.getContext() );
     stats.addPanel( gpuPanel );
     stats.showPanel( 0 );
-    this.webXRService.checkXRSupport( { renderer: this.renderer, camera: this.camera, scene: this.scene } );
+    // this.webXRService.checkXRSupport( { renderer: this.renderer, camera: this.camera, scene: this.scene } );
 
     // Lights
     this.createCornerLights();
