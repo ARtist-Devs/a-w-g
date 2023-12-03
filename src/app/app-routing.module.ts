@@ -11,11 +11,10 @@ const routes: Routes = [{
   path: '**', component: ErrorComponent,
   title: 'Error Page',
 },
-
 ];
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
+@NgModule( {
+  imports: [RouterModule.forRoot( routes )],
   exports: [RouterModule]
-})
+} )
 export class AppRoutingModule { }
