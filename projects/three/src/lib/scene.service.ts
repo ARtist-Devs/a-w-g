@@ -115,16 +115,6 @@ export class SceneService {
     cameraLight[0].position.set( 0, -2, 0.64 );
     this.camera.add( cameraLight[0] );
 
-    // this.debug.addToDebug( {
-    //   obj: cameraLight[0], name: 'Camera Light', properties: {
-    //     'Position': {},
-    //     'intensity': { min: 0, max: 20, precision: 1 },
-    //     'distance': { min: 0, max: 10, precision: 1 },
-    //     'angle': { min: 0, max: Math.PI, precision: Math.PI / 36 },
-    //     'penumbra': { min: 0, max: 1, precision: 0.01 },
-    //     'decay': { min: 0, max: 10, precision: 1 },
-    //   }
-    // } );
     this.scene.add( ...hemLight );
 
     // Controls
@@ -155,14 +145,12 @@ export class SceneService {
     const gpuPanel = new GPUStatsPanel( this.renderer.getContext() );
     stats.addPanel( gpuPanel );
     stats.showPanel( 0 );
-    // this.webXRService.checkXRSupport( { renderer: this.renderer, camera: this.camera, scene: this.scene } );
 
     // Lights
     this.createCornerLights();
 
     // Render loop
     this.ngZone.runOutsideAngular( () => this.renderer.setAnimationLoop( () => this.render() ) );
-    // this.renderer.shadowMap.autoUpdate = false;
 
     // Animate camera
     this.cameraService.moveCamera( 0, 1.6, 0.001, 10 );
@@ -173,7 +161,6 @@ export class SceneService {
 
     this.renderer.xr.enabled = true;
 
-    // document.body.appendChild(XRButton.createButton(this.renderer));
     this.webXRManager = this.renderer.xr;
     console.log( 'this.webXRManager ', this.webXRManager );
 
@@ -182,11 +169,6 @@ export class SceneService {
     this.controller = this.renderer.xr.getController( 0 );
 
     if ( this.controller ) {
-      // this.dolly.add(this.controller);
-      // this.controller.addEventListener('selectstart', this.onSelectStart);
-      // this.controller.addEventListener('selectend', this.onSelectEnd);
-      // this.controller.addEventListener('connected', this.onConnected.bind(this));
-      // this.controller.addEventListener('disconnected', this.onDisconnected.bind(this));
       this.scene.add( this.controller );
     }
 
@@ -224,8 +206,6 @@ export class SceneService {
     this.renderer.render( this.scene, this.camera );
     let endTime = performance.now();
     let time = endTime - startTime;
-    // console.log( 'timePassed, delta ', time, delta );
-    // console.log( 'Render Draw Calls ', this.renderer.info.render.calls );
 
   }
 

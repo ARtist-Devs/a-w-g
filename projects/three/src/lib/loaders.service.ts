@@ -54,10 +54,8 @@ export class LoadersService {
       ops.path,
       ( gltf ) => {
         let meshesCount = 0;
-        // console.log( 'Mesh Count: ', gltf.meshes?.length );
 
         const model = gltf.scene;
-        // console.log( 'Material Count: ', model );
         model.position.z = -0;
         model.scale.set( 3, 3, 3 ); // TODO: scale on blender
         let material: Material = this.materialsService.getMeshPhysicalMaterial();
@@ -81,20 +79,10 @@ export class LoadersService {
             // @ts-ignore
             if ( obj.material.map ) { obj.material.map.anisotropy = 16; }
           }
-
-          // @ts-ignore
-          // this.debugService.addToDebug({ obj: obj.material, key: 'clearcoat', min: 0, max: 1 });
-          // @ts-ignore
-          // this.debugService.addToDebug({ obj: material, key: 'clearcoatRoughness', min: 0, max: 1, precision: 0.1 });
-          // // @ts-ignore
-          // this.debugService.addToDebug({ obj: material, key: 'metalness', min: 0, max: 1, precision: 0.1 });
-          // // @ts-ignore
-          // this.debugService.addToDebug({ obj: material, key: 'roughness', min: 0, max: 1, precision: 0.1 });
         } );
 
         ops.scene.add( model );
         ops.onLoadCB();
-        // console.log( 'Meshes Count: ', meshesCount );
       },
       ( xhr: any ) => { ops.onLoadProgress( xhr ); },
       ( err ) => {
