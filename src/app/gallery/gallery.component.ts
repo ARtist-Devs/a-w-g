@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, WritableSignal, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, WritableSignal, signal } from '@angular/core';
 
 import { Artwork } from 'projects/three/src/lib/artwork';
 import { ArtworkFramesService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
@@ -16,14 +16,10 @@ export class GalleryComponent implements OnInit {
   loadingClass = 'loading';
   private artworks: Artwork[] = [];
   private artworksLength = 0;
-  private selectedIndex: WritableSignal<number> = signal( 0 );
   public loadingProgress: WritableSignal<number> = signal( 0 );
   public frames: any;
   private buttons: any[];
   private focused = 0;
-  private info = computed( () => {
-    this.artworks[this.selectedIndex()];
-  } );
 
   private selectedArtwork: WritableSignal<Artwork>;
   @ViewChild( 'canvas', { static: true } )

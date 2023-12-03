@@ -1,6 +1,6 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
 
-import { LoadingManager, Material, Mesh, MeshStandardMaterial, Object3D, RepeatWrapping, SRGBColorSpace, Scene, TextureLoader, Vector2 } from 'three';
+import { LoadingManager, Material, MeshStandardMaterial, RepeatWrapping, SRGBColorSpace, Scene, TextureLoader, Vector2 } from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
