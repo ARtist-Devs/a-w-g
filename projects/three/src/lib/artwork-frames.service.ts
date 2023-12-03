@@ -166,69 +166,23 @@ export class ArtworkFramesService {
   }
 
   animateFrameColors ( f: any, colors?: any ) {
-
-    // let tween = new TWEEN.Tween( f.material.color );
+    let time = 5000;
 
     console.log( 'Colors ', colors );
-    // const tween = new TWEEN.Tween( f.material.color );
-    // tween.repeat( Infinity );
-    // tween.interpolation( TWEEN.Interpolation.Bezier );
-    // tween.to(
-    //   colors,
-    //   3000
-    // ).delay( 3000 );
-    //   tween.repeat( Infinity );
-    //   tween.easing( TWEEN.Easing.Quadratic.InOut );
-    //   tween.interpolation( TWEEN.Interpolation.Bezier );
-    //   tween.to(
-    //     colors[i],
-    //     3000
-    //   ).delay( ( i + 1 ) * 3000 );
-    // if ( colors.length ) {
+
     colors.forEach( ( color: Color, i: number ) => {
       const tween = new TWEEN.Tween( f.material.color );
       tween.repeat( Infinity );
-      // tween.easing( TWEEN.Easing.Linear.None );
-      tween.interpolation( TWEEN.Interpolation.Bezier );
+      tween.easing( TWEEN.Easing.Circular.InOut );
       tween.to(
         colors[i],
-        3000
-      ).delay( ( i + 1 ) * 3000 );
+        time
+      ).delay( ( i + 1 ) * time );
 
-      tween.repeatDelay( colors.length * 3000 );
+      tween.repeatDelay( colors.length * time );
       tween.repeat( Infinity );
-      tween.start( undefined, true );
+      tween.start( time, true );
     } );
-
-    // tween.start( undefined, true );
-
-    // }
-
-
-
-    // TODO: 
-    // console.log( 'f ', f );
-
-
-    // gsap.to( f.children[0].material.color, {
-    //   r: 255, g: 0, b: 0, duration: 8
-    // } );
-    // const c = new Color(  );
-    // if ( f.material ) {
-    //   console.log( 'f.material ', f.material );
-
-    //   new TWEEN.Tween( f.material.color )
-    //     .to(
-    //       {
-    //         r: 255,
-    //         g: 0,
-    //         b: 0,
-    //       },
-    //       1000
-    //     )
-    //     .start();
-
-    // }
   }
 
   // TODO: use Three animation system?
