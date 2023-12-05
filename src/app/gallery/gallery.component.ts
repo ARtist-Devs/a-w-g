@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ChangeDetectionStrategy, Component, ElementRef, NgZone, OnInit, ViewChild, WritableSignal, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, WritableSignal, signal } from '@angular/core';
 
 import { Artwork } from 'projects/three/src/lib/artwork';
 import { ArtworkFramesService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
 import { ArtworksService } from '../artworks.service';
+import * as  TWEEN from 'three/examples/jsm/libs/tween.module';
+import { Color } from 'three';
 
 @Component( {
   selector: 'art-gallery',
@@ -12,18 +14,17 @@ import { ArtworksService } from '../artworks.service';
   styleUrls: ['./gallery.component.scss']
 } )
 export class GalleryComponent implements OnInit {
-  loadingBar = true;
-  loadingClass = 'loading';
-  private artworks: Artwork[] = [];
-  private artworksLength = 0;
-  private selectedIndex: WritableSignal<number> = signal( 0 );
+
+  public loadingBar = true;
+  public loadingClass = 'loading';
   public loadingProgress: WritableSignal<number> = signal( 0 );
   public frames: any;
+  private artworks: Artwork[] = [];
+  private artworksLength = 0;
+
   private buttons: any[];
   private focused = 0;
-  private info = computed( () => {
-    this.artworks[this.selectedIndex()];
-  } );
+  tweens: any[] = [];
 
   private selectedArtwork: WritableSignal<Artwork>;
   @ViewChild( 'canvas', { static: true } )
@@ -34,12 +35,11 @@ export class GalleryComponent implements OnInit {
   }
 
   constructor(
+    public loadersService: LoadersService,
     public sceneService: SceneService,
     private artworksService: ArtworksService,
     private framesService: ArtworkFramesService,
-    public loadersService: LoadersService,
     private ui: UIService,
-    private ngZone: NgZone,
   ) { }
 
   // Init the WebXR scene with Artworks
@@ -51,7 +51,6 @@ export class GalleryComponent implements OnInit {
     // Model for Floor
     const model = this.loadersService.loadModel( {
       path: "assets/models/VRGallery0110NoFloorTexture.glb",
-
       scene: this.sceneService.scene,
       onLoadProgress: this.onLoadProgress.bind( this ),
       onLoadCB: () => {

@@ -1,10 +1,9 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
 
-import { LoadingManager, Material, Mesh, MeshStandardMaterial, Object3D, RepeatWrapping, SRGBColorSpace, Scene, TextureLoader, Vector2 } from 'three';
+import { LoadingManager, Material, MeshStandardMaterial, RepeatWrapping, SRGBColorSpace, Scene, TextureLoader, Vector2 } from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-import { DebugService } from './debug.service';
 import { MaterialsService } from './materials.service';
 
 @Injectable( {
@@ -20,7 +19,6 @@ export class LoadersService {
 
 
   constructor(
-    private debugService: DebugService,
     private materialsService: MaterialsService ) {
     this.loadingManager.onStart = ( url: string, itemsLoaded: number, itemsTotal: number ) => {
       this.onStart( url, itemsLoaded, itemsTotal );
@@ -54,23 +52,19 @@ export class LoadersService {
       ops.path,
       ( gltf ) => {
         let meshesCount = 0;
-        // console.log( 'Mesh Count: ', gltf.meshes?.length );
 
         const model = gltf.scene;
-        // console.log( 'Material Count: ', model );
         model.position.z = -0;
         model.scale.set( 3, 3, 3 ); // TODO: scale on blender
         let material: Material = this.materialsService.getMeshPhysicalMaterial();
-        model.traverse( ( obj: Object3D ) => {
+        model.traverse( ( obj: any ) => {
 
-          // @ts-ignore
           if ( obj.isMesh ) {
             meshesCount += 1;
             if ( obj.name == 'Floor' ) {
               material = this.createFloor();
             }
 
-            // @ts-ignore
             obj.material = material;
 
             obj.castShadow = true;
@@ -78,23 +72,13 @@ export class LoadersService {
             obj.castShadow = true;
             obj.receiveShadow = true;
 
-            // @ts-ignore
             if ( obj.material.map ) { obj.material.map.anisotropy = 16; }
           }
 
-          // @ts-ignore
-          // this.debugService.addToDebug({ obj: obj.material, key: 'clearcoat', min: 0, max: 1 });
-          // @ts-ignore
-          // this.debugService.addToDebug({ obj: material, key: 'clearcoatRoughness', min: 0, max: 1, precision: 0.1 });
-          // // @ts-ignore
-          // this.debugService.addToDebug({ obj: material, key: 'metalness', min: 0, max: 1, precision: 0.1 });
-          // // @ts-ignore
-          // this.debugService.addToDebug({ obj: material, key: 'roughness', min: 0, max: 1, precision: 0.1 });
         } );
 
         ops.scene.add( model );
         ops.onLoadCB();
-        // console.log( 'Meshes Count: ', meshesCount );
       },
       ( xhr: any ) => { ops.onLoadProgress( xhr ); },
       ( err ) => {
