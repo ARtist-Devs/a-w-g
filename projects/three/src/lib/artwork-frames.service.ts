@@ -166,9 +166,8 @@ export class ArtworkFramesService {
   }
 
   animateFrameColors ( f: any, colors?: any ) {
-    let time = 5000;
 
-    console.log( 'Colors ', colors );
+    let time = 6000;
 
     colors.forEach( ( color: Color, i: number ) => {
       const tween = new TWEEN.Tween( f.material.color );
@@ -177,11 +176,20 @@ export class ArtworkFramesService {
       tween.to(
         colors[i],
         time
-      ).delay( ( i + 1 ) * time );
+      )
+        // .onEveryStart( color => {
+        //   console.log( 'Start ', color, colors[i] );
+        //   // f.material.color.set( colors[i - 1] );
+        // } )
+        // .startFromCurrentValues()
+        // .onUpdate( ( color ) => {
+        //   console.log( 'Update ', color, f.material.color );
+        // } )
+        .delay( ( i + 1 ) * time );
 
-      tween.repeatDelay( colors.length * time );
-      tween.repeat( Infinity );
-      tween.start( time, true );
+      // tween.repeatDelay( colors.length * time );
+      // tween.repeat( Infinity );
+      tween.start( undefined, true );
     } );
   }
 
