@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 
 import gsap from 'gsap';
 import { BoxGeometry, Color, CylinderGeometry, Group, InstancedMesh, MathUtils, Matrix4, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3, Material, Mesh } from 'three';
-import * as  TWEEN from 'three/examples/jsm/libs/tween.module';
+
 import { Artwork } from './artwork';
 import { LightsService } from './lights.service';
 import { LoadersService } from './loaders.service';
 import { UIService } from './ui.service';
+import { animate, easeInOut } from 'popmotion';
+import * as THREE from 'three';
 
 @Injectable( {
   providedIn: 'platform'
@@ -123,27 +125,7 @@ export class ArtworkFramesService {
     moreInfoPanel.rotateY( -72 );//TODO: look at the angle it is created
     frameGroup.add( moreInfoPanel, buttonsPanel );
 
-    // this.frames.children.forEach( ( frame: any, i: number ) => {
-    //   const n = Math.round( Math.random() * this.artworks[i].colors.length );
-    //   const ranCol = new Color( 0xffffff );
-    //   const col = this.artworks[i].colors[n] || ranCol;
-    //   console.log( 'Color ', col, n );
-    //   const tween = new TWEEN.Tween( frame.children[0].material.color );
-    //   // .to(
-    //   //   // @ts-ignore
-    //   //   col,
-    //   //   1000
-    //   // );
-    //   this.tweens.push( tween );
-    //   // this.sceneService.renderFunctions.push( () => tween.update() );
-
-    //   // Target color
-    //   // easing: TWEEN.Easing.Cubic.In, // Easing function
-    //   // duration: 1000 // Duration in milliseconds
-
-    //   // this.sceneService.renderFunctions.push( this.ui.update );
-    // } );
-    this.animateFrameColors( frameMesh, artwork.colors );
+    this.animateFrameColor( frameMesh, artwork.colors );
     return frameGroup;
   }
 
@@ -165,31 +147,17 @@ export class ArtworkFramesService {
 
   }
 
-  animateFrameColors ( f: any, colors?: any ) {
-
-    let time = 6000;
-
-    colors.forEach( ( color: Color, i: number ) => {
-      const tween = new TWEEN.Tween( f.material.color );
-      tween.repeat( Infinity );
-      tween.easing( TWEEN.Easing.Circular.InOut );
-      tween.to(
-        colors[i],
-        time
-      )
-        // .onEveryStart( color => {
-        //   console.log( 'Start ', color, colors[i] );
-        //   // f.material.color.set( colors[i - 1] );
-        // } )
-        // .startFromCurrentValues()
-        // .onUpdate( ( color ) => {
-        //   console.log( 'Update ', color, f.material.color );
-        // } )
-        .delay( ( i + 1 ) * time );
-
-      // tween.repeatDelay( colors.length * time );
-      // tween.repeat( Infinity );
-      tween.start( undefined, true );
+  animateFrameColor ( frameMesh: any, colors: any, time?: number ) {
+    const duration = ( time || 6000 ) * colors.length;
+    // console.log( 'frameMesh: any, colors: any ', frameMesh, colors );
+    // Animation
+    animate( {
+      to: colors,
+      ease: easeInOut,
+      duration: duration,
+      onUpdate: latest => {
+        frameMesh.material.color.set( new THREE.Color( latest ) );
+      }
     } );
   }
 

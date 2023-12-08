@@ -1,17 +1,16 @@
 import { Injectable, NgZone } from '@angular/core';
 
 import { ACESFilmicToneMapping, CineonToneMapping, Clock, Color, CustomToneMapping, Fog, LinearToneMapping, NoToneMapping, Object3D, PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, Scene, SpotLight, Vector2, WebGLRenderer } from 'three';
-import * as  TWEEN from 'three/examples/jsm/libs/tween.module';
 
-import { CameraService } from './camera.service';
-import { ControllerService } from './controller.service';
+import Stats from 'three/examples/jsm/libs/stats.module';
+import { GPUStatsPanel } from 'three/examples/jsm/utils/GPUStatsPanel';
 import { XRButton } from 'three/examples/jsm/webxr/XRButton';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
+import { CameraService } from './camera.service';
+import { ControllerService } from './controller.service';
 import { InteractionsService } from './interactions.service';
 import { LightsService } from './lights.service';
 import { sceneDefaults } from './scene.config';
-import Stats from 'three/examples/jsm/libs/stats.module';
-import { GPUStatsPanel } from 'three/examples/jsm/utils/GPUStatsPanel';
 
 const stats = new Stats();
 @Injectable( {
@@ -202,12 +201,9 @@ export class SceneService {
 
     // update camera
     this.cameraService.updateCamera( { camera: this.camera, scene: this.scene } );
-    TWEEN.update();
 
     // run renderFunctions
     this.renderFunctions.forEach( func => func( delta ) );
-
-    TWEEN.update( delta );
 
     // render
     this.renderer.render( this.scene, this.camera );

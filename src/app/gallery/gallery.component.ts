@@ -4,8 +4,6 @@ import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, Writ
 import { Artwork } from 'projects/three/src/lib/artwork';
 import { ArtworkFramesService, LoadersService, SceneService, UIService } from 'projects/three/src/public-api';
 import { ArtworksService } from '../artworks.service';
-import * as  TWEEN from 'three/examples/jsm/libs/tween.module';
-import { Color } from 'three';
 
 @Component( {
   selector: 'art-gallery',
@@ -24,7 +22,6 @@ export class GalleryComponent implements OnInit {
 
   private buttons: any[];
   private focused = 0;
-  tweens: any[] = [];
 
   private selectedArtwork: WritableSignal<Artwork>;
   @ViewChild( 'canvas', { static: true } )
