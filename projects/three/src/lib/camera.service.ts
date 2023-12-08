@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { animate, easeInOut } from 'popmotion';
+import { animate, easeInOut, easeOut } from 'popmotion';
 import { Euler, MathUtils, Object3D, PerspectiveCamera, Vector3 } from 'three';
 
 @Injectable( {
@@ -39,7 +39,7 @@ export class CameraService {
       from: p,
       to: new Vector3( x, y, z ),
       duration: duration * 1000,
-      ease: easeInOut,
+      ease: easeOut,
       onUpdate: latest => {
         p.x = latest.x;
         p.y = latest.y;

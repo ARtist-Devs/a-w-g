@@ -137,7 +137,7 @@ export class ArtworkFramesService {
     frameGroup.add( colorButtons );
 
     // Calling the frame color animation for the first time
-    this.animateFrameColor( frameMesh, artwork.colors, artwork.colors.length * this.colorAnimationDuration );
+    this.animateFrameColor( frameMesh, artwork.colors, artwork.colors.length * this.colorAnimationDuration, 2 );
     return frameGroup;
 
   }
@@ -163,7 +163,7 @@ export class ArtworkFramesService {
       mesh.addEventListener( 'click', () => {
 
         frameMesh.userData.playback.stop();
-        this.animateFrameColor( frameMesh, c, 3000 );
+        this.animateFrameColor( frameMesh, c, 1000 );
 
       } );
     }
@@ -192,7 +192,7 @@ export class ArtworkFramesService {
 
   }
 
-  animateFrameColor ( frameMesh: any, colors: any, time?: number ) {
+  animateFrameColor ( frameMesh: any, colors: any, time?: number, repeat?: number ) {
     const clr = frameMesh.material.color;
     const f = clr.getStyle();
     const duration = time || this.colorAnimationDuration;
@@ -202,10 +202,12 @@ export class ArtworkFramesService {
       from: f,
       to: colors,
       ease: easeInOut,
-      duration: duration,
+      duration: duration / 2,
       onUpdate: latest => {
         clr.set( new Color( latest ) );
-      }
+      },
+      repeat: repeat || 0,
+      repeatType: 'reverse',
     } );
 
     frameMesh.userData['playback'] = playback;
