@@ -17,7 +17,7 @@ export class ArtworkFramesService {
 
   angle = 0;
   artworksWithLocation: Artwork[];
-  colorAnimationDuration: number = 6000;
+  colorAnimationDuration: number = 5500;
   colorButtonGeo = new CylinderGeometry( 0.07, 0.07, 0.1, 16, 1 );
   frameDistance = 7;
   frames: Group[] = [];
@@ -163,7 +163,7 @@ export class ArtworkFramesService {
       mesh.addEventListener( 'click', () => {
 
         frameMesh.userData.playback.stop();
-        this.animateFrameColor( frameMesh, c, 1000 );
+        this.animateFrameColor( frameMesh, c, 500 );
 
       } );
 
@@ -226,7 +226,7 @@ export class ArtworkFramesService {
       from: f,
       to: colors,
       ease: easeInOut,
-      duration: duration / 2,
+      duration: duration,
       onUpdate: latest => {
         clr.set( new Color( latest ) );
       },
