@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 
 import gsap from 'gsap';
-import { BoxGeometry, Color, CylinderGeometry, Group, InstancedMesh, MathUtils, Matrix4, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3, Material, Mesh } from 'three';
+import { BoxGeometry, CylinderGeometry, Group, InstancedMesh, MathUtils, Matrix4, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3, Mesh, Color } from 'three';
 
 import { Artwork } from './artwork';
 import { LightsService } from './lights.service';
 import { LoadersService } from './loaders.service';
 import { UIService } from './ui.service';
 import { animate, easeInOut } from 'popmotion';
-import * as THREE from 'three';
+import { DebugService } from './debug.service';
+import { InteractionManager } from 'three.interactive';
+import { InteractionsService } from './interactions.service';
 
 @Injectable( {
   providedIn: 'platform'
@@ -17,23 +19,28 @@ export class ArtworkFramesService {
 
   angle = 0;
   artworksWithLocation: Artwork[];
+  colorAnimationDuration: number = 6000;
+  colorButtonGeo = new CylinderGeometry( 0.07, 0.07, 0.1, 16, 1 );
   frameDistance = 7;
   frames: Group[] = [];
   focusPosition: any;
   focusFactor = 4;
   // radiusTop: Float, radiusBottom : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float
-  frameGeometry: any = new CylinderGeometry( 0.8, 0.7, 0.1, 36, 5 );
+  frameGeometry: any = new CylinderGeometry( 0.8, 0.7, 0.1, 64, 5 );
 
   framesGroup = new Group();
 
   locations: any[] = [];
   matrix = new Matrix4();
+  phongMaterial = new MeshPhongMaterial();
 
 
   constructor(
+    private interactionsService: InteractionsService,
     private lightsService: LightsService,
     private loadersService: LoadersService,
     private uiService: UIService,
+    private debug: DebugService,
   ) { }
 
   createFrames ( artworks: Artwork[] = [], btns: any[] = [], cb?: Function ): Group {
@@ -87,13 +94,15 @@ export class ArtworkFramesService {
     const texture = this.loadersService.loadTexture( artwork.textureUrl );
     texture.colorSpace = SRGBColorSpace;
     texture.mapping = UVMapping;
-    const canvasMaterial = new MeshPhongMaterial( { map: texture, color: 0xffffff } );
+    const canvasMaterial = this.phongMaterial.clone();
+    canvasMaterial.map = texture;
 
     // Create the frame & canvas mesh
-    const frameMaterial = new MeshPhongMaterial( { color: artwork.colors[0] } );
+    const frameMaterial = this.phongMaterial.clone();
+    frameMaterial.color.set( artwork.colors[0] );
     frameMaterial.needsUpdate = true;
     const frameMesh = new Mesh( this.frameGeometry, frameMaterial );
-    // TODO: 
+
 
     const canvasMesh = new InstancedMesh( canvasGeometry, canvasMaterial, 5 );
     frameMesh.name = `${artwork.title} frame mesh` || 'frame';
@@ -125,8 +134,51 @@ export class ArtworkFramesService {
     moreInfoPanel.rotateY( -72 );//TODO: look at the angle it is created
     frameGroup.add( moreInfoPanel, buttonsPanel );
 
+    // Color Buttons
+    const colorButtons = this.createCollorsButtons( artwork.colors, frameMesh );
+    frameGroup.add( colorButtons );
+
     this.animateFrameColor( frameMesh, artwork.colors );
     return frameGroup;
+
+  }
+
+  createCollorsButtons ( colors: string[], frameMesh: any ) {
+
+    const colorButtonsGroup: Group = new Group;
+    const r = 1;
+    const l = colors.length;
+
+    for ( let i = 0; i < l; i++ ) {
+      const material = this.phongMaterial.clone();
+      let c = colors[i];
+      material.color.set( c );
+      const mesh = new Mesh( this.colorButtonGeo, material );
+      const theta = 2 * Math.PI * i / ( l * 2 );
+      mesh.position.z = 0;
+      mesh.rotation.x = Math.PI / 2;
+      mesh.position.y = r * Math.sin( theta );
+      mesh.position.x = r * Math.cos( theta );//-1;
+      colorButtonsGroup.add( mesh );
+      this.interactionsService.addToInteractions( mesh );
+      mesh.addEventListener( 'click', ( e ) => {
+        console.log( 'Clicked ', c, frameMesh );
+        // this.animateFrameColor( frameMesh, c );
+        animate( {
+          to: c,
+          ease: easeInOut,
+          duration: 6000,
+          onUpdate: latest => {
+            frameMesh.material.color.set( new Color( latest ) );
+          }
+        } );
+      } );
+    }
+
+    colorButtonsGroup.rotation.z = Math.PI / 4;
+
+    return colorButtonsGroup;
+
   }
 
   focusFrame ( i: number ) {
@@ -148,17 +200,21 @@ export class ArtworkFramesService {
   }
 
   animateFrameColor ( frameMesh: any, colors: any, time?: number ) {
-    const duration = ( time || 6000 ) * colors.length;
-    // console.log( 'frameMesh: any, colors: any ', frameMesh, colors );
+
+    // If colors is an array, multiply the duration with the colors.length
+    const duration = 6000; //colors.length > 1 ? ( time || this.colorAnimationDuration ) * colors.length : ( time || this.colorAnimationDuration );
+    console.log( 'duration ', duration, colors );
+
     // Animation
     animate( {
       to: colors,
       ease: easeInOut,
       duration: duration,
       onUpdate: latest => {
-        frameMesh.material.color.set( new THREE.Color( latest ) );
+        frameMesh.material.color.set( new Color( latest ) );
       }
     } );
+
   }
 
   // TODO: use Three animation system?
