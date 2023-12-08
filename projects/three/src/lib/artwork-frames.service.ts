@@ -7,7 +7,7 @@ import { Artwork } from './artwork';
 import { LightsService } from './lights.service';
 import { LoadersService } from './loaders.service';
 import { UIService } from './ui.service';
-import { animate, easeInOut } from 'popmotion';
+import { animate, easeIn, easeInOut } from 'popmotion';
 import { DebugService } from './debug.service';
 import { InteractionManager } from 'three.interactive';
 import { InteractionsService } from './interactions.service';
@@ -163,15 +163,20 @@ export class ArtworkFramesService {
       this.interactionsService.addToInteractions( mesh );
       mesh.addEventListener( 'click', ( e ) => {
         console.log( 'Clicked ', c, frameMesh );
+        // frameMesh.material.color.set( new Color( c ) );
+        frameMesh.userData.playback.stop();
+        frameMesh.material.color.set( new Color( c ) );
         // this.animateFrameColor( frameMesh, c );
-        animate( {
-          to: c,
-          ease: easeInOut,
-          duration: 6000,
-          onUpdate: latest => {
-            frameMesh.material.color.set( new Color( latest ) );
-          }
-        } );
+        // animate( {
+        //   to: c,
+        //   ease: easeIn,
+        //   duration: 6000,
+        //   onUpdate: latest => {
+        //     console.log( 'Latest ', latest );
+        //     frameMesh.material.color.set( new Color( latest ) );
+        //   }
+        // } );
+
       } );
     }
 
@@ -201,12 +206,12 @@ export class ArtworkFramesService {
 
   animateFrameColor ( frameMesh: any, colors: any, time?: number ) {
 
-    // If colors is an array, multiply the duration with the colors.length
-    const duration = 6000; //colors.length > 1 ? ( time || this.colorAnimationDuration ) * colors.length : ( time || this.colorAnimationDuration );
-    console.log( 'duration ', duration, colors );
+    // If colors is an array, multiply the duration with the colors.length TODO: it doesn't work for single color because string has length
+    const duration = colors.length > 1 ? ( time || this.colorAnimationDuration ) * colors.length : ( time || this.colorAnimationDuration );
+    // console.log( 'duration ', duration, colors );
 
     // Animation
-    animate( {
+    const playback = animate( {
       to: colors,
       ease: easeInOut,
       duration: duration,
@@ -214,6 +219,8 @@ export class ArtworkFramesService {
         frameMesh.material.color.set( new Color( latest ) );
       }
     } );
+
+    frameMesh.userData['playback'] = playback;
 
   }
 
