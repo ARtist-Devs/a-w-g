@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import gsap from 'gsap';
-import { BoxGeometry, CylinderGeometry, Group, InstancedMesh, MathUtils, Matrix4, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3, Mesh, Color } from 'three';
+import { BoxGeometry, Color, CylinderGeometry, Group, InstancedMesh, MathUtils, Matrix4, Mesh, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
 
+import { animate, easeInOut } from 'popmotion';
 import { Artwork } from './artwork';
+import { DebugService } from './debug.service';
+import { InteractionsService } from './interactions.service';
 import { LightsService } from './lights.service';
 import { LoadersService } from './loaders.service';
 import { UIService } from './ui.service';
-import { animate, easeIn, easeInOut } from 'popmotion';
-import { DebugService } from './debug.service';
-import { InteractionManager } from 'three.interactive';
-import { InteractionsService } from './interactions.service';
 
 @Injectable( {
   providedIn: 'platform'
@@ -138,7 +136,8 @@ export class ArtworkFramesService {
     const colorButtons = this.createCollorsButtons( artwork.colors, frameMesh );
     frameGroup.add( colorButtons );
 
-    this.animateFrameColor( frameMesh, artwork.colors );
+    // Calling the frame color animation for the first time
+    this.animateFrameColor( frameMesh, artwork.colors, artwork.colors.length * this.colorAnimationDuration );
     return frameGroup;
 
   }
@@ -161,21 +160,10 @@ export class ArtworkFramesService {
       mesh.position.x = r * Math.cos( theta );//-1;
       colorButtonsGroup.add( mesh );
       this.interactionsService.addToInteractions( mesh );
-      mesh.addEventListener( 'click', ( e ) => {
-        console.log( 'Clicked ', c, frameMesh );
-        // frameMesh.material.color.set( new Color( c ) );
+      mesh.addEventListener( 'click', () => {
+
         frameMesh.userData.playback.stop();
-        frameMesh.material.color.set( new Color( c ) );
-        // this.animateFrameColor( frameMesh, c );
-        // animate( {
-        //   to: c,
-        //   ease: easeIn,
-        //   duration: 6000,
-        //   onUpdate: latest => {
-        //     console.log( 'Latest ', latest );
-        //     frameMesh.material.color.set( new Color( latest ) );
-        //   }
-        // } );
+        this.animateFrameColor( frameMesh, c, 3000 );
 
       } );
     }
@@ -205,18 +193,18 @@ export class ArtworkFramesService {
   }
 
   animateFrameColor ( frameMesh: any, colors: any, time?: number ) {
-
-    // If colors is an array, multiply the duration with the colors.length TODO: it doesn't work for single color because string has length
-    const duration = colors.length > 1 ? ( time || this.colorAnimationDuration ) * colors.length : ( time || this.colorAnimationDuration );
-    // console.log( 'duration ', duration, colors );
+    const clr = frameMesh.material.color;
+    const f = clr.getStyle();
+    const duration = time || this.colorAnimationDuration;
 
     // Animation
     const playback = animate( {
+      from: f,
       to: colors,
       ease: easeInOut,
       duration: duration,
       onUpdate: latest => {
-        frameMesh.material.color.set( new Color( latest ) );
+        clr.set( new Color( latest ) );
       }
     } );
 
@@ -227,9 +215,17 @@ export class ArtworkFramesService {
   // TODO: use Three animation system?
   moveFrame ( f: any, p: any ) {
 
-    gsap.to( f.position, {
-      // @ts-ignore
-      x: p.x, y: p.y, z: p.z, duration: 2.5
+    const to = new Vector3( p.x, p.y, p.z );
+    animate( {
+      from: f.position,
+      to: to,
+      duration: 2500,
+      ease: easeInOut,
+      onUpdate: latest => {
+        f.position.x = latest.x;
+        f.position.y = latest.y;
+        f.position.z = latest.z;
+      }
     } );
 
   }
@@ -238,7 +234,13 @@ export class ArtworkFramesService {
 
     // angle between frames and the current group rotation
     const y = MathUtils.degToRad( angle ) + this.framesGroup.rotation.y;
-    gsap.to( this.framesGroup.rotation, { y: y, duration: 1 } );
+    animate( {
+      from: this.framesGroup.rotation.y,
+      to: y,
+      duration: 1000,
+      ease: easeInOut,
+      onUpdate: latest => this.framesGroup.rotation.y = latest
+    } );
 
   }
-};
+};;;;
