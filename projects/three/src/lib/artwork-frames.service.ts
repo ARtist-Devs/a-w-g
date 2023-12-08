@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { BoxGeometry, Color, CylinderGeometry, Group, InstancedMesh, MathUtils, Matrix4, Mesh, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
 
-import { animate, easeInOut } from 'popmotion';
+import { animate, easeIn, easeInOut } from 'popmotion';
 import { Artwork } from './artwork';
 import { DebugService } from './debug.service';
 import { InteractionsService } from './interactions.service';
@@ -165,6 +165,30 @@ export class ArtworkFramesService {
         frameMesh.userData.playback.stop();
         this.animateFrameColor( frameMesh, c, 1000 );
 
+      } );
+
+      mesh.addEventListener( 'mouseover', ( event ) => {
+        animate( {
+          from: 1,
+          to: 1.2,
+          ease: easeIn,
+          duration: 400,
+          onUpdate: latest => {
+            mesh.scale.set( latest, latest, latest );
+          },
+        } );
+      } );
+
+      mesh.addEventListener( 'mouseout', ( event ) => {
+        animate( {
+          from: 1.2,
+          to: 1,
+          ease: easeIn,
+          duration: 400,
+          onUpdate: latest => {
+            mesh.scale.set( latest, latest, latest );
+          },
+        } );
       } );
     }
 
