@@ -11,6 +11,7 @@ import { ControllerService } from './controller.service';
 import { InteractionsService } from './interactions.service';
 import { LightsService } from './lights.service';
 import { sceneDefaults } from './scene.config';
+import { WebXRService } from './webxr.service';
 
 const stats = new Stats();
 @Injectable( {
@@ -64,6 +65,7 @@ export class SceneService {
     private ngZone: NgZone,
     private interactionsService: InteractionsService,
     private lightsService: LightsService,
+    private webXRService: WebXRService,
   ) { }
 
   initScene ( canvas: HTMLCanvasElement, options?: any ) {
@@ -154,6 +156,8 @@ export class SceneService {
 
     // Animate camera
     this.cameraService.moveCamera( 0, 1.6, 0.001, 10 );
+    this.webXRService.checkXRSupport( { renderer: this.renderer, camera: this.camera, scene: this.scene } );
+
   }
 
 

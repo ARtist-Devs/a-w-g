@@ -4,7 +4,7 @@ import { BoxGeometry, Color, CylinderGeometry, Group, InstancedMesh, MathUtils, 
 
 import { animate, easeIn, easeInOut } from 'popmotion';
 import { Artwork } from './artwork';
-import { DebugService } from './debug.service';
+// import { DebugService } from './debug.service';
 import { InteractionsService } from './interactions.service';
 import { LightsService } from './lights.service';
 import { LoadersService } from './loaders.service';
@@ -38,7 +38,7 @@ export class ArtworkFramesService {
     private lightsService: LightsService,
     private loadersService: LoadersService,
     private uiService: UIService,
-    private debug: DebugService,
+    // private debug: DebugService,
   ) { }
 
   createFrames ( artworks: Artwork[] = [], btns: any[] = [], cb?: Function ): Group {
@@ -204,6 +204,7 @@ export class ArtworkFramesService {
           },
         } );
       } );
+
       mesh.addEventListener( 'touchend', ( event ) => {
         animate( {
           from: 1.2,
@@ -242,6 +243,7 @@ export class ArtworkFramesService {
   }
 
   animateFrameColor ( frameMesh: any, colors: any, time?: number, repeat?: number ) {
+
     const clr = frameMesh.material.color;
     const f = clr.getStyle();
     const duration = time || this.colorAnimationDuration;
@@ -294,4 +296,5 @@ export class ArtworkFramesService {
     } );
 
   }
-};;;;
+
+}
