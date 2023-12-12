@@ -63,6 +63,7 @@ export class ArtworkFramesService {
    * @returns frame with location
    */
   placeFrame ( frame: Group, i: number = 0 ) {
+
     const alpha = i * this.angle;
     const x = Math.sin( alpha ) * this.frameDistance;// 0 - 1
     const z = -Math.cos( alpha ) * this.frameDistance;// 0 - 0
@@ -72,6 +73,7 @@ export class ArtworkFramesService {
     frame.userData['originalPosition'] = frame.position.clone();
 
     return frame;
+
   }
 
   /**
@@ -179,7 +181,30 @@ export class ArtworkFramesService {
         } );
       } );
 
+      mesh.addEventListener( 'touchstart', ( event ) => {
+        animate( {
+          from: 1,
+          to: 1.2,
+          ease: easeIn,
+          duration: 400,
+          onUpdate: latest => {
+            mesh.scale.set( latest, latest, latest );
+          },
+        } );
+      } );
+
       mesh.addEventListener( 'mouseout', ( event ) => {
+        animate( {
+          from: 1.2,
+          to: 1,
+          ease: easeIn,
+          duration: 400,
+          onUpdate: latest => {
+            mesh.scale.set( latest, latest, latest );
+          },
+        } );
+      } );
+      mesh.addEventListener( 'touchend', ( event ) => {
         animate( {
           from: 1.2,
           to: 1,

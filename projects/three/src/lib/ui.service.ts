@@ -15,7 +15,6 @@ export class UIService {
   private FontJSON = 'assets/fonts/Roboto-msdf.json';
   private FontImage = 'assets/fonts/Roboto-msdf.png';
   private container: any;
-  private votes: any;
   private description: any;
   private title: any;
 
