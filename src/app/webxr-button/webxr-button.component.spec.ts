@@ -1,21 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { WebXRButtonComponent } from './webxr-button.component';
+import { WebXRButtonComponent } from "./webxr-button.component";
 
-describe('WebXRButtonComponent', () => {
-  let component: WebXRButtonComponent;
-  let fixture: ComponentFixture<WebXRButtonComponent>;
+describe("WebXRButtonComponent", () => {
+	let component: WebXRButtonComponent;
+	let fixture: ComponentFixture<WebXRButtonComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [WebXRButtonComponent]
-    });
-    fixture = TestBed.createComponent(WebXRButtonComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(() => {
+		TestBed.configureTestingModule({
+			declarations: [WebXRButtonComponent],
+		});
+		fixture = TestBed.createComponent(WebXRButtonComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it("should create", () => {
+		expect(component).toBeTruthy();
+	});
 });

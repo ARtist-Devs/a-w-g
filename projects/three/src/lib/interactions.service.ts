@@ -87,7 +87,7 @@ export class InteractionsService {
 
       this.raycaster.ray.origin.setFromMatrixPosition( ops.controller.matrixWorld );
       this.raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( this.tempMatrix );
-      console.log( 'setting ray from controller ', this.raycaster.ray.origin, this.raycaster.ray.direction );
+      // console.log( 'setting ray from controller ', this.raycaster.ray.origin, this.raycaster.ray.direction );
 
     }
 

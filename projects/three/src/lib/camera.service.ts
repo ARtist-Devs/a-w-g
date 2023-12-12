@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import gsap from 'gsap';
-import { MathUtils, Object3D, PerspectiveCamera } from 'three';
+import { animate, easeInOut, easeOut } from 'popmotion';
+import { Euler, MathUtils, Object3D, PerspectiveCamera, Vector3 } from 'three';
 
 @Injectable( {
   providedIn: 'platform'
@@ -30,21 +30,40 @@ export class CameraService {
     return this.dolly;
   }
 
-  moveDolly ( x: Number, y: Number, z: Number ) { }
+  // moveDolly ( x: number, y: number, z: number, duration: number ) { }
 
-  moveCamera ( x: Number, y: Number, z: Number, duration: Number ) {
-    // @ts-ignore
-    gsap.to( this.camera.position, {
-      // @ts-ignore
-      x: x, y: y, z: z, duration: duration
+  moveCamera ( x: number, y: number, z: number, duration: number ) {
+
+    const p = this.camera.position;
+    animate( {
+      from: p,
+      to: new Vector3( x, y, z ),
+      duration: duration * 1000,
+      ease: easeOut,
+      onUpdate: latest => {
+        p.x = latest.x;
+        p.y = latest.y;
+        p.z = latest.z;
+      }
     } );
+
   }
 
-  rotateCamera ( x: Number, y: Number, z: Number ) {
-    gsap.to( this.camera.rotation, {
-      // @ts-ignore
-      x: x, y: y, z: z, duration: 3.2
+  rotateCamera ( x: number, y: number, z: number ) {
+
+    const p = this.camera.rotation;
+    animate( {
+      from: p,
+      to: new Euler( x, y, z ),
+      duration: 3200,
+      ease: easeInOut,
+      onUpdate: latest => {
+        p.x = latest.x;
+        p.y = latest.y;
+        p.z = latest.z;
+      }
     } );
+
   }
 
   animateCamera ( ops?: any ) {
