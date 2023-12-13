@@ -16,11 +16,13 @@ export class LoadersService {
   private textureLoader: TextureLoader = new TextureLoader( this.loadingManager );
   private dracoLoader = new DRACOLoader( this.loadingManager );
   floorTexture: any;
+  loadStartTime = 0;
 
 
   constructor(
     private materialsService: MaterialsService ) {
     this.loadingManager.onStart = ( url: string, itemsLoaded: number, itemsTotal: number ) => {
+      this.loadStartTime = Date.now();
       this.onStart( url, itemsLoaded, itemsTotal );
     };
     this.loadingManager.onProgress = ( url: string, itemsLoaded: number, itemsTotal: number ) => {
@@ -32,7 +34,13 @@ export class LoadersService {
 
       console.log( 'Loading complete!' );
       this.loadingProgress.set( 100 );
-
+      const time = Date.now();
+      const elapsedSec = ( time - this.loadStartTime ) / 1000;
+      console.log( 'Loading took ', time - this.loadStartTime );
+      console.log( `seconds elapsed = ${elapsedSec}` );
+      gtag( 'event', 'loaded', {
+        'time': elapsedSec
+      } );
     };
 
     this.loadingManager.onError = ( url: string ) => {
@@ -51,6 +59,7 @@ export class LoadersService {
     this.gltfLoader.load(
       ops.path,
       ( gltf ) => {
+
         let meshesCount = 0;
 
         const model = gltf.scene;
@@ -79,10 +88,14 @@ export class LoadersService {
 
         ops.scene.add( model );
         ops.onLoadCB();
+
       },
       ( xhr: any ) => { ops.onLoadProgress( xhr ); },
       ( err ) => {
         console.error( 'Error loading model' );
+        gtag( 'event', 'error', {
+          'type': `error loading ${ops.path}`
+        } );
       } );
 
   };

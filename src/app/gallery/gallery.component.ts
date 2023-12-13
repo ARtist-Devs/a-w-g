@@ -161,6 +161,9 @@ export class GalleryComponent implements OnInit {
 		}
 		this.focused = i;
 		this.framesService.focusFrame( i );
+		gtag( 'event', 'focus', {
+			'artwork': this.artworks[i].title,
+		} );
 	}
 
 	upvoteSelection ( i: number ): void {
@@ -168,6 +171,9 @@ export class GalleryComponent implements OnInit {
 		const name = `${i} Text`;
 		const textMesh = this.frames.children[i].getObjectByName( name );
 		this.ui.updateVote( { votes: this.artworks[i].votes, text: textMesh } );
+		gtag( 'event', 'upvote', {
+			'artwork': this.artworks[i].title,
+		} );
 	}
 
 }

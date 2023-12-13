@@ -140,7 +140,7 @@ export class ArtworkFramesService {
     frameGroup.add( moreInfoPanel, buttonsPanel );
 
     // Color Buttons
-    const colorButtons = this.createCollorsButtons( artwork.colors, frameMesh );
+    const colorButtons = this.createCollorsButtons( artwork.colors, frameMesh, artwork.title );
     frameGroup.add( colorButtons );
 
     // Calling the frame color animation for the first time
@@ -150,7 +150,7 @@ export class ArtworkFramesService {
 
   }
 
-  createCollorsButtons ( colors: string[], frameMesh: any ) {
+  createCollorsButtons ( colors: string[], frameMesh: any, artwork?: string ) {
 
     const colorButtonsGroup: Group = new Group;
     const r = 1;
@@ -183,6 +183,11 @@ export class ArtworkFramesService {
         frameMesh.userData.playback.stop();
         this.animateFrameColor( frameMesh, c, 500 );
 
+        gtag( 'event', 'clicked', {
+          'artwork': artwork,
+          'color': c
+        } );
+
       } );
 
       mesh.addEventListener( 'mouseover', ( event ) => {
@@ -206,6 +211,12 @@ export class ArtworkFramesService {
           onUpdate: latest => {
             mesh.scale.set( latest, latest, latest );
           },
+        } );
+        frameMesh.userData.playback.stop();
+        this.animateFrameColor( frameMesh, c, 500 );
+        gtag( 'event', 'clicked', {
+          'artwork': artwork,
+          'color': c
         } );
       } );
 
