@@ -127,6 +127,7 @@ export class SceneService {
     const interactionsUpdate = this.interactionsService.initInteractionManager( this.renderer, this.camera, canvas );
     this.renderFunctions.push( interactionsUpdate );
 
+    // Called from the gallery component 
     return this.afterSceneInit.bind( this );
 
   }

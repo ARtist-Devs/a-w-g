@@ -2,8 +2,11 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
+    "cache": {
+      "environment": "all"
+    },
     "packageManager": "yarn",
-    "analytics": false
+    "analytics": true
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -19,7 +22,7 @@
       "prefix": "art",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
             "outputPath": "dist/angular-webxr-gallery",
             "index": "src/index.html",
@@ -61,7 +64,6 @@
             "development": {
               "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
@@ -126,8 +128,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/three/ng-package.json",
-            "scripts": []
+            "project": "projects/three/ng-package.json"
           },
           "configurations": {
             "production": {

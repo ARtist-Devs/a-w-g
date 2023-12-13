@@ -42,8 +42,11 @@ export class ArtworkFramesService {
   ) { }
 
   createFrames ( artworks: Artwork[] = [], btns: any[] = [], cb?: Function ): Group {
+
     this.framesGroup.name = 'Frames Group';
+    // Angle between frames
     this.angle = ( Math.PI * 2 ) / artworks.length;
+
     this.frames = artworks.map( ( artwork, i ) => {
       const f = this.placeFrame( this.createFrame( artwork, btns, i ), i );
       return f;
@@ -53,7 +56,9 @@ export class ArtworkFramesService {
 
     this.framesGroup.position.set( 0, 1.6, 0 );
     this.focusFrame( 0 );
+
     return this.framesGroup;
+
   }
 
   /**
@@ -83,6 +88,7 @@ export class ArtworkFramesService {
    * @returns
    */
   createFrame ( artwork: Artwork, btns: any[] = [], i: number ): Group {
+
     const frameGroup = new Group();
     frameGroup.name = ` ${artwork.title} frame group`;
 
@@ -103,8 +109,7 @@ export class ArtworkFramesService {
     frameMaterial.needsUpdate = true;
     const frameMesh = new Mesh( this.frameGeometry, frameMaterial );
 
-
-    const canvasMesh = new InstancedMesh( canvasGeometry, canvasMaterial, 5 );
+    const canvasMesh = new Mesh( canvasGeometry, canvasMaterial );
     frameMesh.name = `${artwork.title} frame mesh` || 'frame';
     canvasMesh.name = `${artwork.title} canvas mesh` || 'frame canvas';
 
@@ -140,6 +145,7 @@ export class ArtworkFramesService {
 
     // Calling the frame color animation for the first time
     this.animateFrameColor( frameMesh, artwork.colors, artwork.colors.length * this.colorAnimationDuration, 2 );
+
     return frameGroup;
 
   }
@@ -161,7 +167,17 @@ export class ArtworkFramesService {
       mesh.position.y = r * Math.sin( theta );
       mesh.position.x = r * Math.cos( theta );//-1;
       colorButtonsGroup.add( mesh );
+
+
+
+      // Mouse events
       this.interactionsService.addToInteractions( mesh );
+      this.interactionsService.addToColliders( {
+        mesh: mesh, name: 'color button', cb: () => {
+          frameMesh.userData.playback.stop();
+          this.animateFrameColor( frameMesh, c, 500 );
+        }
+      } );
       mesh.addEventListener( 'click', () => {
 
         frameMesh.userData.playback.stop();
