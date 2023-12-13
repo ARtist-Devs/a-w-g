@@ -6,7 +6,7 @@
       "environment": "all"
     },
     "packageManager": "yarn",
-    "analytics": false
+    "analytics": true
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -22,7 +22,7 @@
       "prefix": "art",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
             "outputPath": "dist/angular-webxr-gallery",
             "index": "src/index.html",
@@ -64,7 +64,6 @@
             "development": {
               "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
