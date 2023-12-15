@@ -39,12 +39,21 @@ export class LoadersService {
       console.log( 'Loading took ', time - this.loadStartTime );
       console.log( `seconds elapsed = ${elapsedSec}` );
       gtag( 'event', 'loaded', {
-        'time': elapsedSec
+        'description': `All Assets are loaded in ${elapsedSec} seconds`,
+        'event_category': 'loading',
+        'event_label': 'initial_loading',
+        'value': elapsedSec
       } );
     };
 
     this.loadingManager.onError = ( url: string ) => {
       console.error( 'There was an error loading ' + url );
+      gtag( 'event', 'error_loading', {
+        'description': `Error loading ${url}`,
+        'event_category': 'loading',
+        'event_label': 'loading_error',
+        'non_interaction': true
+      } );
     };
     this.dracoLoader.setDecoderPath( 'https://www.gstatic.com/draco/versioned/decoders/1.5.6/' );
     this.dracoLoader.setDecoderConfig( { type: 'js' } );
@@ -93,8 +102,11 @@ export class LoadersService {
       ( xhr: any ) => { ops.onLoadProgress( xhr ); },
       ( err ) => {
         console.error( 'Error loading model' );
-        gtag( 'event', 'error', {
-          'type': `error loading ${ops.path}`
+        gtag( 'event', 'error_loading_model', {
+          'description': `Error loading ${ops.path}`,
+          'event_category': 'loading',
+          'event_label': 'loading_model_error',
+          'non_interaction': true
         } );
       } );
 
@@ -117,7 +129,19 @@ export class LoadersService {
       map.colorSpace = SRGBColorSpace;
       floorMat.map = map;
       floorMat.needsUpdate = true;
-    } );
+    },
+      undefined,
+      // onError callback
+      function ( err ) {
+        console.error( 'Bump texture failed to load.' );
+        gtag( 'event', 'error', {
+          'description': `Error loading floor difuse texture`,
+          'event_category': 'loading',
+          'event_label': `loading_texture_error`,
+          'non_interaction': true
+        } );
+      }
+    );
 
     this.textureLoader.load( 'assets/textures/hardwood_bump.jpg', function ( map ) {
 
@@ -128,7 +152,19 @@ export class LoadersService {
       floorMat.bumpMap = map;
       floorMat.needsUpdate = true;
 
-    } );
+    },
+      undefined,
+      // onError callback
+      function ( err ) {
+        console.error( 'Bump texture failed to load.' );
+        gtag( 'event', 'error', {
+          'description': `Error loading floor bump texture`,
+          'event_category': 'loading',
+          'event_label': `loading_texture_error`,
+          'non_interaction': true
+        } );
+      }
+    );
 
     this.textureLoader.load( 'assets/textures/hardwood_roughness.jpg', function ( map ) {
 
@@ -139,7 +175,20 @@ export class LoadersService {
       floorMat.roughnessMap = map;
       floorMat.needsUpdate = true;
 
-    } );
+    },
+      undefined,
+      // onError callback
+      function ( err ) {
+        console.error( 'Bump texture failed to load.' );
+        gtag( 'event', 'error', {
+          'description': `Error loading floor roughness texture`,
+          'event_category': 'loading',
+          'event_label': `loading_texture_error`,
+          'non_interaction': true
+        } );
+      }
+    );
+
     return floorMat;
 
   }

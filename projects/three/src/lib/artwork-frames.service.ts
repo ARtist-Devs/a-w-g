@@ -178,17 +178,8 @@ export class ArtworkFramesService {
           this.animateFrameColor( frameMesh, c, 500 );
         }
       } );
-      mesh.addEventListener( 'click', () => {
+      mesh.addEventListener( 'click', () => { this.changeFrameColor( frameMesh, c, artwork ); } );
 
-        frameMesh.userData.playback.stop();
-        this.animateFrameColor( frameMesh, c, 500 );
-
-        gtag( 'event', 'clicked', {
-          'artwork': artwork,
-          'color': c
-        } );
-
-      } );
 
       mesh.addEventListener( 'mouseover', ( event ) => {
         animate( {
@@ -202,23 +193,7 @@ export class ArtworkFramesService {
         } );
       } );
 
-      mesh.addEventListener( 'touchstart', ( event ) => {
-        animate( {
-          from: 1,
-          to: 1.2,
-          ease: easeIn,
-          duration: 400,
-          onUpdate: latest => {
-            mesh.scale.set( latest, latest, latest );
-          },
-        } );
-        frameMesh.userData.playback.stop();
-        this.animateFrameColor( frameMesh, c, 500 );
-        gtag( 'event', 'clicked', {
-          'artwork': artwork,
-          'color': c
-        } );
-      } );
+      mesh.addEventListener( 'touchstart', () => { this.changeFrameColor( frameMesh, c, artwork ); } );
 
       mesh.addEventListener( 'mouseout', ( event ) => {
         animate( {
@@ -248,6 +223,21 @@ export class ArtworkFramesService {
     colorButtonsGroup.rotation.z = Math.PI / 4;
 
     return colorButtonsGroup;
+
+  }
+
+  changeFrameColor ( frameMesh: any, c: any, artwork: any ) {
+
+    frameMesh.userData.playback.stop();
+    this.animateFrameColor( frameMesh, c, 500 );
+
+    gtag( 'event', 'color', {
+      'description': `${artwork} color changed to ${c}`,
+      'artwork': artwork,
+      'event_category': 'frame',
+      'event_label': 'change_color',
+      'color': c
+    } );
 
   }
 
