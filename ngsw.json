@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1702651980761,
+  "timestamp": 1702657577691,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main.a69a20eedb329eba.js",
+        "/main.35357c7de793a4f9.js",
         "/manifest.webmanifest",
         "/polyfills.ac89dd67a2b62f3b.js",
         "/runtime.09456bb83f48fdea.js",
@@ -71,6 +71,7 @@
         "/assets/icons/icon-96x96.png",
         "/assets/images/environment-prod-ts.png",
         "/assets/images/thumbnail.png",
+        "/assets/images/thumbnail.webp",
         "/assets/models/VRGallery0110NoFloorTexture.glb",
         "/assets/models/VRGalleryInnerWalls0110Merge.glb",
         "/assets/textures/76_brushed canvas fabric texture-seamless.jpg",
@@ -125,6 +126,7 @@
     "/assets/icons/icon-96x96.png": "592885efcbfee27e5e20be4fa3043589390d2740",
     "/assets/images/environment-prod-ts.png": "679f3ae951e4dde1f6e644958921952bd3f29f74",
     "/assets/images/thumbnail.png": "99417c89446f0d072f63e27bae1cb106e52af5b5",
+    "/assets/images/thumbnail.webp": "e2061caa41630362f374ad5a3d8c82cb9281f254",
     "/assets/models/VRGallery0110NoFloorTexture.glb": "62317b1eba0ce4b26fb2ffe07166057eaaf51f9f",
     "/assets/models/VRGalleryInnerWalls0110Merge.glb": "288e742f6645adcc7e5036203ba7905ea1372677",
     "/assets/textures/76_brushed canvas fabric texture-seamless.jpg": "432c7bf7254926e5c9ac963950460456588c543c",
@@ -132,8 +134,8 @@
     "/assets/textures/hardwood_diffuse.jpg": "b4defe3ea389f51154e2174ae7842b2d54338db7",
     "/assets/textures/hardwood_roughness.jpg": "f70c7f8f262b08448e075771256588e8c9f2cb88",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/index.html": "ab8d2d8ad5665d3ab74d004476900bc2d5ae07e9",
-    "/main.a69a20eedb329eba.js": "e5d7dbeba790bbaedacefd88c9f1d6685cde8a71",
+    "/index.html": "6a2b1a9511eeb478c2b2d3dfec8a58e4db953e30",
+    "/main.35357c7de793a4f9.js": "2c0f6d1fef73bd3153181510d0aa466efc6d9a8c",
     "/manifest.webmanifest": "4d2816d4adf3ce689ba4c3e3c3d7d97d927dcf3d",
     "/polyfills.ac89dd67a2b62f3b.js": "bddc62d30b6f5de469da7d73b8b9d7f067e798d1",
     "/runtime.09456bb83f48fdea.js": "cbed1900af94cf8ec64462fb9b9b5e4b2f029081",
