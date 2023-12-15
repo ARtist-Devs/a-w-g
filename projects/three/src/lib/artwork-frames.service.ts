@@ -234,6 +234,8 @@ export class ArtworkFramesService {
     gtag( 'event', 'color', {
       'description': `${artwork} color changed to ${c}`,
       'artwork': artwork,
+      'event_category': 'frame',
+      'event_label': 'change_color',
       'color': c
     } );
 
